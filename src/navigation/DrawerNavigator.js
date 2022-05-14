@@ -3,7 +3,7 @@ import { Button, View } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 
-import ItinerariosScreen from '../screens/ItinerariosScreen';
+import ItinerariosScreen from '../screens/itinerariesScreen';
 import BooksScreen from '../screens/BooksScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import StudentsScreen from '../screens/StudentsScreen';

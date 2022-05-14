@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
-const ItinerariosScreen = ({ navigation }) => {
+const ItinerariesScreen = ({ navigation }) => {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>Itinerarios Screen</Text>
@@ -10,4 +10,4 @@ const ItinerariosScreen = ({ navigation }) => {
     );
 }
 
-export default ItinerariosScreen;
+export default ItinerariesScreen;
