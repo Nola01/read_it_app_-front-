@@ -5,7 +5,7 @@
  * @format
  * @flow strict-local
  */
-
+import 'react-native-gesture-handler'
 import React from 'react';
 import {
   SafeAreaView,
@@ -25,11 +25,11 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import LeftDrawerNavigator from './src/navigation/DrawerNavigator';
+import DrawerNavigator from './src/navigation/DrawerNavigator';
 
 const App = () => {
   return (
-    <LeftDrawerNavigator/>
+    <DrawerNavigator/>
   );
 };
 
