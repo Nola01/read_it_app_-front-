@@ -1,11 +1,40 @@
 {
     "users": [
-
-    ],
-    "itineraries": [
         
     ],
+    "itineraries": [
+        {
+            "id": 1,
+            "name": "Itinerario lengua",
+            "department": "Lengua",
+            "teacher": "Paco",
+            "books": [
+                {
+                    "isbn": "029LJIJ30239",
+                    "titulo": "Don Quijote de la Mancha",
+                    "autor": "Miguel de Cervantes",
+                    "itinerario": 1
+                }
+            ],
+            "students": [
+                {
+                    "dni": "86736281X",
+                    "name": "Natalia",
+                    "apellidos": "García",
+                    "fecha_nacimiento": "24/06/2004",
+                    "curso": "2º bachiller B",
+                    "correo_electronico": "natalia.garcia@g.educaand.es",
+                    "telefono": 681273001
+                }
+            ]
+        }
+    ],
     "books": [
-
+        {
+            "isbn": "029LJIJ30239",
+            "titulo": "Don Quijote de la Mancha",
+            "autor": "Miguel de Cervantes",
+            "itinerario": 1
+        }
     ]
 }
