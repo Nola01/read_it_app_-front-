@@ -25,6 +25,15 @@ const AuthProvider = ({children}) => {
     return authState.accessToken;
   };
 
+  const logout = async () => {
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('user');
+    setAuthState({
+      user: null,
+      accessToken: null,
+      authenticated: false,
+    });
+  };
 
   return (
     <AuthContext.Provider
@@ -32,7 +41,8 @@ const AuthProvider = ({children}) => {
         authState,
         setAuthState,
         loadToken,
-        getAccessToken
+        getAccessToken,
+        logout
       }}>
       {children}
     </AuthContext.Provider>

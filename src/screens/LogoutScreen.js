@@ -1,13 +1,12 @@
-import * as React from 'react';
-import { Button, View } from 'react-native';
-import { Text } from 'react-native-paper';
+import React, {useContext} from 'react';
+
+import { AuthContext } from '../context/AuthProvider';
+import LoginScreen from './LoginScreen';
 
 const LogoutScreen = ({ navigation }) => {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Logout Screen</Text>
-      </View>
-    );
+  const authContext = useContext(AuthContext);
+  authContext.logout();
+  return <LoginScreen />;
 }
 
 export default LogoutScreen;
