@@ -27,11 +27,14 @@ import {
 
 import DrawerNavigator from './src/navigation/DrawerNavigator';
 import { AuthProvider } from './src/context/AuthProvider';
+import { ApiProvider } from './src/context/ApiProvider';
 
 const App = () => {
   return (
     <AuthProvider>
-      <DrawerNavigator/>
+      <ApiProvider>
+        <DrawerNavigator/>
+      </ApiProvider>
     </AuthProvider>
   );
 };
