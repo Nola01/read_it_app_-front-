@@ -31,6 +31,31 @@
           "telefono": 681273001
         }
       ]
+    },
+    {
+      "id": 2,
+      "name": "Itinerario Filosofía",
+      "department": "Filosofía",
+      "teacher": "María",
+      "books": [
+        {
+          "isbn": "9565SFA8440E",
+          "titulo": "Crítica de la razón pura",
+          "autor": "Immanuel Kant",
+          "itinerario": 2
+        }
+      ],
+      "students": [
+        {
+          "dni": "54126987V",
+          "name": "Mario",
+          "apellidos": "Llorente",
+          "fecha_nacimiento": "05/11/2005",
+          "curso": "1º bachiller C",
+          "correo_electronico": "mario.llorente@g.educaand.es",
+          "telefono": 684120977
+        }
+      ]
     }
   ],
   "books": [
@@ -39,6 +64,12 @@
       "titulo": "Don Quijote de la Mancha",
       "autor": "Miguel de Cervantes",
       "itinerario": 1
+    },
+    {
+      "isbn": "9565SFA8440E",
+      "titulo": "Crítica de la razón pura",
+      "autor": "Immanuel Kant",
+      "itinerario": 2
     }
   ]
 }

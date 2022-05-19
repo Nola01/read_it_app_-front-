@@ -1,11 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, Pressable } from 'react-native';
 import { Text, Card, Title, Paragraph } from 'react-native-paper';
 import { ApiContext } from '../context/ApiProvider';
 
+import DetailsScreen from './DetailsScreen';
 
-const ItinerariesScreen = () => {
+
+const ItinerariesScreen = ({navigation}) => {
     const {getItineraries} = useContext(ApiContext);
 
     const [itineraries, setitineraries] = useState([]);
@@ -24,15 +26,22 @@ const ItinerariesScreen = () => {
         loadItineraries();
     }, []);
 
+    const goToDetails = (item) => {
+        console.log(item.name);
+        navigation.jumpTo('Detalles', item);
+    };
+
     const renderItem = ({item}) => {
         return (
-            <Card style={styles.item}>
-                <Card.Title title={item.name} subtitle={`Departamento: ${item.department}`} />
-                <Card.Content>
-                    <Title></Title>
-                    <Paragraph>Libros: {item.books.length}</Paragraph>
-                </Card.Content>
-            </Card>
+            <Pressable onPress={() => goToDetails(item)}>
+                <Card style={styles.item}>
+                    <Card.Title title={item.name} subtitle={`Departamento: ${item.department}`} />
+                    <Card.Content>
+                        <Title></Title>
+                        <Paragraph>Libros: {item.books.length}</Paragraph>
+                    </Card.Content>
+                </Card>
+            </Pressable>
         );
     };
     return (
