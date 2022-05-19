@@ -26,10 +26,16 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import DrawerNavigator from './src/navigation/DrawerNavigator';
+import { AuthProvider } from './src/context/AuthProvider';
+import { ApiProvider } from './src/context/ApiProvider';
 
 const App = () => {
   return (
-    <DrawerNavigator/>
+    <AuthProvider>
+      <ApiProvider>
+        <DrawerNavigator/>
+      </ApiProvider>
+    </AuthProvider>
   );
 };
 
