@@ -15,28 +15,28 @@
       "books": [
         {
           "isbn": "029LJIJ30239",
-          "titulo": "Don Quijote de la Mancha",
-          "autor": "Miguel de Cervantes",
+          "title": "Don Quijote de la Mancha",
+          "author": "Miguel de Cervantes",
           "image": "https://assets.puzzlefactory.pl/puzzle/299/720/original.jpg",
-          "itinerario": 1
+          "itinerary": [1]
         },
         {
           "isbn": "9565SFA8440E",
-          "titulo": "Crítica de la razón pura",
-          "autor": "Immanuel Kant",
+          "title": "Crítica de la razón pura",
+          "author": "Immanuel Kant",
           "image": "https://images-na.ssl-images-amazon.com/images/I/51Yq38iSTOL.jpg",
-          "itinerario": 2
+          "itinerary": [1,2]
         }
       ],
       "students": [
         {
           "dni": "86736281X",
           "name": "Natalia",
-          "apellidos": "García",
-          "fecha_nacimiento": "24/06/2004",
-          "curso": "2º bachiller B",
-          "correo_electronico": "natalia.garcia@g.educaand.es",
-          "telefono": 681273001
+          "surname": "García",
+          "birth_date": "24/06/2004",
+          "classroom": "2º bachiller B",
+          "email": "natalia.garcia@g.educaand.es",
+          "phone": 681273001
         }
       ]
     },
@@ -48,21 +48,21 @@
       "books": [
         {
           "isbn": "9565SFA8440E",
-          "titulo": "Crítica de la razón pura",
-          "autor": "Immanuel Kant",
+          "title": "Crítica de la razón pura",
+          "author": "Immanuel Kant",
           "image": "https://images-na.ssl-images-amazon.com/images/I/51Yq38iSTOL.jpg",
-          "itinerario": 2
+          "itinerary": [1,2]
         }
       ],
       "students": [
         {
           "dni": "54126987V",
           "name": "Mario",
-          "apellidos": "Llorente",
-          "fecha_nacimiento": "05/11/2005",
-          "curso": "1º bachiller C",
-          "correo_electronico": "mario.llorente@g.educaand.es",
-          "telefono": 684120977
+          "surname": "Llorente",
+          "birth_date": "05/11/2005",
+          "classroom": "1º bachiller C",
+          "email": "mario.llorente@g.educaand.es",
+          "phone": 684120977
         }
       ]
     }
@@ -70,17 +70,17 @@
   "books": [
     {
       "isbn": "029LJIJ30239",
-      "titulo": "Don Quijote de la Mancha",
-      "autor": "Miguel de Cervantes",
+      "title": "Don Quijote de la Mancha",
+      "author": "Miguel de Cervantes",
       "image": "https://assets.puzzlefactory.pl/puzzle/299/720/original.jpg",
-      "itinerario": 1
+      "itinerary": [1]
     },
     {
       "isbn": "9565SFA8440E",
-      "titulo": "Crítica de la razón pura",
-      "autor": "Immanuel Kant",
+      "title": "Crítica de la razón pura",
+      "author": "Immanuel Kant",
       "image": "https://images-na.ssl-images-amazon.com/images/I/51Yq38iSTOL.jpg",
-      "itinerario": 2
+      "itinerary": [1,2]
     }
   ]
 }

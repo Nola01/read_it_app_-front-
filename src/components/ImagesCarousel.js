@@ -16,8 +16,6 @@ const ImagesCarousel = ({images, height, width, navigation}) => {
         )
     }
 
-    
-
     return(
         <Carousel 
             layout={"default"}
@@ -31,11 +29,7 @@ const ImagesCarousel = ({images, height, width, navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  
 });
 
 export default ImagesCarousel;

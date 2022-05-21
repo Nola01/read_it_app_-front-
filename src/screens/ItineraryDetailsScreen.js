@@ -7,7 +7,7 @@ import Carousel from '../components/ImagesCarousel';
 
 const screenWidth = Dimensions.get("window").width;
 
-const DetailsScreen = ({route, navigation}) => {
+const ItineraryDetailsScreen = ({route, navigation}) => {
     const item = route.params;
 
     const images = []; 
@@ -16,8 +16,8 @@ const DetailsScreen = ({route, navigation}) => {
         images.push(book.image);
     });
 
-    const goToDetails = () => {
-        navigation.jumpTo('Libros');
+    const goToDetails = (item) => {
+        navigation.jumpTo('Detalles Libros', item);
     };
 
   
@@ -26,7 +26,7 @@ const DetailsScreen = ({route, navigation}) => {
     <ScrollView style={styles.viewBody}>
         <Card style={styles.item}>
             <Card.Title title={item.name} subtitle={`Departamento: ${item.department}`} />
-            <Pressable onPress={() => goToDetails()}>
+            <Pressable onPress={() => goToDetails(item)}>
                 <Carousel 
                     images={images}
                     height={700}
@@ -42,7 +42,7 @@ const DetailsScreen = ({route, navigation}) => {
     );
 };
 
-export default DetailsScreen;
+export default ItineraryDetailsScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -64,4 +64,4 @@ const styles = StyleSheet.create({
     viewBody: {
         flex: 1
     }
-  });
+});

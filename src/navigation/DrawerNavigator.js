@@ -8,8 +8,9 @@ import ProfileScreen from '../screens/ProfileScreen';
 import StudentsScreen from '../screens/StudentsScreen';
 import LogoutScreen from '../screens/LogoutScreen';
 import LoginScreen from '../screens/LoginScreen';
+import ItineraryDetailsScreen from '../screens/ItineraryDetailsScreen';
+import BookDetailsScreen from '../screens/BookDetailsScreen';
 
-import DetailsScreen from '../screens/DetailsScreen';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import { AuthContext } from '../context/AuthProvider';
@@ -36,7 +37,8 @@ const DrawerNavigator = () => {
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen name="Itinerarios" component={ItinerariesScreen} />
-        <Drawer.Screen name="Detalles" component={DetailsScreen} />
+        <Drawer.Screen name="Detalles Itinerarios" component={ItineraryDetailsScreen} />
+        <Drawer.Screen name="Detalles Libros" component={BookDetailsScreen} />
         <Drawer.Screen name="Libros" component={BooksScreen} />
         <Drawer.Screen name="Mi perfil" component={ProfileScreen} />
         <Drawer.Screen name="Alumnos" component={StudentsScreen} />

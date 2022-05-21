@@ -4,8 +4,6 @@ import { View, StyleSheet, FlatList, Pressable } from 'react-native';
 import { Text, Card, Title, Paragraph } from 'react-native-paper';
 import { ApiContext } from '../context/ApiProvider';
 
-import DetailsScreen from './DetailsScreen';
-
 
 const ItinerariesScreen = ({navigation}) => {
     const {getItineraries} = useContext(ApiContext);
@@ -27,8 +25,8 @@ const ItinerariesScreen = ({navigation}) => {
     }, []);
 
     const goToDetails = (item) => {
-        console.log(item.name);
-        navigation.jumpTo('Detalles', item);
+        //console.log(item.name);
+        navigation.jumpTo('Detalles Itinerarios', item);
     };
 
     const renderItem = ({item}) => {

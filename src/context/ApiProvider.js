@@ -23,6 +23,12 @@ const ApiProvider = ({children}) => {
     return response.data;
   };
 
+  const getBooks = async () => {
+    const response = await authRequest.get('/books');
+    //console.log(response.data);
+    return response.data;
+  };
+
   const login = async (email, password) => {
     const response = await publicRequest.post('/login', {
       email: email,
@@ -68,6 +74,7 @@ const ApiProvider = ({children}) => {
     <ApiContext.Provider
       value={{
         getItineraries,
+        getBooks,
         login
       }}>
       {children}
