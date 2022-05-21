@@ -65,6 +65,110 @@
           "phone": 684120977
         }
       ]
+    },
+    {
+      "id": 2,
+      "name": "Itinerario Filosofía",
+      "department": "Filosofía",
+      "teacher": "María",
+      "books": [
+        {
+          "isbn": "9565SFA8440E",
+          "title": "Crítica de la razón pura",
+          "author": "Immanuel Kant",
+          "image": "https://images-na.ssl-images-amazon.com/images/I/51Yq38iSTOL.jpg",
+          "itinerary": [1,2]
+        }
+      ],
+      "students": [
+        {
+          "dni": "54126987V",
+          "name": "Mario",
+          "surname": "Llorente",
+          "birth_date": "05/11/2005",
+          "classroom": "1º bachiller C",
+          "email": "mario.llorente@g.educaand.es",
+          "phone": 684120977
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Itinerario Filosofía",
+      "department": "Filosofía",
+      "teacher": "María",
+      "books": [
+        {
+          "isbn": "9565SFA8440E",
+          "title": "Crítica de la razón pura",
+          "author": "Immanuel Kant",
+          "image": "https://images-na.ssl-images-amazon.com/images/I/51Yq38iSTOL.jpg",
+          "itinerary": [1,2]
+        }
+      ],
+      "students": [
+        {
+          "dni": "54126987V",
+          "name": "Mario",
+          "surname": "Llorente",
+          "birth_date": "05/11/2005",
+          "classroom": "1º bachiller C",
+          "email": "mario.llorente@g.educaand.es",
+          "phone": 684120977
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Itinerario Filosofía",
+      "department": "Filosofía",
+      "teacher": "María",
+      "books": [
+        {
+          "isbn": "9565SFA8440E",
+          "title": "Crítica de la razón pura",
+          "author": "Immanuel Kant",
+          "image": "https://images-na.ssl-images-amazon.com/images/I/51Yq38iSTOL.jpg",
+          "itinerary": [1,2]
+        }
+      ],
+      "students": [
+        {
+          "dni": "54126987V",
+          "name": "Mario",
+          "surname": "Llorente",
+          "birth_date": "05/11/2005",
+          "classroom": "1º bachiller C",
+          "email": "mario.llorente@g.educaand.es",
+          "phone": 684120977
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Itinerario Filosofía",
+      "department": "Filosofía",
+      "teacher": "María",
+      "books": [
+        {
+          "isbn": "9565SFA8440E",
+          "title": "Crítica de la razón pura",
+          "author": "Immanuel Kant",
+          "image": "https://images-na.ssl-images-amazon.com/images/I/51Yq38iSTOL.jpg",
+          "itinerary": [1,2]
+        }
+      ],
+      "students": [
+        {
+          "dni": "54126987V",
+          "name": "Mario",
+          "surname": "Llorente",
+          "birth_date": "05/11/2005",
+          "classroom": "1º bachiller C",
+          "email": "mario.llorente@g.educaand.es",
+          "phone": 684120977
+        }
+      ]
     }
   ],
   "books": [

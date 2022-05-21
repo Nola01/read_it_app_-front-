@@ -30,16 +30,16 @@ const BooksScreen = ({ navigation }) => {
 
   const renderItem = ({item}) => {
       return (
-          <Pressable onPress={() => goToDetails(item)}>
-              <Card style={styles.item}>
-                  <Card.Title title={item.title} subtitle={`Autor: ${item.author}`} />
-                  <Card.Cover style={styles.image} source={{ uri: item.image }} />
-                  <Card.Content>
-                      <Title></Title>
-                      <Paragraph>Itinerarios: {item.itinerary.length}</Paragraph>
-                  </Card.Content>
-              </Card>
-          </Pressable>
+        <Pressable onPress={() => goToDetails(item)}>
+            <Card style={styles.item}>
+                <Card.Title title={item.title} subtitle={`Autor: ${item.author}`} />
+                <Card.Cover style={styles.image} source={{ uri: item.image }} />
+                <Card.Content>
+                    <Title></Title>
+                    <Paragraph>Itinerarios: {item.itinerary.length}</Paragraph>
+                </Card.Content>
+            </Card>
+        </Pressable>
       );
   };
   return (
