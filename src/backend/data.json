@@ -17,7 +17,15 @@
           "isbn": "029LJIJ30239",
           "titulo": "Don Quijote de la Mancha",
           "autor": "Miguel de Cervantes",
+          "image": "https://assets.puzzlefactory.pl/puzzle/299/720/original.jpg",
           "itinerario": 1
+        },
+        {
+          "isbn": "9565SFA8440E",
+          "titulo": "Crítica de la razón pura",
+          "autor": "Immanuel Kant",
+          "image": "https://images-na.ssl-images-amazon.com/images/I/51Yq38iSTOL.jpg",
+          "itinerario": 2
         }
       ],
       "students": [
@@ -42,6 +50,7 @@
           "isbn": "9565SFA8440E",
           "titulo": "Crítica de la razón pura",
           "autor": "Immanuel Kant",
+          "image": "https://images-na.ssl-images-amazon.com/images/I/51Yq38iSTOL.jpg",
           "itinerario": 2
         }
       ],
@@ -63,12 +72,14 @@
       "isbn": "029LJIJ30239",
       "titulo": "Don Quijote de la Mancha",
       "autor": "Miguel de Cervantes",
+      "image": "https://assets.puzzlefactory.pl/puzzle/299/720/original.jpg",
       "itinerario": 1
     },
     {
       "isbn": "9565SFA8440E",
       "titulo": "Crítica de la razón pura",
       "autor": "Immanuel Kant",
+      "image": "https://images-na.ssl-images-amazon.com/images/I/51Yq38iSTOL.jpg",
       "itinerario": 2
     }
   ]
