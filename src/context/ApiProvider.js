@@ -44,6 +44,24 @@ const ApiProvider = ({children}) => {
     });
   };
 
+  const register = async (name, surname, email, password) => {
+    const response = await publicRequest.post('/register', {
+      name,
+      surname,
+      email,
+      password,
+    });
+    // login(email, password);
+    const {accessToken, user} = response.data;
+    await AsyncStorage.setItem('token', accessToken);
+    await AsyncStorage.setItem('user', JSON.stringify(user));
+    authContext.setAuthState({
+      user,
+      accessToken,
+      authenticated: true,
+    });
+  };
+
   authRequest.interceptors.request.use(
     config => {
       if (!config.headers.Authorization) {
@@ -75,7 +93,8 @@ const ApiProvider = ({children}) => {
       value={{
         getItineraries,
         getBooks,
-        login
+        login,
+        register
       }}>
       {children}
     </ApiContext.Provider>

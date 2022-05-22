@@ -4,6 +4,18 @@
       "email": "admin@email.com",
       "password": "$2a$10$47OarUj130K./Ckp3CKY8uiuW/tH3gU156dk8CIGGLOLSX79W2Mn.",
       "id": 3
+    },
+    {
+      "email": "alumno1@email.com",
+      "password": "$2a$10$uO.Z4ZcOMc7aSuyS3UyDmOfQcCiofqKf8Ztv14F9TKWQjKQNTOg8i",
+      "id": 4
+    },
+    {
+      "email": "juan@email.com",
+      "password": "$2a$10$EJ2WtYJ/xqESX6brJEn/CeRkF72/gOiB8/0b.vmSkkA60nQXqvkhS",
+      "name": "Juan",
+      "surname": "Rodríguez ",
+      "id": 5
     }
   ],
   "itineraries": [
@@ -18,14 +30,19 @@
           "title": "Don Quijote de la Mancha",
           "author": "Miguel de Cervantes",
           "image": "https://assets.puzzlefactory.pl/puzzle/299/720/original.jpg",
-          "itinerary": [1]
+          "itinerary": [
+            1
+          ]
         },
         {
           "isbn": "9565SFA8440E",
           "title": "Crítica de la razón pura",
           "author": "Immanuel Kant",
           "image": "https://images-na.ssl-images-amazon.com/images/I/51Yq38iSTOL.jpg",
-          "itinerary": [1,2]
+          "itinerary": [
+            1,
+            2
+          ]
         }
       ],
       "students": [
@@ -51,7 +68,10 @@
           "title": "Crítica de la razón pura",
           "author": "Immanuel Kant",
           "image": "https://images-na.ssl-images-amazon.com/images/I/51Yq38iSTOL.jpg",
-          "itinerary": [1,2]
+          "itinerary": [
+            1,
+            2
+          ]
         }
       ],
       "students": [
@@ -77,7 +97,10 @@
           "title": "Crítica de la razón pura",
           "author": "Immanuel Kant",
           "image": "https://images-na.ssl-images-amazon.com/images/I/51Yq38iSTOL.jpg",
-          "itinerary": [1,2]
+          "itinerary": [
+            1,
+            2
+          ]
         }
       ],
       "students": [
@@ -103,7 +126,10 @@
           "title": "Crítica de la razón pura",
           "author": "Immanuel Kant",
           "image": "https://images-na.ssl-images-amazon.com/images/I/51Yq38iSTOL.jpg",
-          "itinerary": [1,2]
+          "itinerary": [
+            1,
+            2
+          ]
         }
       ],
       "students": [
@@ -129,7 +155,10 @@
           "title": "Crítica de la razón pura",
           "author": "Immanuel Kant",
           "image": "https://images-na.ssl-images-amazon.com/images/I/51Yq38iSTOL.jpg",
-          "itinerary": [1,2]
+          "itinerary": [
+            1,
+            2
+          ]
         }
       ],
       "students": [
@@ -155,7 +184,10 @@
           "title": "Crítica de la razón pura",
           "author": "Immanuel Kant",
           "image": "https://images-na.ssl-images-amazon.com/images/I/51Yq38iSTOL.jpg",
-          "itinerary": [1,2]
+          "itinerary": [
+            1,
+            2
+          ]
         }
       ],
       "students": [
@@ -177,14 +209,19 @@
       "title": "Don Quijote de la Mancha",
       "author": "Miguel de Cervantes",
       "image": "https://assets.puzzlefactory.pl/puzzle/299/720/original.jpg",
-      "itinerary": [1]
+      "itinerary": [
+        1
+      ]
     },
     {
       "isbn": "9565SFA8440E",
       "title": "Crítica de la razón pura",
       "author": "Immanuel Kant",
       "image": "https://images-na.ssl-images-amazon.com/images/I/51Yq38iSTOL.jpg",
-      "itinerary": [1,2]
+      "itinerary": [
+        1,
+        2
+      ]
     }
   ]
 }

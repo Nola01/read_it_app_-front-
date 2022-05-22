@@ -11,9 +11,9 @@ import {
 } from 'react-native';
 import { HelperText } from 'react-native-paper';
 
-import { ApiContext } from '../context/ApiProvider'
+import { ApiContext } from '../context/ApiProvider';
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
   const {login} = useContext(ApiContext);
 
   const [email, setEmail] = useState('');
@@ -62,6 +62,9 @@ const LoginScreen = () => {
           </HelperText>
           <Pressable style={styles.button} onPress={onLogin}>
             <Text style={styles.buttonText}>Iniciar sesión</Text>
+          </Pressable>
+          <Pressable style={styles.button} onPress={() => navigation.navigate('Registro')}>
+            <Text style={styles.buttonText}>¿No tienes una cuenta? Registrate</Text>
           </Pressable>
           <View style={styles.copyright}>
             <Text style={styles.subtitle}>Leer itinerarios</Text>
