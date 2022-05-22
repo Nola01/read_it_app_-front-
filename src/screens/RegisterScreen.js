@@ -12,7 +12,8 @@ import {
 } from 'react-native';
 import { HelperText } from 'react-native-paper';
 
-import { ApiContext } from '../context/ApiProvider'
+import { ApiContext } from '../context/ApiProvider';
+import Container from '../components/Container';
 
 const RegisterScreen = ({navigation}) => {
   const {register} = useContext(ApiContext);
@@ -33,73 +34,74 @@ const RegisterScreen = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.center}>
-            <Text style={styles.title}>Programa lector</Text>
-            <ScrollView style={styles.form}>
-                <TextInput
-                style={styles.input}
-                placeholder="Nombre"
-                placeholderTextColor="#ccc"
-                keyboardType="name"
-                autoCapitalize="none"
-                onChangeText={text => setName(text)}
-                value={name}
-                />
-                <TextInput
-                style={styles.input}
-                placeholder="Apellido"
-                placeholderTextColor="#ccc"
-                keyboardType="surname"
-                autoCapitalize="none"
-                onChangeText={text => setSurname(text)}
-                value={surname}
-                />
-                <TextInput
-                style={styles.input}
-                placeholder="Email"
-                placeholderTextColor="#ccc"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                onChangeText={text => setEmail(text)}
-                value={email}
-                />
-                <TextInput
-                style={styles.input}
-                placeholder="Contraseña"
-                placeholderTextColor="#ccc"
-                secureTextEntry
-                autoCapitalize="none"
-                onChangeText={text => setPassword(text)}
-                value={password}
-                />
-                <HelperText
-                style={styles.error}
-                type="error"
-                visible={authError !== '' && authError !== null}>
-                El usuario ya está registrado
-                </HelperText>
-                <Pressable style={styles.button} onPress={onRegister}>
-                    <Text style={styles.buttonText}>Registrarse</Text>
-                </Pressable>
-                <Pressable style={styles.button} onPress={() => navigation.navigate('Login')}>
-                    <Text style={styles.buttonText}>¿Tienes una cuenta? Inicia sesión</Text>
-                </Pressable>
-                <View style={styles.copyright}>
-                    <Text style={styles.subtitle}>Leer itinerarios</Text>
-                </View>
-            </ScrollView>
-        </View>
-      </TouchableWithoutFeedback>
-    </SafeAreaView>
+    <Container>
+      <SafeAreaView style={styles.container}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.center}>
+              <Text style={styles.title}>Programa lector</Text>
+              <ScrollView style={styles.form}>
+                  <TextInput
+                  style={styles.input}
+                  placeholder="Nombre"
+                  placeholderTextColor="#ccc"
+                  keyboardType="name"
+                  autoCapitalize="none"
+                  onChangeText={text => setName(text)}
+                  value={name}
+                  />
+                  <TextInput
+                  style={styles.input}
+                  placeholder="Apellido"
+                  placeholderTextColor="#ccc"
+                  keyboardType="surname"
+                  autoCapitalize="none"
+                  onChangeText={text => setSurname(text)}
+                  value={surname}
+                  />
+                  <TextInput
+                  style={styles.input}
+                  placeholder="Email"
+                  placeholderTextColor="#ccc"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  onChangeText={text => setEmail(text)}
+                  value={email}
+                  />
+                  <TextInput
+                  style={styles.input}
+                  placeholder="Contraseña"
+                  placeholderTextColor="#ccc"
+                  secureTextEntry
+                  autoCapitalize="none"
+                  onChangeText={text => setPassword(text)}
+                  value={password}
+                  />
+                  <HelperText
+                  style={styles.error}
+                  type="error"
+                  visible={authError !== '' && authError !== null}>
+                  El usuario ya está registrado
+                  </HelperText>
+                  <Pressable style={styles.button} onPress={onRegister}>
+                      <Text style={styles.buttonText}>Registrarse</Text>
+                  </Pressable>
+                  <Pressable style={styles.button} onPress={() => navigation.navigate('Login')}>
+                      <Text style={styles.buttonText}>¿Tienes una cuenta? Inicia sesión</Text>
+                  </Pressable>
+                  <View style={styles.copyright}>
+                      <Text style={styles.subtitle}>Leer itinerarios</Text>
+                  </View>
+              </ScrollView>
+          </View>
+        </TouchableWithoutFeedback>
+      </SafeAreaView>
+    </Container>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0a0a0a',
     alignItems: 'stretch',
   },
   center: {
@@ -110,8 +112,9 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: 50,
-    fontSize: 60,
+    fontSize: 30,
     fontWeight: '600',
+    fontFamily: 'Macondo-Regular',
     color: 'white',
   },
   logo: {

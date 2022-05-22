@@ -12,6 +12,7 @@ import {
 import { HelperText } from 'react-native-paper';
 
 import { ApiContext } from '../context/ApiProvider';
+import Container from '../components/Container';
 
 const LoginScreen = ({navigation}) => {
   const {login} = useContext(ApiContext);
@@ -30,55 +31,56 @@ const LoginScreen = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.center}>
-          <Text style={styles.title}>Programa lector</Text>
-          <View style={styles.form}>
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              placeholderTextColor="#ccc"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              onChangeText={text => setEmail(text)}
-              value={email}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Contraseña"
-              placeholderTextColor="#ccc"
-              secureTextEntry
-              autoCapitalize="none"
-              onChangeText={text => setPassword(text)}
-              value={password}
-            />
+    <Container>
+      <SafeAreaView style={styles.container}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.center}>
+            <Text style={styles.title}>Read it!</Text>
+            <View style={styles.form}>
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                placeholderTextColor="#ccc"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                onChangeText={text => setEmail(text)}
+                value={email}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Contraseña"
+                placeholderTextColor="#ccc"
+                secureTextEntry
+                autoCapitalize="none"
+                onChangeText={text => setPassword(text)}
+                value={password}
+              />
+            </View>
+            <HelperText
+              style={styles.error}
+              type="error"
+              visible={authError !== '' && authError !== null}>
+              Usuario o contraseña incorrecta
+            </HelperText>
+            <Pressable style={styles.button} onPress={onLogin}>
+              <Text style={styles.buttonText}>Iniciar sesión</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => navigation.navigate('Registro')}>
+              <Text style={styles.buttonText}>¿No tienes una cuenta? Registrate</Text>
+            </Pressable>
+            <View style={styles.copyright}>
+              <Text style={styles.subtitle}>App para el control de lectura de libros</Text>
+            </View>
           </View>
-          <HelperText
-            style={styles.error}
-            type="error"
-            visible={authError !== '' && authError !== null}>
-            Usuario o contraseña incorrecta
-          </HelperText>
-          <Pressable style={styles.button} onPress={onLogin}>
-            <Text style={styles.buttonText}>Iniciar sesión</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => navigation.navigate('Registro')}>
-            <Text style={styles.buttonText}>¿No tienes una cuenta? Registrate</Text>
-          </Pressable>
-          <View style={styles.copyright}>
-            <Text style={styles.subtitle}>Leer itinerarios</Text>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-    </SafeAreaView>
+        </TouchableWithoutFeedback>
+      </SafeAreaView>
+    </Container>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0a0a0a',
     alignItems: 'stretch',
   },
   center: {
@@ -89,8 +91,9 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: 50,
-    fontSize: 60,
+    fontSize: 30,
     fontWeight: '600',
+    fontFamily: 'Macondo-Regular',
     color: 'white',
   },
   logo: {
