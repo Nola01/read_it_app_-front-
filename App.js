@@ -25,17 +25,20 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import { Provider as PaperProvider } from 'react-native-paper';
 import DrawerNavigator from './src/navigation/DrawerNavigator';
 import { AuthProvider } from './src/context/AuthProvider';
 import { ApiProvider } from './src/context/ApiProvider';
 
 const App = () => {
   return (
-    <AuthProvider>
-      <ApiProvider>
-        <DrawerNavigator/>
-      </ApiProvider>
-    </AuthProvider>
+    <PaperProvider>
+      <AuthProvider>
+        <ApiProvider>
+          <DrawerNavigator/>
+        </ApiProvider>
+      </AuthProvider>
+    </PaperProvider>
   );
 };
 

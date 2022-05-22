@@ -1,13 +1,42 @@
-import * as React from 'react';
-import { Button, View } from 'react-native';
+import React, {useContext} from 'react';
+import { Button, Dimensions, View, StyleSheet } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import { Text } from 'react-native-paper';
+import { Avatar } from 'react-native-paper';
+
+import { AuthContext } from '../context/AuthProvider';
+import { white } from 'react-native-paper/lib/typescript/styles/colors';
 
 const ProfileScreen = ({ navigation }) => {
+
+    const { authState } = useContext(AuthContext);
+
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Profile Screen</Text>
-        </View>
+        <SafeAreaView style={styles.container}>
+            <Avatar.Image style={styles.avatar} size={50} source={require('../assets/default-user-icon.jpg')} />
+            <Text style={styles.text}>Correo: {authState.user.email}</Text>
+            
+        </SafeAreaView>
     );
 }
 
 export default ProfileScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        marginVertical: 10,
+        marginHorizontal: 10,
+        alignItems: 'center', 
+        justifyContent: 'center'
+    },
+    avatar: {
+        backgroundColor: '#ffffff',
+        height:'10%',
+        width:'100%',
+        justifyContent:'center',
+        alignItems:'center',
+
+    }
+});
