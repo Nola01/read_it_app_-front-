@@ -1,21 +1,22 @@
 {
   "users": [
     {
-      "email": "admin@email.com",
-      "password": "$2a$10$47OarUj130K./Ckp3CKY8uiuW/tH3gU156dk8CIGGLOLSX79W2Mn.",
-      "id": 3
-    },
-    {
-      "email": "alumno1@email.com",
-      "password": "$2a$10$uO.Z4ZcOMc7aSuyS3UyDmOfQcCiofqKf8Ztv14F9TKWQjKQNTOg8i",
-      "id": 4
+      "email": "javier@email.com",
+      "password": "$2a$10$LJSfGr9B27mpNQgBy.xMxuOKLzyf16kpjIMHICmVTHL4/AvOT/BcK",
+      "name": "Javier",
+      "surname": "García",
+      "role": "alumno",
+      "pin": 0,
+      "id": 1
     },
     {
       "email": "juan@email.com",
-      "password": "$2a$10$EJ2WtYJ/xqESX6brJEn/CeRkF72/gOiB8/0b.vmSkkA60nQXqvkhS",
+      "password": "$2a$10$WMlZhuCaQ8tombGwtBYUV.W4J.JL3viyRwo1zexbjp3h/NFoqOkNe",
       "name": "Juan",
-      "surname": "Rodríguez ",
-      "id": 5
+      "surname": "Lopez",
+      "role": "profesor",
+      "pin": 0,
+      "id": 2
     }
   ],
   "itineraries": [

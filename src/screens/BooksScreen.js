@@ -8,8 +8,10 @@ const BooksScreen = ({ navigation }) => {
   const {getBooks} = useContext(ApiContext);
 
   const [books, setbooks] = useState([]);
+  const [refreshing, setrefreshing] = useState(false);
 
   const loadBooks = async () => {
+      setrefreshing(true);
       try {
         const books = await getBooks();
         // console.log(itineraries[0].name);
@@ -17,6 +19,7 @@ const BooksScreen = ({ navigation }) => {
       } catch (err) {
         console.log(err.response);
       }
+      setrefreshing(false);
   };
 
   useEffect(() => {
@@ -51,6 +54,8 @@ const BooksScreen = ({ navigation }) => {
               data={books}
               renderItem={renderItem}
               keyExtractor={item => item.isbn}
+              onRefresh={loadBooks}
+              refreshing={refreshing}
           />
       </SafeAreaView>
   );

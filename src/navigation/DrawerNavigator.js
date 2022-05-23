@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,6 +13,8 @@ import ItineraryDetailsScreen from '../screens/ItineraryDetailsScreen';
 import BookDetailsScreen from '../screens/BookDetailsScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 
+import Spinner from '../components/Spinner';
+
 
 import { AuthContext } from '../context/AuthProvider';
 
@@ -21,17 +23,22 @@ const Stack = createStackNavigator();
 
 const DrawerNavigator = () => {
   const {authState, loadToken, logout} = useContext(AuthContext);
+  const [loading, setloading] = useState(true);
 
   useEffect(() => {
     const loadjwt = async () => {
+      setloading(true);
       try {
         await loadToken();
       } catch (err) {
         await logout();
       }
+      setloading(false);
     };
     loadjwt();
   }, []);
+
+  if (loading) return <Spinner />;
 
   if (!authState.authenticated) {
     return (

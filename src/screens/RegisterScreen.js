@@ -38,7 +38,7 @@ const RegisterScreen = ({navigation}) => {
       <SafeAreaView style={styles.container}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.center}>
-              <Text style={styles.title}>Programa lector</Text>
+              <Text style={styles.title}>Read it!</Text>
               <ScrollView style={styles.form}>
                   <TextInput
                   style={styles.input}
@@ -89,7 +89,7 @@ const RegisterScreen = ({navigation}) => {
                       <Text style={styles.buttonText}>¿Tienes una cuenta? Inicia sesión</Text>
                   </Pressable>
                   <View style={styles.copyright}>
-                      <Text style={styles.subtitle}>Leer itinerarios</Text>
+                      <Text style={styles.subtitle}>App para el control de lectura de libros</Text>
                   </View>
               </ScrollView>
           </View>

@@ -9,8 +9,10 @@ const ItinerariesScreen = ({navigation}) => {
     const {getItineraries} = useContext(ApiContext);
 
     const [itineraries, setitineraries] = useState([]);
+    const [refreshing, setrefreshing] = useState(false);
 
     const loadItineraries = async () => {
+        setrefreshing(true);
         try {
           const itineraries = await getItineraries();
           // console.log(itineraries[0].name);
@@ -18,6 +20,7 @@ const ItinerariesScreen = ({navigation}) => {
         } catch (err) {
           console.log(err.response);
         }
+        setrefreshing(false);
     };
 
     useEffect(() => {
@@ -51,6 +54,8 @@ const ItinerariesScreen = ({navigation}) => {
                 data={itineraries}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
+                onRefresh={loadItineraries}
+                refreshing={refreshing}
             />
         </SafeAreaView>
     );

@@ -50,6 +50,8 @@ const ApiProvider = ({children}) => {
       surname,
       email,
       password,
+      pin,
+      role
     });
     // login(email, password);
     const {accessToken, user} = response.data;
