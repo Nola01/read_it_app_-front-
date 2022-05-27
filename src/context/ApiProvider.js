@@ -23,6 +23,12 @@ const ApiProvider = ({children}) => {
     return response.data;
   };
 
+  const getItineraryById = async (id) => {
+    const response = await authRequest.get(`/itineraries/${id}`);
+    //console.log(response.data);
+    return response.data;
+  };
+
   const getBooks = async () => {
     const response = await authRequest.get('/books');
     //console.log(response.data);
@@ -94,6 +100,7 @@ const ApiProvider = ({children}) => {
     <ApiContext.Provider
       value={{
         getItineraries,
+        getItineraryById,
         getBooks,
         login,
         register

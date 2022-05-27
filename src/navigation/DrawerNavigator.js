@@ -15,7 +15,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 import HomeScreen from '../screens/HomeScreen';
 
 import Spinner from '../components/Spinner';
-
+import Calendar from '../components/Calendar';
 
 import { AuthContext } from '../context/AuthProvider';
 

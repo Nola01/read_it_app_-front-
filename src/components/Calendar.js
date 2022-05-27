@@ -35,51 +35,66 @@ const timeToString = (time) => {
     return date.toISOString().split('T')[0];
 }
 
-const Calendar = () => {
+const Calendar = ({navigation}) => {
 
     const [items, setItems] = useState();
     const {getItineraries} = useContext(ApiContext);
+    const {getItineraryById} = useContext(ApiContext);
+
+    const goToDetails = async (item) => {
+        try {
+            const itinerary = await getItineraryById(item.id);
+            console.log(itinerary);
+            navigation.jumpTo('Detalles Itinerarios', itinerary);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const loadItems = async (day) => {
-        const items = items || {};
-        const itineraries = await getItineraries();
+        try {
+            const items = items || {};
+            const itineraries = await getItineraries();
 
-        for (let i = -15; i < 85; i++) {
-            const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-            const strTime = timeToString(time);
-            // console.log(strTime);
+            for (let i = -15; i < 85; i++) {
+                const time = day.timestamp + i * 24 * 60 * 60 * 1000;
+                const strTime = timeToString(time);
+                // console.log(strTime);
 
-            // if the date is not inside 'items0'
-            if (!items[strTime]) {
+                // if the date is not inside 'items0'
+                if (!items[strTime]) {
 
-                // this date is the key so we set it's value to an empty array
-                items[strTime] = []; 
+                    // this date is the key so we set it's value to an empty array
+                    items[strTime] = []; 
 
-                /*
-                for each itinerary, if it's date is equal to the current date, 
-                we add it to the events array (value) of this date (key)
-                */
-                itineraries.map((itinerary) => {
-                    if (itinerary.endDate === strTime) {
-                        items[strTime].push({
-                            id: itinerary.id,
-                            name: itinerary.name,
-                            day: strTime
-                        });
-                    } else {
-                        return;
-                    }
-                })
-                // console.log(items);
+                    /*
+                    for each itinerary, if it's date is equal to the current date, 
+                    we add it to the events array (value) of this date (key)
+                    */
+                    itineraries.map((itinerary) => {
+                        if (itinerary.endDate === strTime) {
+                            items[strTime].push({
+                                id: itinerary.id,
+                                name: itinerary.name,
+                                day: strTime
+                            });
+                        } else {
+                            return;
+                        }
+                    })
+                    // console.log(items);
+                }
             }
+            setItems(items);
+        } catch (error) {
+            console.log(error);
         }
-        setItems(items);
         
     }
 
     const renderItem = (item) => {
         return(
-            <TouchableOpacity style={{marginTop: 17, marginRight: 10}}>
+            <TouchableOpacity style={{marginTop: 17, marginRight: 10}} onPress={() => goToDetails(item)}>
                 <Card>
                     <Card.Content>
                         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>

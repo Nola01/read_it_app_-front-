@@ -28,7 +28,7 @@ const HomeScreen = ({navigation}) => {
                 <Text style={styles.itineraries} onPress={() => goToItineraries()}> Ver todos tus itinerarios </Text>
     
                 <View style={styles.calendar}>
-                    <Calendar />        
+                    <Calendar navigation={navigation} />        
                 </View>
         </SafeAreaView>
     );
