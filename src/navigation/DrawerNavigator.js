@@ -12,6 +12,7 @@ import LoginScreen from '../screens/LoginScreen';
 import ItineraryDetailsScreen from '../screens/ItineraryDetailsScreen';
 import BookDetailsScreen from '../screens/BookDetailsScreen';
 import RegisterScreen from '../screens/RegisterScreen';
+import HomeScreen from '../screens/HomeScreen';
 
 import Spinner from '../components/Spinner';
 
@@ -54,6 +55,7 @@ const DrawerNavigator = () => {
   return (
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Inicio" component={HomeScreen} options={{headerShown: false}}/>
         <Drawer.Screen name="Itinerarios" component={ItinerariesScreen} />
         <Drawer.Screen name="Libros" component={BooksScreen} />
         <Drawer.Screen name="Mi perfil" component={ProfileScreen} />
