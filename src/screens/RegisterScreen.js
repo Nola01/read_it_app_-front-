@@ -21,12 +21,14 @@ const RegisterScreen = ({navigation}) => {
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
+  const [pin, setPin] = useState(undefined);
+  const [role, setRole] = useState(undefined);
   const [password, setPassword] = useState('');
   const [authError, setAuthError] = useState('');
 
   const onRegister = async () => {
     try {
-      await register(name, surname, email.trim(), password);
+      await register(name, email.trim(), password, pin, role);
     } catch (err) {
       console.log(err);
       setAuthError(err);
@@ -44,12 +46,11 @@ const RegisterScreen = ({navigation}) => {
                   style={styles.input}
                   placeholder="Nombre"
                   placeholderTextColor="#ccc"
-                  keyboardType="name"
                   autoCapitalize="none"
                   onChangeText={text => setName(text)}
                   value={name}
                   />
-                  <TextInput
+                  {/* <TextInput
                   style={styles.input}
                   placeholder="Apellido"
                   placeholderTextColor="#ccc"
@@ -57,7 +58,7 @@ const RegisterScreen = ({navigation}) => {
                   autoCapitalize="none"
                   onChangeText={text => setSurname(text)}
                   value={surname}
-                  />
+                  /> */}
                   <TextInput
                   style={styles.input}
                   placeholder="Email"
@@ -80,7 +81,7 @@ const RegisterScreen = ({navigation}) => {
                   style={styles.error}
                   type="error"
                   visible={authError !== '' && authError !== null}>
-                  El usuario ya está registrado
+                  authError
                   </HelperText>
                   <Pressable style={styles.button} onPress={onRegister}>
                       <Text style={styles.buttonText}>Registrarse</Text>

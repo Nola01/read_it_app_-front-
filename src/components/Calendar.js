@@ -51,6 +51,24 @@ const Calendar = ({navigation}) => {
         }
     };
 
+    const getDate = (dateWithTime) => {
+        // date = response.data.itinerary.endDate;
+        let date = new Date(dateWithTime)
+        let year = date.getFullYear();
+        let month = date.getMonth()+1;
+        let dt = date.getDate();
+
+        if (dt < 10) {
+            dt = '0' + dt;
+        }
+        if (month < 10) {
+            month = '0' + month;
+        }
+
+        const newDate = year+'-' + month + '-'+dt;
+        return newDate;
+    }
+
     const loadItems = async (day) => {
         try {
             const items = items || {};
@@ -71,11 +89,12 @@ const Calendar = ({navigation}) => {
                     for each itinerary, if it's date is equal to the current date, 
                     we add it to the events array (value) of this date (key)
                     */
-                    itineraries.map((itinerary) => {
-                        if (itinerary.endDate === strTime) {
+                    // console.log(itineraries);
+                    itineraries.map((data) => {
+                        if (getDate(data.itinerary.endDate) === strTime) {
                             items[strTime].push({
-                                id: itinerary.id,
-                                name: itinerary.name,
+                                id: data.itinerary.id,
+                                name: data.itinerary.name,
                                 day: strTime
                             });
                         } else {

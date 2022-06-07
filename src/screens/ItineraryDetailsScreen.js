@@ -21,11 +21,14 @@ const ItineraryDetailsScreen = ({route, navigation}) => {
     // }
 
     const item = route.params;
+    console.log('item', item);
     const books = item.books;
 
     const images = []; 
     item.books.forEach(book => {
         //console.log(book.image);
+        // const image = `data:image/jpg;base64,${book.image}`
+        // <img src="data:image/__FORMATO__;base64,__BYTES_EN_BASE64__"></img>
         images.push(book.image);
     });
 
@@ -38,10 +41,10 @@ const ItineraryDetailsScreen = ({route, navigation}) => {
     return (
     <ScrollView style={styles.viewBody}>
         <Card style={styles.item}>
-            <Card.Title title={item.name} subtitle={`Departamento: ${item.department}`} />
+            <Card.Title title={item.itinerary.name} subtitle={`Departamento: ${item.itinerary.department}`} />
             <Card.Content style={styles.content}>
                 <Text style={styles.text}>Libros: {item.books.length}</Text>
-                <Text style={styles.text}>{item.students[0].name}</Text>
+                <Text style={styles.text}>{item.teacher.name}</Text>
             </Card.Content>
             <Pressable onPress={() => goToDetails(item)}>
                 <Card.Title title='Ver detalles de los libros >' onPress={() => goToDetails(item)} />

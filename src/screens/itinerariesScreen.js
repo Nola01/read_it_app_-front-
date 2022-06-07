@@ -15,6 +15,9 @@ const ItinerariesScreen = ({navigation}) => {
         setrefreshing(true);
         try {
           const itineraries = await getItineraries();
+          itineraries.map(itinerary => {
+            console.log(itinerary.itinerary[0]);
+          })
           // console.log(itineraries[0].name);
           setitineraries(itineraries);
         } catch (err) {
@@ -32,14 +35,20 @@ const ItinerariesScreen = ({navigation}) => {
         navigation.jumpTo('Detalles Itinerarios', item);
     };
 
+    
+
     const renderItem = ({item}) => {
         return (
             <Pressable onPress={() => goToDetails(item)}>
                 <Card style={styles.item}>
-                    <Card.Title title={item.name} subtitle={`Departamento: ${item.department}`} />
+                    <Card.Title title={item.itinerary.name} subtitle={`Departamento: ${item.itinerary.department}`} />
                     <Card.Content>
                         <Title></Title>
-                        <Paragraph>Libros: {item.books.length}</Paragraph>
+                        {item.books ? 
+                            <Paragraph>Libros: {item.books.length}</Paragraph>
+                            :
+                            <Paragraph>Libros: 0</Paragraph>
+                        }
                     </Card.Content>
                 </Card>
             </Pressable>

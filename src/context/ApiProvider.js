@@ -3,6 +3,7 @@ import axios from 'axios';
 import { AuthContext } from './AuthProvider';
 import {BASE_URL} from '../config/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// import bcrypt from 'bcrypt';
 
 const ApiContext = createContext();
 
@@ -18,7 +19,7 @@ const ApiProvider = ({children}) => {
   });
 
   const getItineraries = async () => {
-    const response = await authRequest.get('/itineraries');
+    const response = await authRequest.get('/app/itineraries');
     //console.log(response.data);
     return response.data;
   };
@@ -30,17 +31,18 @@ const ApiProvider = ({children}) => {
   };
 
   const getBooks = async () => {
-    const response = await authRequest.get('/books');
+    const response = await authRequest.get('/app/books');
     //console.log(response.data);
     return response.data;
   };
 
   const login = async (email, password) => {
-    const response = await publicRequest.post('/login', {
-      email: email,
+    const response = await publicRequest.post('/app/auth/login', {
+      email,
       password,
     });
-    const {accessToken, user} = response.data;
+    const accessToken = response.data.token;
+    const user = response.data.user;
     await AsyncStorage.setItem('token', accessToken);
     await AsyncStorage.setItem('user', JSON.stringify(user));
     authContext.setAuthState({
@@ -50,17 +52,21 @@ const ApiProvider = ({children}) => {
     });
   };
 
-  const register = async (name, surname, email, password) => {
-    const response = await publicRequest.post('/register', {
+  const register = async (name, email, password, pin, role) => {
+    const response = await publicRequest.post('/app/auth/register', {
       name,
-      surname,
       email,
       password,
       pin,
       role
     });
     // login(email, password);
-    const {accessToken, user} = response.data;
+    if (response.data.ok === 'false') {
+      throw new Error (response.data.msg)
+    }
+
+    const accessToken = response.data.token;
+    const user = response.data.user;
     await AsyncStorage.setItem('token', accessToken);
     await AsyncStorage.setItem('user', JSON.stringify(user));
     authContext.setAuthState({

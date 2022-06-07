@@ -13,10 +13,10 @@ const BookDetailsScreen = ({route, navigation}) => {
                 <Text>Libros del itinerario: {item.name}</Text>
                 {books.map((book) => (
                     <Card style={styles.item}>
-                        <Card.Cover style={styles.image} source={{ uri: book.image }} />
+                        {/* <Card.Cover style={styles.image} source={{ uri: book.image }} /> */}
                         <Card.Title title={book.title} subtitle={`Autor: ${book.author}`} />
                         <Card.Content>
-                            <Text style={styles.text}>Itinerarios: {book.itinerary.length}</Text>
+                            {/* <Text style={styles.text}>Itinerarios: {book.itinerary.length}</Text> */}
                         </Card.Content>
                     </Card>
                 ))}
@@ -26,10 +26,10 @@ const BookDetailsScreen = ({route, navigation}) => {
         return (
             <ScrollView style={styles.viewBody}>
                 <Card style={styles.item}>
-                    <Card.Cover style={styles.image} source={{ uri: item.image }} />
+                    {/* <Card.Cover style={styles.image} source={{ uri: item.image }} /> */}
                     <Card.Title title={item.title} subtitle={`Autor: ${item.author}`} />
                     <Card.Content>
-                        <Text style={styles.text}>Itinerarios: {item.itinerary.length}</Text>
+                        {/* <Text style={styles.text}>Itinerarios: {item.itinerary.length}</Text> */}
                     </Card.Content>
                 </Card>      
             </ScrollView>
