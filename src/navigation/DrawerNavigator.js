@@ -19,6 +19,18 @@ import Calendar from '../components/Calendar';
 
 import { AuthContext } from '../context/AuthProvider';
 
+import HomeStackNavigator from './stack-navigators/HomeStackNavigator';
+import ItinerariesStackNavigator from './stack-navigators/ItinerariesStackNavigator';
+import BookStackNavigator from './stack-navigators/BookStackNavigator';
+import ProfileStackNavigator from './stack-navigators/ProfileNavigator';
+import StudentsStackNavigator from './stack-navigators/StudentsStackNavigator';
+import BookDetailsStackNavigator from './stack-navigators/BookDetailsStackNavigator';
+import ItineraryDetailsStackNavigator from './stack-navigators/ItineraryDetailsStackNavigator';
+
+
+import { routes, screens } from './RouterItems';
+import LogoutStackNavigator from './stack-navigators/LogoutStackNavigator';
+
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
@@ -54,16 +66,24 @@ const DrawerNavigator = () => {
   else
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Inicio" component={HomeScreen} options={{headerShown: false}}/>
-        <Drawer.Screen name="Itinerarios" component={ItinerariesScreen} />
-        <Drawer.Screen name="Libros" component={BooksScreen} />
-        <Drawer.Screen name="Mi perfil" component={ProfileScreen} />
-        <Drawer.Screen name="Alumnos" component={StudentsScreen} />
-        <Drawer.Screen name="Cerrar sesión" component={LogoutScreen} />
+      <Drawer.Navigator initialRouteName="nav">
+        <Drawer.Screen name={screens.Home} component={HomeStackNavigator} options={{headerShown: false}}/>
+        <Drawer.Screen name={screens.Itineraries} component={ItinerariesStackNavigator} />
+        <Drawer.Screen name={screens.Books} component={BookStackNavigator} />
+        <Drawer.Screen name={screens.MyProfile} component={ProfileStackNavigator} />
+        <Drawer.Screen name={screens.Students} component={StudentsStackNavigator} />
+        <Drawer.Screen name={screens.Logout} component={LogoutStackNavigator} />
 
-        <Drawer.Screen name="Detalles Itinerarios" component={ItineraryDetailsScreen} />
-        <Drawer.Screen name="Detalles Libros" component={BookDetailsScreen} />
+        <Drawer.Screen name={screens.ItineraryDetails} component={ItineraryDetailsStackNavigator} options={{
+          title: 'ItineraryDetails',
+          showInDrawer: false,
+          headerRight: () => (
+            <View style={styles.headerRight}>
+              <Icon name="bell" size={20} color="#fff" />
+            </View>
+          ),
+        }}/>
+        <Drawer.Screen name={screens.BookDetails} component={BookDetailsStackNavigator} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
