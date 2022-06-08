@@ -2,21 +2,22 @@ import * as React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 export const screens = {
-    Home: 'Home',
-    Itineraries: 'Itineraries',
-    Books: 'Books',
-    MyProfile: 'MyProfile',
-    Students: 'Students',
-    Logout: 'Logout',
-    ItineraryDetails: 'ItineraryDetails',
-    BookDetails: 'BookDetails',
+    Home: 'Inicio',
+    Itineraries: 'Itinerarios',
+    Books: 'Libros',
+    MyProfile: 'Mi perfil',
+    Students: 'Alumnos',
+    Logout: 'Cerrar sesión',
+    ItineraryDetails: 'Detalles itinerario',
+    BookDetails: 'Detalles libro',
+    NewBook: 'Nuevo libro'
 }
 
 export const routes = [
     {
         name: screens.Home,
         focusedRoute: screens.Home,
-        title: 'Home',
+        title: 'Inicio',
         showInTab: false,
         showInDrawer: true,
         icon: (focused) =>
@@ -25,7 +26,16 @@ export const routes = [
     {
         name: screens.Itineraries,
         focusedRoute: screens.Itineraries,
-        title: 'Itineraries',
+        title: 'Itinerarios',
+        showInTab: false,
+        showInDrawer: true,
+        icon: (focused) =>
+            <Icon name="home" size={30} color={focused ? '#551E18' : '#000'} />,
+    },
+    {
+        name: screens.Books,
+        focusedRoute: screens.Books,
+        title: 'Libros',
         showInTab: false,
         showInDrawer: true,
         icon: (focused) =>
@@ -34,7 +44,7 @@ export const routes = [
     {
         name: screens.MyProfile,
         focusedRoute: screens.MyProfile,
-        title: 'My profile',
+        title: 'Mi perfil',
         showInTab: false,
         showInDrawer: true,
         icon: (focused) =>
@@ -43,7 +53,7 @@ export const routes = [
     {
         name: screens.Students,
         focusedRoute: screens.Students,
-        title: 'Students',
+        title: 'Alumnos',
         showInTab: false,
         showInDrawer: true,
         icon: (focused) =>
@@ -52,7 +62,7 @@ export const routes = [
     {
         name: screens.Logout,
         focusedRoute: screens.Logout,
-        title: 'Logout',
+        title: 'Cerrar sesión',
         showInTab: false,
         showInDrawer: true,
         icon: (focused) =>
@@ -61,7 +71,7 @@ export const routes = [
     {
         name: screens.ItineraryDetails,
         focusedRoute: screens.ItineraryDetails,
-        title: 'Itinerary Details',
+        title: 'Detalles itinerario',
         showInTab: false,
         showInDrawer: false,
         icon: (focused) =>
@@ -70,7 +80,16 @@ export const routes = [
     {
         name: screens.BookDetails,
         focusedRoute: screens.BookDetails,
-        title: 'Book Details',
+        title: 'Detalles libro',
+        showInTab: false,
+        showInDrawer: false,
+        icon: (focused) =>
+            <Icon name="home" size={30} color={focused ? '#551E18' : '#000'} />,
+    },
+    {
+        name: screens.NewBook,
+        focusedRoute: screens.NewBook,
+        title: 'Nuevo libro',
         showInTab: false,
         showInDrawer: false,
         icon: (focused) =>

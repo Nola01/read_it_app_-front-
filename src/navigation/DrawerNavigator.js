@@ -26,6 +26,7 @@ import ProfileStackNavigator from './stack-navigators/ProfileNavigator';
 import StudentsStackNavigator from './stack-navigators/StudentsStackNavigator';
 import BookDetailsStackNavigator from './stack-navigators/BookDetailsStackNavigator';
 import ItineraryDetailsStackNavigator from './stack-navigators/ItineraryDetailsStackNavigator';
+import NewBookStackNavigator from './stack-navigators/NewBookStackNavigator';
 
 
 import { routes, screens } from './RouterItems';
@@ -75,7 +76,7 @@ const DrawerNavigator = () => {
         <Drawer.Screen name={screens.Logout} component={LogoutStackNavigator} />
 
         <Drawer.Screen name={screens.ItineraryDetails} component={ItineraryDetailsStackNavigator} options={{
-          title: 'ItineraryDetails',
+          title: 'Detalles itinerario',
           showInDrawer: false,
           headerRight: () => (
             <View style={styles.headerRight}>
@@ -84,6 +85,7 @@ const DrawerNavigator = () => {
           ),
         }}/>
         <Drawer.Screen name={screens.BookDetails} component={BookDetailsStackNavigator} />
+        <Drawer.Screen name={screens.NewBook} component={NewBookStackNavigator} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

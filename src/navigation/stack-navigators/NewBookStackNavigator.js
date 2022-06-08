@@ -2,19 +2,19 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import BookDetailsScreen from '../../screens/BookDetailsScreen'
+import NewBookScreen from '../../screens/NewBookScreen'
 import { screens } from '../RouterItems'
 
 const Stack = createStackNavigator()
 
-const BookDetailsStackNavigator = ({route, navigation}) => {
+const NewBookStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{
       headerShown: false,
     }}>
-      <Stack.Screen name={screens.BookDetails} component={BookDetailsScreen} />
+      <Stack.Screen name={screens.NewBook} component={NewBookScreen} />
     </Stack.Navigator>
   )
 }
 
-export default BookDetailsStackNavigator
+export default NewBookStackNavigator
