@@ -12,7 +12,7 @@ const BookDetailsStackNavigator = ({route, navigation}) => {
     <Stack.Navigator screenOptions={{
       headerShown: false,
     }}>
-      <Stack.Screen name={screens.BookDetails} component={BookDetailsScreen} />
+      <Stack.Screen name={screens.BookDetails} component={BookDetailsScreen} screenProps={ { route, navigation} } />
     </Stack.Navigator>
   )
 }

@@ -21,7 +21,7 @@ const HomeScreen = ({navigation}) => {
     return (
         <SafeAreaView style={styles.container}>
                 <Card style={styles.header}>
-                    <Text style={styles.headerText}>Bienvenido {user.name} {user.surname}</Text>
+                    <Text style={styles.headerText}>Bienvenido {user.name}</Text>
                     <Text>   </Text>
                 </Card>
 

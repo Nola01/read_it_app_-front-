@@ -22,7 +22,11 @@ const ItineraryDetailsScreen = ({route, navigation}) => {
 
     const item = route.params;
     console.log('item', item);
-    const books = item.books;
+
+
+    if (!item.books) {
+        item.books = ['Este itinerario no tiene libros']
+    }
 
     const images = []; 
     item.books.forEach(book => {
@@ -31,9 +35,10 @@ const ItineraryDetailsScreen = ({route, navigation}) => {
         // <img src="data:image/__FORMATO__;base64,__BYTES_EN_BASE64__"></img>
         images.push(book.image);
     });
+    
 
     const goToDetails = (item) => {
-        navigation.jumpTo('Detalles Libros', item);
+        navigation.jumpTo('Detalles libro', item);
     };
 
   
@@ -51,7 +56,7 @@ const ItineraryDetailsScreen = ({route, navigation}) => {
             </Pressable>
             <View style={styles.pagination}>
                 {
-                    books.map(book => {
+                    item.books.map(book => {
                         //console.log(book);
                         // return <Text key={book.isbn} style={book.isbn==state.active ? styles.paginationActiveDot : styles.paginationDot}>⬤</Text>
                         return <Text key={book.isbn} style={styles.paginationDot}>⬤</Text>

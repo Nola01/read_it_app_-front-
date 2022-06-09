@@ -1,21 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
 import {createStackNavigator} from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native'
 
-import ItinerariesScreen from '../screens/itinerariesScreen';
-import BooksScreen from '../screens/BooksScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import StudentsScreen from '../screens/StudentsScreen';
-import LogoutScreen from '../screens/LogoutScreen';
 import LoginScreen from '../screens/LoginScreen';
-import ItineraryDetailsScreen from '../screens/ItineraryDetailsScreen';
-import BookDetailsScreen from '../screens/BookDetailsScreen';
 import RegisterScreen from '../screens/RegisterScreen';
-import HomeScreen from '../screens/HomeScreen';
 
 import Spinner from '../components/Spinner';
-import Calendar from '../components/Calendar';
 
 import { AuthContext } from '../context/AuthProvider';
 
@@ -28,14 +20,46 @@ import BookDetailsStackNavigator from './stack-navigators/BookDetailsStackNaviga
 import ItineraryDetailsStackNavigator from './stack-navigators/ItineraryDetailsStackNavigator';
 import NewBookStackNavigator from './stack-navigators/NewBookStackNavigator';
 
+import ItineraryDetailsScreen from '../screens/ItineraryDetailsScreen';
+import BookDetailsScreen from '../screens/BookDetailsScreen';
+
 
 import { routes, screens } from './RouterItems';
 import LogoutStackNavigator from './stack-navigators/LogoutStackNavigator';
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-const DrawerNavigator = () => {
+const CustomDrawerContent = (props) => {
+  const currentRouteName = props.nav()?.getCurrentRoute()?.name
+  return (
+    <DrawerContentScrollView {...props}>
+      {
+        routes.filter(route => route.showInDrawer).map((route) => {
+          const focusedRoute = routes.find(r => r.name === currentRouteName)
+          const focused = focusedRoute ?
+            route.name === focusedRoute?.focusedRoute :
+            route.name === screens.HomeStack
+          return (
+            <DrawerItem
+              key={route.name}
+              label={() => (
+                <Text style={focused ? styles.drawerLabelFocused : styles.drawerLabel}>
+                  {route.title}
+                </Text>
+              )}
+              onPress={() => props.navigation.navigate(route.name)}
+              style={[styles.drawerItem, focused ? styles.drawerItemFocused : null]}
+            />
+          )
+        })
+      }
+    </DrawerContentScrollView>
+  )
+}
+
+const DrawerNavigator = ({ nav }) => {
   const {authState, loadToken, logout} = useContext(AuthContext);
   const [loading, setloading] = useState(true);
 
@@ -66,28 +90,33 @@ const DrawerNavigator = () => {
   } 
   else
   return (
-    <NavigationContainer>
-      <Drawer.Navigator initialRouteName="nav">
-        <Drawer.Screen name={screens.Home} component={HomeStackNavigator} options={{headerShown: false}}/>
-        <Drawer.Screen name={screens.Itineraries} component={ItinerariesStackNavigator} />
-        <Drawer.Screen name={screens.Books} component={BookStackNavigator} />
-        <Drawer.Screen name={screens.MyProfile} component={ProfileStackNavigator} />
-        <Drawer.Screen name={screens.Students} component={StudentsStackNavigator} />
-        <Drawer.Screen name={screens.Logout} component={LogoutStackNavigator} />
+    
+    <Drawer.Navigator
+      screenOptions={({ navigation }) => ({
+        headerStyle: {
+          backgroundColor: '#551E18',
+          height: 50,
+        },
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigation.toggleDrawer()} style={styles.headerLeft}>
+            <Icon name="bars" size={20} color="#fff" />
+          </TouchableOpacity>
+        ),
+      })}
+      drawerContent={(props) => <CustomDrawerContent {...props} nav={nav} />}
+    >
+      <Drawer.Screen name={screens.Home} component={HomeStackNavigator} options={{headerShown: false}}/>
+      <Drawer.Screen name={screens.Itineraries} component={ItinerariesStackNavigator} />
+      <Drawer.Screen name={screens.Books} component={BookStackNavigator} />
+      <Drawer.Screen name={screens.MyProfile} component={ProfileStackNavigator} />
+      <Drawer.Screen name={screens.Students} component={StudentsStackNavigator} />
+      <Drawer.Screen name={screens.Logout} component={LogoutStackNavigator} />
 
-        <Drawer.Screen name={screens.ItineraryDetails} component={ItineraryDetailsStackNavigator} options={{
-          title: 'Detalles itinerario',
-          showInDrawer: false,
-          headerRight: () => (
-            <View style={styles.headerRight}>
-              <Icon name="bell" size={20} color="#fff" />
-            </View>
-          ),
-        }}/>
-        <Drawer.Screen name={screens.BookDetails} component={BookDetailsStackNavigator} />
-        <Drawer.Screen name={screens.NewBook} component={NewBookStackNavigator} />
-      </Drawer.Navigator>
-    </NavigationContainer>
+      <Drawer.Screen name={screens.ItineraryDetails} component={ItineraryDetailsScreen} />
+      <Drawer.Screen name={screens.BookDetails} component={BookDetailsScreen} />
+      <Drawer.Screen name={screens.NewBook} component={NewBookStackNavigator} />
+    </Drawer.Navigator>
+    
   );
 }
 
@@ -114,3 +143,34 @@ const DrawerNavigator = () => {
 // };
 
 export default DrawerNavigator;
+
+const styles = StyleSheet.create({
+  headerLeft: {
+    marginLeft: 15,
+  },
+  headerTitle: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '500',
+  },
+  headerRight: {
+    marginRight: 15,
+  },
+  // drawer content
+  drawerLabel: {
+    fontSize: 14,
+  },
+  drawerLabelFocused: {
+    fontSize: 14,
+    color: '#551E18',
+    fontWeight: '500',
+  },
+  drawerItem: {
+    height: 50,
+    justifyContent: 'center'
+  },
+  drawerItemFocused: {
+    backgroundColor: '#ba9490',
+  },
+})
+

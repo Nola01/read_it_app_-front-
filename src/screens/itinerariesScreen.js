@@ -32,7 +32,8 @@ const ItinerariesScreen = ({navigation}) => {
 
     const goToDetails = (item) => {
         //console.log(item.name);
-        navigation.jumpTo('Detalles Itinerarios', item);
+        console.log('screen item', item);
+        navigation.jumpTo('Detalles itinerario', item);
     };
 
     
