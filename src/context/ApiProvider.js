@@ -31,6 +31,17 @@ const ApiProvider = ({children}) => {
     return response.data;
   };
 
+  const createItinerary = async (itinerary) => {
+    let config = {
+      headers: {
+        'x-token': authState.accessToken,
+      }
+    }
+
+    const response = await authRequest.post(`/app/itineraries/new`, itinerary, config);
+    return response.data;
+  }
+
   const getBooks = async () => {
     const response = await authRequest.get('/app/books');
     //console.log(response.data);
@@ -43,10 +54,22 @@ const ApiProvider = ({children}) => {
         'x-token': authState.accessToken,
       }
     }
-    console.log(authState.user.name);
     console.log(book);
 
     const response = await authRequest.post('/app/books/new', book, config);
+    return response.data;
+  }
+
+  const deleteBook = async (id) => {
+    let config = {
+      headers: {
+        'x-token': authState.accessToken,
+      }
+    }
+    console.log(authState.accessToken);
+    console.log(id);
+
+    const response = await authRequest.delete(`/app/books/${id}`, config);
     return response.data;
   }
 
@@ -121,8 +144,10 @@ const ApiProvider = ({children}) => {
       value={{
         getItineraries,
         getItineraryById,
+        createItinerary,
         getBooks,
         createBook,
+        deleteBook,
         login,
         register
       }}>

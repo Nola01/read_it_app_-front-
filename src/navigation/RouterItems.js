@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export const screens = {
     Home: 'Inicio',
@@ -10,7 +10,8 @@ export const screens = {
     Logout: 'Cerrar sesión',
     ItineraryDetails: 'Detalles itinerario',
     BookDetails: 'Detalles libro',
-    NewBook: 'Nuevo libro'
+    NewBook: 'Nuevo libro',
+    NewItinerary: 'Nuevo itinerario'
 }
 
 export const routes = [
@@ -30,7 +31,7 @@ export const routes = [
         showInTab: false,
         showInDrawer: true,
         icon: (focused) =>
-            <Icon name="home" size={30} color={focused ? '#551E18' : '#000'} />,
+            <Ionicons name="home" size={30} color={focused ? '#551E18' : '#000'} />,
     },
     {
         name: screens.Books,
@@ -39,7 +40,7 @@ export const routes = [
         showInTab: false,
         showInDrawer: true,
         icon: (focused) =>
-            <Icon name="home" size={30} color={focused ? '#551E18' : '#000'} />,
+            <Ionicons name="home" size={30} color={focused ? '#551E18' : '#000'} />,
     },
     {
         name: screens.MyProfile,
@@ -48,7 +49,7 @@ export const routes = [
         showInTab: false,
         showInDrawer: true,
         icon: (focused) =>
-            <Icon name="home" size={30} color={focused ? '#551E18' : '#000'} />,
+            <Ionicons name="home" size={30} color={focused ? '#551E18' : '#000'} />,
     },
     {
         name: screens.Students,
@@ -57,7 +58,7 @@ export const routes = [
         showInTab: false,
         showInDrawer: true,
         icon: (focused) =>
-            <Icon name="home" size={30} color={focused ? '#551E18' : '#000'} />,
+            <Ionicons name="home" size={30} color={focused ? '#551E18' : '#000'} />,
     },
     {
         name: screens.Logout,
@@ -66,7 +67,7 @@ export const routes = [
         showInTab: false,
         showInDrawer: true,
         icon: (focused) =>
-            <Icon name="home" size={30} color={focused ? '#551E18' : '#000'} />,
+            <Ionicons name="home" size={30} color={focused ? '#551E18' : '#000'} />,
     },
     {
         name: screens.ItineraryDetails,
@@ -75,7 +76,7 @@ export const routes = [
         showInTab: false,
         showInDrawer: false,
         icon: (focused) =>
-            <Icon name="home" size={30} color={focused ? '#551E18' : '#000'} />,
+            <Ionicons name="home" size={30} color={focused ? '#551E18' : '#000'} />,
     },
     {
         name: screens.BookDetails,
@@ -84,7 +85,7 @@ export const routes = [
         showInTab: false,
         showInDrawer: false,
         icon: (focused) =>
-            <Icon name="home" size={30} color={focused ? '#551E18' : '#000'} />,
+            <Ionicons name="home" size={30} color={focused ? '#551E18' : '#000'} />,
     },
     {
         name: screens.NewBook,
@@ -93,6 +94,15 @@ export const routes = [
         showInTab: false,
         showInDrawer: false,
         icon: (focused) =>
-            <Icon name="home" size={30} color={focused ? '#551E18' : '#000'} />,
+            <Ionicons name="home" size={30} color={focused ? '#551E18' : '#000'} />,
+    },
+    {
+        name: screens.NewItinerary,
+        focusedRoute: screens.NewItinerary,
+        title: 'Nuevo itinerario',
+        showInTab: false,
+        showInDrawer: false,
+        icon: (focused) =>
+            <Ionicons name="home" size={30} color={focused ? '#551E18' : '#000'} />,
     },
 ]

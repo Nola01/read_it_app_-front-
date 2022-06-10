@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import { View, StyleSheet, FlatList, Pressable } from 'react-native';
-import { Text, Card, Title, Paragraph } from 'react-native-paper';
+import { Text, Card, FAB, Title, Paragraph } from 'react-native-paper';
 import { ApiContext } from '../context/ApiProvider';
 
 
@@ -36,6 +36,10 @@ const ItinerariesScreen = ({navigation}) => {
         navigation.jumpTo('Detalles itinerario', item);
     };
 
+    const goToAdd = () => {
+        navigation.jumpTo('Nuevo itinerario');
+    }
+
     
 
     const renderItem = ({item}) => {
@@ -67,6 +71,7 @@ const ItinerariesScreen = ({navigation}) => {
                 onRefresh={loadItineraries}
                 refreshing={refreshing}
             />
+            <FAB style={styles.fab} small icon="plus" onPress={() => goToAdd()} />
         </SafeAreaView>
     );
 }
@@ -83,5 +88,12 @@ const styles = StyleSheet.create({
   item: {
     marginTop: 10,
     borderRadius: 5
-  }
+  },
+  fab: {
+    backgroundColor: 'blue',
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
 });

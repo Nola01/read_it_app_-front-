@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import {Image, Pressable, StyleSheet, ScrollView, Text} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Card, TextInput, Button, Alert} from 'react-native-paper';
+import {Card, TextInput, Button, Alert, Snackbar} from 'react-native-paper';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 import * as RNFS from 'react-native-fs';
@@ -13,15 +13,16 @@ import { AuthContext } from '../context/AuthProvider';
 
 const NewBookScreen = ({navigation}) => {
     const authContext = useContext(AuthContext);
-    const {createBook} = useContext(ApiContext);
-    const {getBooks} = useContext(ApiContext);
+    const {getBooks, createBook, deleteBook} = useContext(ApiContext);
 
     const [isbn, setisbn] = useState('');
     const [title, settitle] = useState('');
     const [author, setauthor] = useState('');
     const [image, setimage] = useState('https://via.placeholder.com/400');
 
-    const [editable, seteditable] = React.useState(false);
+    const [response, setresponse] = useState({});
+
+
 
     const changeIsbn = isbn => {
         setisbn(isbn);
@@ -124,15 +125,28 @@ const NewBookScreen = ({navigation}) => {
                 author,
                 image
             };
-            console.log('hola');
+
             const response = await createBook(newBook);
             console.log('respuesta', response);
+            // if (response.ok === 'false') {
+            //     setresponse(response.msg)
+            //     setvisible(true)
+            // }
+
             if (response.ok === 'false') {
-                console.log(response.msg);
+                setresponse(response.msg)
+                //setvisible(true)
             }
+            
             navigation.navigate('Libros');
         }
     };
+
+    const undoCreate = async () => {
+        const response = await deleteBook(isbn)
+        setresponse(response.msg)
+        setvisible(true)
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -172,6 +186,16 @@ const NewBookScreen = ({navigation}) => {
                 <Button onPress={() => handleAdd()} style={styles.save}>
                     Guardar
                 </Button>
+                {/* <Snackbar
+                    duration={5000}
+                    visible={visible}
+                    onDismiss={onDismissSnackBar}
+                    action={{
+                        label: 'Undo',
+                        onPress: () => undoCreate(),
+                    }}>
+                    {response}
+                </Snackbar> */}
             </ScrollView>
         </SafeAreaView>
     );  
