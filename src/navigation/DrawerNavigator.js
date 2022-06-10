@@ -22,6 +22,7 @@ import NewBookStackNavigator from './stack-navigators/NewBookStackNavigator';
 
 import ItineraryDetailsScreen from '../screens/ItineraryDetailsScreen';
 import BookDetailsScreen from '../screens/BookDetailsScreen';
+import NewBookScreen from '../screens/NewBookScreen';
 
 
 import { routes, screens } from './RouterItems';
@@ -80,12 +81,12 @@ const DrawerNavigator = ({ nav }) => {
 
   if (!authState.authenticated) {
     return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Init">
-          <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
-          <Stack.Screen name="Registro" component={RegisterScreen} options={{headerShown: false}}/>
-        </Stack.Navigator>
-      </NavigationContainer>
+      
+      <Stack.Navigator initialRouteName="Init">
+        <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="Registro" component={RegisterScreen} options={{headerShown: false}}/>
+      </Stack.Navigator>
+      
     );
   } 
   else
@@ -114,7 +115,7 @@ const DrawerNavigator = ({ nav }) => {
 
       <Drawer.Screen name={screens.ItineraryDetails} component={ItineraryDetailsScreen} />
       <Drawer.Screen name={screens.BookDetails} component={BookDetailsScreen} />
-      <Drawer.Screen name={screens.NewBook} component={NewBookStackNavigator} />
+      <Drawer.Screen name={screens.NewBook} component={NewBookScreen} />
     </Drawer.Navigator>
     
   );

@@ -9,6 +9,7 @@ const ApiContext = createContext();
 
 const ApiProvider = ({children}) => {
   const authContext = useContext(AuthContext);
+  const {authState} = useContext(AuthContext);
 
   const authRequest = axios.create({
     baseURL: BASE_URL,
@@ -35,6 +36,19 @@ const ApiProvider = ({children}) => {
     //console.log(response.data);
     return response.data;
   };
+
+  const createBook = async (book) => {
+    let config = {
+      headers: {
+        'x-token': authState.accessToken,
+      }
+    }
+    console.log(authState.user.name);
+    console.log(book);
+
+    const response = await authRequest.post('/app/books/new', book, config);
+    return response.data;
+  }
 
   const login = async (email, password) => {
     const response = await publicRequest.post('/app/auth/login', {
@@ -108,6 +122,7 @@ const ApiProvider = ({children}) => {
         getItineraries,
         getItineraryById,
         getBooks,
+        createBook,
         login,
         register
       }}>

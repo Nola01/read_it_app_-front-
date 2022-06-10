@@ -32,7 +32,7 @@ const BooksScreen = ({ navigation }) => {
   };
 
   const goToAdd = () => {
-      navigation.jumpTo('', item);
+      navigation.jumpTo('Nuevo libro');
   }
 
   const renderItem = ({item}) => {

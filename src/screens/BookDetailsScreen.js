@@ -3,7 +3,12 @@ import React from 'react';
 import {Dimensions, Text, StyleSheet, ScrollView, Pressable} from 'react-native';
 import {Card} from 'react-native-paper';
 
+
+
 const BookDetailsScreen = ({route, navigation}) => {
+
+    
+
     const item = route.params;
     console.log(item);
     if (item.books) {

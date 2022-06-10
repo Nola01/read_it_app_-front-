@@ -28,6 +28,7 @@ const ItineraryDetailsScreen = ({route, navigation}) => {
         item.books = ['Este itinerario no tiene libros']
     }
 
+    
     const images = []; 
     item.books.forEach(book => {
         //console.log(book.image);
@@ -40,6 +41,8 @@ const ItineraryDetailsScreen = ({route, navigation}) => {
     const goToDetails = (item) => {
         navigation.jumpTo('Detalles libro', item);
     };
+
+    
 
   
 
