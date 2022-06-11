@@ -24,6 +24,7 @@ import ItineraryDetailsScreen from '../screens/ItineraryDetailsScreen';
 import BookDetailsScreen from '../screens/BookDetailsScreen';
 import NewBookScreen from '../screens/NewBookScreen';
 import NewItineraryScreen from '../screens/NewItineraryScreen';
+import SelectBooks from '../screens/SelectBooks';
 
 
 import { routes, screens } from './RouterItems';
@@ -118,6 +119,7 @@ const DrawerNavigator = ({ nav }) => {
       <Drawer.Screen name={screens.BookDetails} component={BookDetailsScreen} />
       <Drawer.Screen name={screens.NewBook} component={NewBookScreen} />
       <Drawer.Screen name={screens.NewItinerary} component={NewItineraryScreen} />
+      <Drawer.Screen name={screens.SelectBooks} component={SelectBooks} />
     </Drawer.Navigator>
     
   );
