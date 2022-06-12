@@ -12,7 +12,8 @@ export const screens = {
     BookDetails: 'Detalles libro',
     NewBook: 'Nuevo libro',
     NewItinerary: 'Nuevo itinerario',
-    SelectBooks: 'Seleccionar libros'
+    SelectBooks: 'Seleccionar libros',
+    SelectStudents: 'Seleccionar alumnos'
 }
 
 export const routes = [
@@ -110,6 +111,15 @@ export const routes = [
         name: screens.SelectBooks,
         focusedRoute: screens.SelectBooks,
         title: 'Seleccionar libros',
+        showInTab: false,
+        showInDrawer: false,
+        icon: (focused) =>
+            <Ionicons name="home" size={30} color={focused ? '#551E18' : '#000'} />,
+    },
+    {
+        name: screens.SelectStudents,
+        focusedRoute: screens.SelectStudents,
+        title: 'Seleccionar alumnos',
         showInTab: false,
         showInDrawer: false,
         icon: (focused) =>

@@ -8,66 +8,49 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ApiContext } from '../context/ApiProvider';
 import { NewItineraryContext } from "../context/NewItineraryProvider";
 
-const SelectBooks = ({navigation}) => {
-    const {getBooks} = useContext(ApiContext);
+const SelectStudents = ({navigation}) => {
+    const {getUsers} = useContext(ApiContext);
 
     const newItineraryContext = useContext(NewItineraryContext);
-    const {booksState} = useContext(NewItineraryContext);
+    const {studentsState} = useContext(NewItineraryContext);
 
-    const [books, setbooks] = useState([]);
-    const [selectedBooks, setselectedbooks] = useState([])
+    const [students, setStudents] = useState([]);
+    const [selectedStudents, setSelectedStudents] = useState([])
     const [refreshing, setrefreshing] = useState(false);
 
 
-    const loadBooks = async () => {
+    const loadStudents = async () => {
         setrefreshing(true);
         try {
-          const books = await getBooks();
-          setbooks(books);
+            const users = await getUsers();
+            const students = users.filter(user => user.role === 'alumno')
+            setStudents(students);
         } catch (err) {
-          console.log(err.response);
+            console.log(err.response);
         }
         setrefreshing(false);
     };
 
     useEffect(() => {
-        loadBooks();
+        loadStudents();
     }, []);
 
-    const checkedBook = (item) => {
-        if (!selectedBooks.includes(item.isbn)) {
-            selectedBooks.push(item.isbn)
-            console.log('push', selectedBooks);
+    const checkedStudent = (item) => {
+        if (!selectedStudents.includes(item.id_user)) {
+            selectedStudents.push(item.id_user)
+            console.log('push', selectedStudents);
         } else {
-            const newBooks = selectedBooks.filter((isbn) => isbn !== item.isbn);
-            console.log('new list', newBooks);
-            setselectedbooks(newBooks)
-            // selectedBooks.filter(book => {
-            //     if (book.title === item.title) {
-                    
-            //     }
-            // })
+            const newStudents = selectedStudents.filter((id) => id !== item.id_user);
+            console.log('new list', newStudents);
+            setSelectedStudents(newStudents)
         }
 
-        // setischecked(!isChecked)
-        // if (isChecked) {
-        //     selectedBooks.push(item.isbn)
-        // } else if (!isChecked) {
-        //     const newBooks = selectedBooks.filter((isbn) => isbn !== item.isbn);
-        //     console.log('new list', newBooks);
-        //     setselectedbooks(newBooks)
-        //     // selectedBooks.filter(book => {
-        //     //     if (book.title === item.title) {
-                    
-        //     //     }
-        //     // })
-        // }
-        console.log(selectedBooks);
+        console.log(selectedStudents);
     }
 
-    const confirmBooks = () => {
-        newItineraryContext.setBooksState(selectedBooks)
-        console.log('context books', booksState);
+    const confirmStudents = () => {
+        newItineraryContext.setStudentsState(selectedStudents)
+        console.log('context students', studentsState);
         navigation.navigate('Nuevo itinerario')
     }
 
@@ -76,8 +59,7 @@ const SelectBooks = ({navigation}) => {
         return (
 
             <Card style={styles.item}>
-                <Card.Title title={item.title} subtitle={`Autor: ${item.author}`} />
-                {/* <Card.Cover style={styles.image} source={{ uri: item.image }} /> */}
+                <Card.Title title={item.name} subtitle={`Correo electrónico: ${item.email}`} />
                 <Card.Content>
                     <Title></Title>
                     <BouncyCheckbox
@@ -88,7 +70,7 @@ const SelectBooks = ({navigation}) => {
                         iconStyle={{ borderColor: "red" }}
                         textStyle={{ fontFamily: "JosefinSans-Regular" }}
                         onPress={() => {
-                            checkedBook(item)
+                            checkedStudent(item)
                         }}
                     />
                 </Card.Content>
@@ -98,23 +80,23 @@ const SelectBooks = ({navigation}) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Ionicons onPress={() => confirmBooks()} name="checkmark-circle-outline" size={30} />
+            <Ionicons onPress={() => confirmStudents()} name="checkmark-circle-outline" size={30} />
             
             <View>
               <Text>Lista de libros</Text>
             </View>
             <FlatList
-                data={books}
+                data={students}
                 renderItem={renderItem}
                 keyExtractor={item => item.isbn}
-                onRefresh={loadBooks}
+                onRefresh={loadStudents}
                 refreshing={refreshing}
             />
         </SafeAreaView>
     )
 }
 
-export default SelectBooks;
+export default SelectStudents;
 
 const styles = StyleSheet.create({
     container: {

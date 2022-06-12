@@ -30,6 +30,7 @@ import DrawerNavigator from './src/navigation/DrawerNavigator';
 import { NavigationContainer } from '@react-navigation/native'  
 import { AuthProvider } from './src/context/AuthProvider';
 import { ApiProvider } from './src/context/ApiProvider';
+import { NewItineraryProvider } from './src/context/NewItineraryProvider';
 
 const navigationRef = createRef()
 const nav = () => navigationRef.current
@@ -40,9 +41,11 @@ const App = () => {
     <PaperProvider>
       <AuthProvider>
         <ApiProvider>
-          <NavigationContainer ref={navigationRef}>
-            <DrawerNavigator nav={nav}/>
-          </NavigationContainer>
+          <NewItineraryProvider>
+            <NavigationContainer ref={navigationRef}>
+              <DrawerNavigator nav={nav}/>
+            </NavigationContainer>
+          </NewItineraryProvider>
         </ApiProvider>
       </AuthProvider>
     </PaperProvider>

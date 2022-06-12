@@ -19,6 +19,13 @@ const ApiProvider = ({children}) => {
     baseURL: BASE_URL,
   });
 
+  const getGroups = async () => {
+    const response = await authRequest.get('/app/groups');
+    return response.data;
+  }
+
+
+
   const getItineraries = async () => {
     const response = await authRequest.get('/app/itineraries');
     //console.log(response.data);
@@ -37,10 +44,12 @@ const ApiProvider = ({children}) => {
         'x-token': authState.accessToken,
       }
     }
-
+    console.log(itinerary);
     const response = await authRequest.post(`/app/itineraries/new`, itinerary, config);
     return response.data;
   }
+
+
 
   const getBooks = async () => {
     const response = await authRequest.get('/app/books');
@@ -72,6 +81,17 @@ const ApiProvider = ({children}) => {
     const response = await authRequest.delete(`/app/books/${id}`, config);
     return response.data;
   }
+
+
+
+  const getUsers = async () => {
+    const response = await authRequest.get('/app/users');
+    //console.log(response.data);
+    return response.data;
+  };
+
+
+  
 
   const login = async (email, password) => {
     const response = await publicRequest.post('/app/auth/login', {
@@ -142,12 +162,14 @@ const ApiProvider = ({children}) => {
   return (
     <ApiContext.Provider
       value={{
+        getGroups,
         getItineraries,
         getItineraryById,
         createItinerary,
         getBooks,
         createBook,
         deleteBook,
+        getUsers,
         login,
         register
       }}>
