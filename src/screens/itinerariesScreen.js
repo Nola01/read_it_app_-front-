@@ -3,10 +3,12 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import { View, StyleSheet, FlatList, Pressable } from 'react-native';
 import { Text, Card, FAB, Title, Paragraph } from 'react-native-paper';
 import { ApiContext } from '../context/ApiProvider';
+import { AuthContext } from '../context/AuthProvider';
 
 
 const ItinerariesScreen = ({navigation}) => {
     const {getItineraries} = useContext(ApiContext);
+    const {authState} = useContext(AuthContext);
 
     const [itineraries, setitineraries] = useState([]);
     const [refreshing, setrefreshing] = useState(false);
@@ -14,12 +16,34 @@ const ItinerariesScreen = ({navigation}) => {
     const loadItineraries = async () => {
         setrefreshing(true);
         try {
-          const itineraries = await getItineraries();
-          itineraries.map(itinerary => {
-            console.log(itinerary.itinerary[0]);
-          })
-          // console.log(itineraries[0].name);
-          setitineraries(itineraries);
+            const itineraries = await getItineraries();
+            if (authState.user.role === 'profesor') {
+                // console.log(authState.user.id_user);
+                let teacherItineraries = []
+                itineraries.map(itinerary => {
+                    // console.log(itinerary.teacher.id_user === authState.user.id_user);
+                    if (itinerary.teacher.id_user === authState.user.id_user) {
+                        teacherItineraries.push(itinerary)
+                    }
+                })
+
+                console.log('profesor', teacherItineraries);
+                setitineraries(teacherItineraries);
+            } else {
+                const studentItineraries = []
+                itineraries.map(itinerary => {
+                    console.log(itinerary);
+                    if (itinerary.students && itinerary.students.includes(authState.user)) {
+                        studentItineraries.push(itinerary)
+                        console.log(studentItineraries.length);
+                    }
+                    
+                })
+                console.log('student', studentItineraries);
+                setitineraries(studentItineraries)
+                
+            }
+          
         } catch (err) {
           console.log(err.response);
         }
