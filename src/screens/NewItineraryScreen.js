@@ -1,14 +1,35 @@
 import React, {useContext, useState, useEffect} from 'react';
-import {Alert, Image, Pressable, StyleSheet, ScrollView, Text} from 'react-native';
+import {Alert, Image, Pressable, StyleSheet, ScrollView, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Card, Dialog, TextInput, Button, Snackbar} from 'react-native-paper';
 import CalendarPicker from 'react-native-calendar-picker';
 import {Picker} from '@react-native-picker/picker';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 
 import { AuthContext } from '../context/AuthProvider';
 import { ApiContext } from '../context/ApiProvider';
 import { NewItineraryContext } from '../context/NewItineraryProvider';
+
+const timeToString = (dateWithTime) => {
+  // date = response.data.itinerary.endDate;
+  let date = new Date(dateWithTime)
+  let year = date.getFullYear();
+  let month = date.getMonth()+1;
+  let dt = date.getDate();
+
+  if (dt < 10) {
+      dt = '0' + dt;
+  }
+  if (month < 10) {
+      month = '0' + month;
+  }
+
+  const newDate1 = dt +'-' + month + '-' + year;
+  const newDate2 = year +'-' + month + '-' + dt;
+  return [newDate1, newDate2];
+}
 
 
 const NewItineraryScreen = ({navigation}) => {
@@ -16,7 +37,7 @@ const NewItineraryScreen = ({navigation}) => {
   const {authState} = useContext(AuthContext);
   const newItineraryContext = useContext(NewItineraryContext);
 
-  const {createItinerary, getGroups} = useContext(ApiContext);
+  const {createItinerary, getUserGroups} = useContext(ApiContext);
 
 
   const {nameState} = useContext(NewItineraryContext);
@@ -27,15 +48,17 @@ const NewItineraryScreen = ({navigation}) => {
   const {studentsState} = useContext(NewItineraryContext);
 
 
-  const [groups, setgroups] = useState();
-  const [visible, setvisible] = useState(false);
+  const [groups, setgroups] = useState([]);
+  const [visibleDate, setvisibledate] = useState(false);
+  const [visibleGroup, setvisibleGroup] = useState(false);
 
 
   const loadGroups = async () => {
     try {
-      const groups = await getGroups();
+      const groups = await getUserGroups(authState.user.id_user);
       setgroups(groups);
-      setvisible(true)
+      console.log('grupos', groups);
+      //setvisible(true)
     } catch (err) {
       console.log(err.response);
     }
@@ -59,28 +82,9 @@ const NewItineraryScreen = ({navigation}) => {
     console.log(departmentState);
   };
   const changeEndDate = (date) => {
-    newItineraryContext.setEndDateState(getDate(date)[1])
+    newItineraryContext.setEndDateState(timeToString(date)[1])
     console.log('endate', endDateState);
   };
-
-  const getDate = (dateWithTime) => {
-    // date = response.data.itinerary.endDate;
-    let date = new Date(dateWithTime)
-    let year = date.getFullYear();
-    let month = date.getMonth()+1;
-    let dt = date.getDate();
-
-    if (dt < 10) {
-        dt = '0' + dt;
-    }
-    if (month < 10) {
-        month = '0' + month;
-    }
-
-    const newDate1 = dt +'-' + month + '-' + year;
-    const newDate2 = year +'-' + month + '-' + dt;
-    return [newDate1, newDate2];
-}
 
   const selectBooks = () => {
       navigation.navigate('Seleccionar libros');
@@ -131,27 +135,46 @@ const NewItineraryScreen = ({navigation}) => {
           value={departmentState}
           onChangeText={department => changeDepartment(department)}
         />
-        {visible ? 
+
+        <View style={styles.selectInput}>
+          <TextInput
+            style={styles.input}
+            label="Grupo"
+            disabled
+            value={groupState}
+          />
+          <Ionicons style={styles.selectIcon} name="caret-down" size={50} onPress={() => setvisibleGroup(!visibleGroup)}/>
+        </View>
+        
+        {visibleGroup ?
           <Picker
             selectedValue={groupState}
             onValueChange={itemValue => newItineraryContext.setGroupsState(itemValue)}>
-            {groups.map(group => {
-              <Picker.Item label={group.name} value={group.id_group} />
-            })}
-            
-          
+            {groups !== undefined ?
+              groups.forEach(group => {
+                <Picker.Item label={group.name} value={group.id_group} />
+              })
+              :
+              null
+            }
           </Picker>
           :
-          <Picker></Picker>
+          <></>
         }
-        <TextInput
-          style={styles.input}
-          label="Fecha final"
-          disabled
-          value={getDate(endDateState)[0]}
-        />
+
+        <View style={styles.selectInput}>
+          <TextInput
+            style={styles.input}
+            label="Fecha final"
+            disabled
+            value={timeToString(endDateState)[0]}
+          />
+          <Ionicons style={styles.selectIcon} name="caret-down" size={50} onPress={() => setvisibledate(!visibleDate)}/>
+        </View>
+      
         
-        <CalendarPicker
+        {visibleDate ? 
+          <CalendarPicker
             selectedDayColor="#66ff33"
             previousTitle="Anterior"
             nextTitle="Siguiente"
@@ -159,7 +182,10 @@ const NewItineraryScreen = ({navigation}) => {
             weekdays={['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab']}
             months={['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']}
             onDateChange={changeEndDate}
-        />
+          />
+          :
+          <></>
+        }
 
         <TextInput
           style={styles.input}
@@ -205,6 +231,7 @@ const styles = StyleSheet.create({
       marginHorizontal: 10,
     },
     input: {
+      borderRadius: 10,
       borderWidth: 1,
       marginVertical: 10,
       marginHorizontal: 10,
@@ -219,6 +246,15 @@ const styles = StyleSheet.create({
     },
     button: {
       marginTop: 10,
-      marginBottom: 10
+      marginBottom: 10,
+      textAlignVertical: 'center'
+    },
+    selectInput: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-evenly'
+    },
+    selectIcon: {
+      marginTop: 15
     }
   });

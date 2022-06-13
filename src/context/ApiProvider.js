@@ -19,11 +19,10 @@ const ApiProvider = ({children}) => {
     baseURL: BASE_URL,
   });
 
-  const getGroups = async () => {
-    const response = await authRequest.get('/app/groups');
+  const getUserGroups = async (id) => {
+    const response = await authRequest.get(`/app/groups/${id}`);
     return response.data;
   }
-
 
 
   const getItineraries = async () => {
@@ -162,7 +161,7 @@ const ApiProvider = ({children}) => {
   return (
     <ApiContext.Provider
       value={{
-        getGroups,
+        getUserGroups,
         getItineraries,
         getItineraryById,
         createItinerary,
