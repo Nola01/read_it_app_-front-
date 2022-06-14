@@ -34,7 +34,7 @@ const ItinerariesScreen = ({navigation}) => {
                 itineraries.map(itinerary => {
                     if (itinerary.students) {
                         itinerary.students.map(student => {
-                            console.log(student.id_user === authState.user.id_user);
+                            // console.log(student.id_user === authState.user.id_user);
                             if (student.id_user === authState.user.id_user) {
                                 studentItineraries.push(itinerary)
                             }
@@ -43,18 +43,7 @@ const ItinerariesScreen = ({navigation}) => {
                             // console.log('itineraries', itineraries);
                         })
                     }
-                    // console.log(itinerary);
-                    // if (itinerary.students && itinerary.students.forEach(student => {
-                    //     student.id_user === authState.user.id_user
-                    // })) {
-                    //     studentItineraries.push(itinerary)
-                    //     console.log(studentItineraries.length);
-                    // }
-                    
                 })
-                // console.log('student', studentItineraries[0].name);
-                // setitineraries(studentItineraries)
-                
             }
           
         } catch (err) {
