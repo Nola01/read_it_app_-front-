@@ -12,9 +12,9 @@ const SelectStudents = ({navigation}) => {
     const {getUsers} = useContext(ApiContext);
 
     const newItineraryContext = useContext(NewItineraryContext);
-    const {studentsState} = useContext(NewItineraryContext);
+    const {students} = useContext(NewItineraryContext);
 
-    const [students, setStudents] = useState([]);
+    const [studentsList, setStudentsList] = useState([]);
     const [selectedStudents, setSelectedStudents] = useState([])
     const [refreshing, setrefreshing] = useState(false);
 
@@ -23,8 +23,8 @@ const SelectStudents = ({navigation}) => {
         setrefreshing(true);
         try {
             const users = await getUsers();
-            const students = users.filter(user => user.role === 'alumno')
-            setStudents(students);
+            const studentsList = users.filter(user => user.role === 'alumno')
+            setStudentsList(studentsList);
         } catch (err) {
             console.log(err.response);
         }
@@ -35,12 +35,14 @@ const SelectStudents = ({navigation}) => {
         loadStudents();
     }, []);
 
-    const checkedStudent = (item) => {
+    const checkedStudent = async (item) => {
         if (!selectedStudents.includes(item.id_user)) {
             selectedStudents.push(item.id_user)
             console.log('push', selectedStudents);
         } else {
-            const newStudents = selectedStudents.filter((id) => id !== item.id_user);
+            let promises = []
+            promises = selectedStudents.filter((id) => id !== item.id_user);
+            const newStudents = await Promise.all(promises)
             console.log('new list', newStudents);
             setSelectedStudents(newStudents)
         }
@@ -49,8 +51,8 @@ const SelectStudents = ({navigation}) => {
     }
 
     const confirmStudents = () => {
-        newItineraryContext.setStudentsState(selectedStudents)
-        console.log('context students', studentsState);
+        newItineraryContext.setStudents(selectedStudents)
+        console.log('context students', students);
         navigation.navigate('Nuevo itinerario')
     }
 
@@ -86,7 +88,7 @@ const SelectStudents = ({navigation}) => {
               <Text>Lista de libros</Text>
             </View>
             <FlatList
-                data={students}
+                data={studentsList}
                 renderItem={renderItem}
                 keyExtractor={item => item.isbn}
                 onRefresh={loadStudents}

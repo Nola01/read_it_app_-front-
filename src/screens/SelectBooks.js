@@ -12,9 +12,9 @@ const SelectBooks = ({navigation}) => {
     const {getBooks} = useContext(ApiContext);
 
     const newItineraryContext = useContext(NewItineraryContext);
-    const {booksState} = useContext(NewItineraryContext);
+    const {books} = useContext(NewItineraryContext);
 
-    const [books, setbooks] = useState([]);
+    const [booksList, setbookslist] = useState([]);
     const [selectedBooks, setselectedbooks] = useState([])
     const [refreshing, setrefreshing] = useState(false);
 
@@ -22,8 +22,8 @@ const SelectBooks = ({navigation}) => {
     const loadBooks = async () => {
         setrefreshing(true);
         try {
-          const books = await getBooks();
-          setbooks(books);
+          const booksList = await getBooks();
+          setbookslist(booksList);
         } catch (err) {
           console.log(err.response);
         }
@@ -34,12 +34,14 @@ const SelectBooks = ({navigation}) => {
         loadBooks();
     }, []);
 
-    const checkedBook = (item) => {
+    const checkedBook = async (item) => {
         if (!selectedBooks.includes(item.isbn)) {
             selectedBooks.push(item.isbn)
             console.log('push', selectedBooks);
         } else {
-            const newBooks = selectedBooks.filter((isbn) => isbn !== item.isbn);
+            let promises = []
+            promises = selectedBooks.filter((isbn) => isbn !== item.isbn);
+            const newBooks = await Promise.all(promises)
             console.log('new list', newBooks);
             setselectedbooks(newBooks)
             // selectedBooks.filter(book => {
@@ -49,25 +51,12 @@ const SelectBooks = ({navigation}) => {
             // })
         }
 
-        // setischecked(!isChecked)
-        // if (isChecked) {
-        //     selectedBooks.push(item.isbn)
-        // } else if (!isChecked) {
-        //     const newBooks = selectedBooks.filter((isbn) => isbn !== item.isbn);
-        //     console.log('new list', newBooks);
-        //     setselectedbooks(newBooks)
-        //     // selectedBooks.filter(book => {
-        //     //     if (book.title === item.title) {
-                    
-        //     //     }
-        //     // })
-        // }
         console.log(selectedBooks);
     }
 
     const confirmBooks = () => {
-        newItineraryContext.setBooksState(selectedBooks)
-        console.log('context books', booksState);
+        newItineraryContext.setBooks(selectedBooks)
+        console.log('context books', books);
         navigation.navigate('Nuevo itinerario')
     }
 
@@ -104,7 +93,7 @@ const SelectBooks = ({navigation}) => {
               <Text>Lista de libros</Text>
             </View>
             <FlatList
-                data={books}
+                data={booksList}
                 renderItem={renderItem}
                 keyExtractor={item => item.isbn}
                 onRefresh={loadBooks}

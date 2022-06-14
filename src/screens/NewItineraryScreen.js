@@ -40,15 +40,15 @@ const NewItineraryScreen = ({navigation}) => {
   const {createItinerary, getUserGroups} = useContext(ApiContext);
 
 
-  const {nameState} = useContext(NewItineraryContext);
-  const {departmentState} = useContext(NewItineraryContext);
-  const {groupState} = useContext(NewItineraryContext);
-  const {endDateState} = useContext(NewItineraryContext);
-  const {booksState} = useContext(NewItineraryContext);
-  const {studentsState} = useContext(NewItineraryContext);
+  const {name} = useContext(NewItineraryContext);
+  const {department} = useContext(NewItineraryContext);
+  const {group} = useContext(NewItineraryContext);
+  const {endDate} = useContext(NewItineraryContext);
+  const {books} = useContext(NewItineraryContext);
+  const {students} = useContext(NewItineraryContext);
 
 
-  const [groups, setgroups] = useState([]);
+  const [groupsList, setgroupsList] = useState([]);
   const [visibleDate, setvisibledate] = useState(false);
   const [visibleGroup, setvisibleGroup] = useState(false);
 
@@ -56,7 +56,7 @@ const NewItineraryScreen = ({navigation}) => {
   const loadGroups = async () => {
     try {
       const groups = await getUserGroups(authState.user.id_user);
-      setgroups(groups);
+      setgroupsList(groups);
       console.log('grupos', groups);
       //setvisible(true)
     } catch (err) {
@@ -70,20 +70,20 @@ const NewItineraryScreen = ({navigation}) => {
 
 
   const changeName = itineraryName => {
-    newItineraryContext.setNameState(itineraryName)
-    console.log(nameState);
+    newItineraryContext.setName(itineraryName)
+    console.log(name);
   };
   const changeDepartment = department => {
-    newItineraryContext.setDepartmentState(department)
-    console.log(departmentState);
+    newItineraryContext.setDepartment(department)
+    console.log(department);
   };
-  const changeGroup = department => {
-    newItineraryContext.setGroupState(department)
-    console.log(departmentState);
+  const changeGroup = group => {
+    newItineraryContext.setGroup(group)
+    console.log(group);
   };
   const changeEndDate = (date) => {
-    newItineraryContext.setEndDateState(timeToString(date)[1])
-    console.log('endate', endDateState);
+    newItineraryContext.setEndDate(timeToString(date)[1])
+    console.log('endate', endDate);
   };
 
   const selectBooks = () => {
@@ -97,24 +97,28 @@ const NewItineraryScreen = ({navigation}) => {
 
   const handleAdd = async () => {
     let newItinerary = {
-      name: nameState,
-      department: departmentState,
+      name,
+      department,
       id_teacher: authState.user.id_user,
       id_group: 1,
-      endDate: endDateState,
-      books: booksState,
-      students: studentsState
+      endDate,
+      books,
+      students
     };
 
     console.log('new', newItinerary);
 
+    
+
     const response = await createItinerary(newItinerary);
-    if (response.ok === false) {
-      console.log(response.msg);
-    } else {
-      console.log(response.msg);
-      
-    }
+    console.log(response.msg);
+
+    newItineraryContext.setName('')
+    newItineraryContext.setDepartment('')
+    newItineraryContext.setGroup('')
+    newItineraryContext.setEndDate('')
+    newItineraryContext.setBooks([])
+    newItineraryContext.setStudents([])
 
     navigation.navigate('Itinerarios');
     
@@ -126,13 +130,13 @@ const NewItineraryScreen = ({navigation}) => {
         <TextInput
           style={styles.input}
           label="Nombre"
-          value={nameState}
+          value={name}
           onChangeText={name => changeName(name)}
         />
         <TextInput
           style={styles.input}
           label="Departamento"
-          value={departmentState}
+          value={department}
           onChangeText={department => changeDepartment(department)}
         />
 
@@ -141,17 +145,17 @@ const NewItineraryScreen = ({navigation}) => {
             style={styles.input}
             label="Grupo"
             disabled
-            value={groupState}
+            value={group}
           />
           <Ionicons style={styles.selectIcon} name="caret-down" size={50} onPress={() => setvisibleGroup(!visibleGroup)}/>
         </View>
         
         {visibleGroup ?
           <Picker
-            selectedValue={groupState}
-            onValueChange={itemValue => newItineraryContext.setGroupsState(itemValue)}>
-            {groups !== undefined ?
-              groups.map(group => {
+            selectedValue={group}
+            onValueChange={itemValue => newItineraryContext.setGroup(itemValue)}>
+            {groupsList !== undefined ?
+              groupsList.map(group => {
                 <Picker.Item label={group.name} value={group.id_group} />
               })
               :
@@ -167,7 +171,7 @@ const NewItineraryScreen = ({navigation}) => {
             style={styles.input}
             label="Fecha final"
             disabled
-            value={timeToString(endDateState)[0]}
+            value={timeToString(endDate)[0]}
           />
           <Ionicons style={styles.selectIcon} name="caret-down" size={50} onPress={() => setvisibledate(!visibleDate)}/>
         </View>
@@ -197,7 +201,7 @@ const NewItineraryScreen = ({navigation}) => {
           style={styles.input}
           label="Libros"
           disabled
-          value={booksState.length.toString()}
+          value={books.length.toString()}
         />
         <Button style={styles.button} mode="contained" onPress={() => selectBooks()}>
             Seleccionar libros
@@ -207,7 +211,7 @@ const NewItineraryScreen = ({navigation}) => {
           style={styles.input}
           label="Alumnos"
           disabled
-          value={studentsState.length.toString()}
+          value={students.length.toString()}
         />
         <Button style={styles.button} mode="contained" onPress={() => selectStudents()}>
             Seleccionar alumnos

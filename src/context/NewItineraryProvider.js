@@ -4,28 +4,28 @@ import React, {createContext, useState} from 'react';
 const NewItineraryContext = createContext();
 
 const NewItineraryProvider = ({children}) => {
-  const [nameState, setNameState] = useState('');
-  const [departmentState, setDepartmentState] = useState('');
-  const [groupState, setGroupState] = useState('');
-  const [endDateState, setEndDateState] = useState();
-  const [booksState, setBooksState] = useState([]);
-  const [studentsState, setStudentsState] = useState([]);
+  const [name, setName] = useState('');
+  const [department, setDepartment] = useState('');
+  const [group, setGroup] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [books, setBooks] = useState([]);
+  const [students, setStudents] = useState([]);
 
   return (
     <NewItineraryContext.Provider
       value={{
-        nameState,
-        setNameState,
-        departmentState,
-        setDepartmentState,
-        groupState,
-        setGroupState,
-        endDateState,
-        setEndDateState,
-        booksState,
-        setBooksState,
-        studentsState,
-        setStudentsState
+        name,
+        setName,
+        department,
+        setDepartment,
+        group,
+        setGroup,
+        endDate,
+        setEndDate,
+        books,
+        setBooks,
+        students,
+        setStudents
       }}>
       {children}
     </NewItineraryContext.Provider>

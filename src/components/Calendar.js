@@ -77,7 +77,7 @@ const Calendar = ({navigation}) => {
     const loadItems = async (day) => {
         try {
             if (loading) {
-                ToastAndroid.show('Cargando itinerarios', ToastAndroid.SHORT)
+                ToastAndroid.show('Cargando itinerarios', ToastAndroid.LONG)
             }
             const items = items || {};
             let allItineraries = await getItineraries();
