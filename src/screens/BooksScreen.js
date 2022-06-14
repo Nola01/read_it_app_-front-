@@ -68,7 +68,11 @@ const BooksScreen = ({ navigation }) => {
               onRefresh={loadBooks}
               refreshing={refreshing}
           />
-          <FAB style={styles.fab} small icon="plus" onPress={() => goToAdd()} />
+          {authState.user.role === 'profesor' ?
+            <FAB style={styles.fab} small icon="plus" onPress={() => goToAdd()} />
+            :
+            <></>
+          }
       </SafeAreaView>
   );
 }
