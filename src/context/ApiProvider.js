@@ -56,6 +56,12 @@ const ApiProvider = ({children}) => {
     return response.data;
   };
 
+  const getBooksByUser = async (id) => {
+    const response = await authRequest.get(`/app/users/books/${id}`);
+    //console.log(response.data);
+    return response.data;
+  };
+
   const createBook = async (book) => {
     let config = {
       headers: {
@@ -166,6 +172,7 @@ const ApiProvider = ({children}) => {
         getItineraryById,
         createItinerary,
         getBooks,
+        getBooksByUser,
         createBook,
         deleteBook,
         getUsers,

@@ -3,9 +3,11 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import { View, StyleSheet, FlatList, Pressable } from 'react-native';
 import { Text, Card, FAB, Title, Paragraph } from 'react-native-paper';
 import { ApiContext } from '../context/ApiProvider';
+import { AuthContext } from '../context/AuthProvider';
 
 const BooksScreen = ({ navigation }) => {
-  const {getBooks} = useContext(ApiContext);
+  const {getBooks, getBooksByUser} = useContext(ApiContext);
+  const {authState} = useContext(AuthContext);
 
   const [books, setbooks] = useState([]);
   const [refreshing, setrefreshing] = useState(false);
@@ -14,8 +16,13 @@ const BooksScreen = ({ navigation }) => {
       setrefreshing(true);
       try {
         const books = await getBooks();
-        // console.log(itineraries[0].name);
-        setbooks(books);
+        if (authState.user.role === 'alumno') {
+          console.log('prueba');
+          const studentBooks = await getBooksByUser(authState.user.id_user);
+          setbooks(studentBooks)
+        } else {
+          setbooks(books);
+        }
       } catch (err) {
         console.log(err.response);
       }
