@@ -1,13 +1,15 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import { View, StyleSheet, FlatList, Pressable } from 'react-native';
+import { View, StyleSheet, FlatList, Pressable, ToastAndroid } from 'react-native';
 import { Text, Card, FAB, Title, Paragraph } from 'react-native-paper';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import { ApiContext } from '../context/ApiProvider';
 import { AuthContext } from '../context/AuthProvider';
 
 
 const ItinerariesScreen = ({navigation}) => {
-    const {getItineraries} = useContext(ApiContext);
+    const {getItineraries, deleteItinerary} = useContext(ApiContext);
     const {authState} = useContext(AuthContext);
 
     const [itineraries, setitineraries] = useState([]);
@@ -66,6 +68,24 @@ const ItinerariesScreen = ({navigation}) => {
         navigation.jumpTo('Nuevo itinerario');
     }
 
+    const goEdit = (item) => {
+        console.log(item);
+        // navigation.jumpTo('Nuevo itinerario');
+    }
+
+    const handleDelete = async (item) => {
+        console.log(item);
+        const response = await deleteItinerary(item.itinerary.id_itinerary);
+        console.log(response);
+        if (response.ok === true) {
+            ToastAndroid.show(response.msg, ToastAndroid.LONG)
+            loadItineraries();
+        } else {
+            ToastAndroid.show(response.msg, ToastAndroid.LONG)
+        }
+        
+    }
+
     
 
     const renderItem = ({item}) => {
@@ -81,6 +101,10 @@ const ItinerariesScreen = ({navigation}) => {
                             <Paragraph>Libros: 0</Paragraph>
                         }
                     </Card.Content>
+                    <Card.Actions style={styles.actions}>
+                        <Ionicons style={styles.icon} name="pencil" size={30} color={'#551E18'} onPress={() => goEdit(item)}/>
+                        <Ionicons style={styles.icon} name="trash-bin-sharp" size={30} color={'#551E18'} onPress={() => handleDelete(item)}/>
+                    </Card.Actions>
                 </Card>
             </Pressable>
         );
@@ -126,4 +150,11 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
+  actions: {
+    margin: 10
+  },
+  icon: {
+    fontSize: 30,
+    marginRight: 40
+  }
 });

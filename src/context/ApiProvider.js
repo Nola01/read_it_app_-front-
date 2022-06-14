@@ -48,6 +48,17 @@ const ApiProvider = ({children}) => {
     return response.data;
   }
 
+  const deleteItinerary = async (id) => {
+    let config = {
+      headers: {
+        'x-token': authState.accessToken,
+      }
+    }
+    console.log(id);
+    const response = await authRequest.delete(`/app/itineraries/${id}`, config);
+    return response.data;
+  }
+
 
 
   const getBooks = async () => {
@@ -171,6 +182,7 @@ const ApiProvider = ({children}) => {
         getItineraries,
         getItineraryById,
         createItinerary,
+        deleteItinerary,
         getBooks,
         getBooksByUser,
         createBook,
