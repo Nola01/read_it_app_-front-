@@ -1,5 +1,5 @@
 import React, {useContext, useState, useEffect} from 'react';
-import {Alert, Image, Pressable, StyleSheet, ScrollView, Text, View} from 'react-native';
+import {Alert, Image, Pressable, StyleSheet, ScrollView, Text, View, ToastAndroid} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Card, Dialog, TextInput, Button, Snackbar} from 'react-native-paper';
 import CalendarPicker from 'react-native-calendar-picker';
@@ -111,7 +111,8 @@ const NewItineraryScreen = ({navigation}) => {
     
 
     const response = await createItinerary(newItinerary);
-    console.log(response.msg);
+    
+    ToastAndroid.show(response.msg, ToastAndroid.LONG)
 
     newItineraryContext.setName('')
     newItineraryContext.setDepartment('')
