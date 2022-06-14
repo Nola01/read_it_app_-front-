@@ -151,7 +151,7 @@ const NewItineraryScreen = ({navigation}) => {
             selectedValue={groupState}
             onValueChange={itemValue => newItineraryContext.setGroupsState(itemValue)}>
             {groups !== undefined ?
-              groups.forEach(group => {
+              groups.map(group => {
                 <Picker.Item label={group.name} value={group.id_group} />
               })
               :

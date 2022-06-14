@@ -32,15 +32,28 @@ const ItinerariesScreen = ({navigation}) => {
             } else {
                 const studentItineraries = []
                 itineraries.map(itinerary => {
-                    console.log(itinerary);
-                    if (itinerary.students && itinerary.students.includes(authState.user)) {
-                        studentItineraries.push(itinerary)
-                        console.log(studentItineraries.length);
+                    if (itinerary.students) {
+                        itinerary.students.map(student => {
+                            console.log(student.id_user === authState.user.id_user);
+                            if (student.id_user === authState.user.id_user) {
+                                studentItineraries.push(itinerary)
+                            }
+                            // console.log('a', studentItineraries);
+                            setitineraries(studentItineraries)
+                            // console.log('itineraries', itineraries);
+                        })
                     }
+                    // console.log(itinerary);
+                    // if (itinerary.students && itinerary.students.forEach(student => {
+                    //     student.id_user === authState.user.id_user
+                    // })) {
+                    //     studentItineraries.push(itinerary)
+                    //     console.log(studentItineraries.length);
+                    // }
                     
                 })
-                console.log('student', studentItineraries);
-                setitineraries(studentItineraries)
+                // console.log('student', studentItineraries[0].name);
+                // setitineraries(studentItineraries)
                 
             }
           
