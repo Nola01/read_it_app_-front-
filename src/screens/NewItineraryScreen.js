@@ -288,7 +288,7 @@ const NewItineraryScreen = ({route, navigation}) => {
           style={styles.input}
           label="Libros"
           disabled
-          value={books ? books.length.toString() : 0}
+          value={books ? books.length.toString() : '0'}
         />
         {booksError ? <Text style={styles.error}>Debe seleccionar al menos un libro</Text> : <></>}
 
@@ -301,7 +301,7 @@ const NewItineraryScreen = ({route, navigation}) => {
           style={styles.input}
           label="Alumnos"
           disabled
-          value={students ? students.length.toString() : 0}
+          value={students ? students.length.toString() : '0'}
         />
         {studentsError ? <Text style={styles.error}>Debe seleccionar al menos un alumno</Text> : <></>}
 

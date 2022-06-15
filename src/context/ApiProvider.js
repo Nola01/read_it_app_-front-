@@ -21,21 +21,32 @@ const ApiProvider = ({children}) => {
   });
 
   const getUserGroups = async (id) => {
-    const response = await authRequest.get(`/app/groups/${id}`);
-    return response.data;
+    try {
+      const response = await authRequest.get(`/app/groups/${id}`);
+      return response.data;
+    } catch (error) {
+      ToastAndroid.show('Error al obtener grupos', ToastAndroid.LONG)
+    }
   }
 
 
+
   const getItineraries = async () => {
-    const response = await authRequest.get('/app/itineraries');
-    //console.log(response.data);
-    return response.data;
+    try {
+      const response = await authRequest.get('/app/itineraries');
+      return response.data;
+    } catch (error) {
+      ToastAndroid.show('Error al obtener itinerarios', ToastAndroid.LONG)
+    }
   };
 
   const getItineraryById = async (id) => {
-    const response = await authRequest.get(`/itineraries/${id}`);
-    //console.log(response.data);
-    return response.data;
+    try {
+      const response = await authRequest.get(`/itineraries/${id}`);
+      return response.data;
+    } catch (error) {
+      ToastAndroid.show('Error al obtener itinerario', ToastAndroid.LONG)
+    }
   };
 
   const createItinerary = async (itinerary) => {
@@ -54,14 +65,18 @@ const ApiProvider = ({children}) => {
   }
 
   const deleteItinerary = async (id) => {
-    let config = {
-      headers: {
-        'x-token': authState.accessToken,
+    try {
+      let config = {
+        headers: {
+          'x-token': authState.accessToken,
+        }
       }
+      console.log(id);
+      const response = await authRequest.delete(`/app/itineraries/${id}`, config);
+      return response.data;
+    } catch (error) {
+      ToastAndroid.show('Error al eliminar itinerario', ToastAndroid.LONG)
     }
-    console.log(id);
-    const response = await authRequest.delete(`/app/itineraries/${id}`, config);
-    return response.data;
   }
 
   const updateItinerary = async (itinerary, id) => {
@@ -82,92 +97,118 @@ const ApiProvider = ({children}) => {
 
 
 
+
   const getBooks = async () => {
-    const response = await authRequest.get('/app/books');
-    //console.log(response.data);
-    return response.data;
+    try {
+      const response = await authRequest.get('/app/books');
+      return response.data;
+    } catch (error) {
+      ToastAndroid.show('Error al obtener libros', ToastAndroid.LONG)
+    }
   };
 
   const getBooksByUser = async (id) => {
-    const response = await authRequest.get(`/app/users/books/${id}`);
-    //console.log(response.data);
-    return response.data;
+    try {
+      const response = await authRequest.get(`/app/users/books/${id}`);
+      return response.data;
+    } catch (error) {
+      ToastAndroid.show('Error al obtener libros del usuario', ToastAndroid.LONG)
+    }
   };
 
   const createBook = async (book) => {
-    let config = {
-      headers: {
-        'x-token': authState.accessToken,
+    try {
+      let config = {
+        headers: {
+          'x-token': authState.accessToken,
+        }
       }
+      console.log(book);
+  
+      const response = await authRequest.post('/app/books/new', book, config);
+      return response.data;
+    } catch (error) {
+      ToastAndroid.show('Error al crear libro', ToastAndroid.LONG)
     }
-    console.log(book);
-
-    const response = await authRequest.post('/app/books/new', book, config);
-    return response.data;
   }
 
   const deleteBook = async (id) => {
-    let config = {
-      headers: {
-        'x-token': authState.accessToken,
+    try {
+      let config = {
+        headers: {
+          'x-token': authState.accessToken,
+        }
       }
+      console.log(authState.accessToken);
+      console.log(id);
+  
+      const response = await authRequest.delete(`/app/books/${id}`, config);
+      return response.data;
+    } catch (error) {
+      ToastAndroid.show('Error al eliminar libro', ToastAndroid.LONG)
     }
-    console.log(authState.accessToken);
-    console.log(id);
-
-    const response = await authRequest.delete(`/app/books/${id}`, config);
-    return response.data;
   }
 
 
 
   const getUsers = async () => {
-    const response = await authRequest.get('/app/users');
-    //console.log(response.data);
-    return response.data;
+    try {
+      const response = await authRequest.get('/app/users');
+      return response.data;
+    } catch (error) {
+      ToastAndroid.show('Error al obtener usuarios', ToastAndroid.LONG)
+    }
   };
 
 
   
 
   const login = async (email, password) => {
-    const response = await publicRequest.post('/app/auth/login', {
-      email,
-      password,
-    });
-    const accessToken = response.data.token;
-    const user = response.data.user;
-    await AsyncStorage.setItem('token', accessToken);
-    await AsyncStorage.setItem('user', JSON.stringify(user));
-    authContext.setAuthState({
-      user,
-      accessToken,
-      authenticated: true,
-    });
+    try {
+      const response = await publicRequest.post('/app/auth/login', {
+        email,
+        password,
+      });
+      const accessToken = response.data.token;
+      const user = response.data.user;
+      await AsyncStorage.setItem('token', accessToken);
+      await AsyncStorage.setItem('user', JSON.stringify(user));
+      authContext.setAuthState({
+        user,
+        accessToken,
+        authenticated: true,
+      });
+    } catch (error) {
+      ToastAndroid.show('Error al iniciar sesión', ToastAndroid.LONG)
+    }
   };
 
   const register = async (name, email, password, pin, role) => {
-    const response = await publicRequest.post('/app/auth/register', {
-      name,
-      email,
-      password,
-      pin,
-      role
-    });
-    // login(email, password);
-    if (response.data.ok === false) {
-      throw new Error (response.data.msg)
+    try {
+      const response = await publicRequest.post('/app/auth/register', {
+        name,
+        email,
+        password,
+        pin,
+        role
+      });
+      // login(email, password);
+      if (response.data.ok === false) {
+        throw new Error (response.data.msg)
+      }
+  
+      const accessToken = response.data.token;
+      const user = response.data.user;
+      await AsyncStorage.setItem('token', accessToken);
+      await AsyncStorage.setItem('user', JSON.stringify(user));
+      authContext.setAuthState({
+        user,
+        accessToken,
+        authenticated: true,
+      });
+    } catch (error) {
+      ToastAndroid.show('Error al registrar', ToastAndroid.LONG)
     }
-
-    const accessToken = response.data.token;
-    const user = response.data.user;
-    await AsyncStorage.setItem('token', accessToken);
-    await AsyncStorage.setItem('user', JSON.stringify(user));
-    authContext.setAuthState({
-      user,
-      accessToken,
-      authenticated: true,
-    });
   };
 
   authRequest.interceptors.request.use(
