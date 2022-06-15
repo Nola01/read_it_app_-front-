@@ -2,11 +2,14 @@ import React, {useContext, useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import { View, StyleSheet, FlatList, Pressable } from 'react-native';
 import { Text, Card, FAB, Title, Paragraph } from 'react-native-paper';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import { ApiContext } from '../context/ApiProvider';
 import { AuthContext } from '../context/AuthProvider';
+import { ToastAndroid } from 'react-native';
 
 const BooksScreen = ({ navigation }) => {
-  const {getBooks, getBooksByUser} = useContext(ApiContext);
+  const {getBooks, getBooksByUser, deleteBook} = useContext(ApiContext);
   const {authState} = useContext(AuthContext);
 
   const [books, setbooks] = useState([]);
@@ -42,6 +45,27 @@ const BooksScreen = ({ navigation }) => {
       navigation.jumpTo('Nuevo libro');
   }
 
+  const goEdit = (item) => {
+    console.log(item);
+    navigation.navigate('Nuevo itinerario', item);
+  }
+
+  const handleDelete = async (item) => {
+    try {
+      const response = await deleteBook(item.isbn);
+      console.log(response);
+      if (response.ok === true) {
+          ToastAndroid.show(response.msg, ToastAndroid.LONG)
+          loadBooks();
+      } else {
+          ToastAndroid.show(response.msg, ToastAndroid.LONG)
+      }
+    } catch (error) {
+      ToastAndroid.show('Error al eliminar libro', ToastAndroid.LONG)
+    }
+      
+  }
+
   const renderItem = ({item}) => {
       return (
         <Pressable onPress={() => goToDetails(item)}>
@@ -52,6 +76,10 @@ const BooksScreen = ({ navigation }) => {
                     <Title></Title>
                     {/* <Paragraph>Itinerarios: {item.itinerary.length}</Paragraph> */}
                 </Card.Content>
+                <Card.Actions style={styles.actions}>
+                    <Ionicons style={styles.icon} name="pencil" size={30} color={'#551E18'} onPress={() => goEdit(item)}/>
+                    <Ionicons style={styles.icon} name="trash" size={30} color={'#551E18'} onPress={() => handleDelete(item)}/>
+                </Card.Actions>
             </Card>
         </Pressable>
       );
@@ -97,4 +125,11 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
+  actions: {
+    margin: 10
+  },
+  icon: {
+    fontSize: 30,
+    marginRight: 40
+  }
 });
