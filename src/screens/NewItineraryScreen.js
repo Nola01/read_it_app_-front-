@@ -1,7 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {Alert, Image, Pressable, StyleSheet, ScrollView, Text, View, ToastAndroid} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Card, Dialog, TextInput, Button, Snackbar} from 'react-native-paper';
+import {Card, Dialog, Divider, TextInput, Button, Snackbar} from 'react-native-paper';
 import CalendarPicker from 'react-native-calendar-picker';
 import {Picker} from '@react-native-picker/picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -32,12 +32,13 @@ const timeToString = (dateWithTime) => {
 }
 
 
-const NewItineraryScreen = ({navigation}) => {
+const NewItineraryScreen = ({route, navigation}) => {
+
   const authContext = useContext(AuthContext);
   const {authState} = useContext(AuthContext);
   const newItineraryContext = useContext(NewItineraryContext);
 
-  const {createItinerary, getUserGroups} = useContext(ApiContext);
+  const {createItinerary, getUserGroups, updateItinerary} = useContext(ApiContext);
 
 
   const {name} = useContext(NewItineraryContext);
@@ -47,14 +48,49 @@ const NewItineraryScreen = ({navigation}) => {
   const {books} = useContext(NewItineraryContext);
   const {students} = useContext(NewItineraryContext);
 
+  const [item, setitem] = useState({});
 
   const [groupsList, setgroupsList] = useState([]);
   const [visibleDate, setvisibledate] = useState(false);
   const [visibleGroup, setvisibleGroup] = useState(false);
+  const [isEdit, setisedit] = useState(false); 
+
+  const BackButtonListener = () => {
+    // const [pressed, serpressed] = useState(false)
+    useEffect(() => {
+      window.onpopstate = () => {
+        console.log('atrás');
+        setitem({})
+      }
+    })
+  }
 
 
   const loadGroups = async () => {
     try {
+
+      const item = route.params;
+      console.log('item', item);
+      if (item) {
+        console.log('editar');
+        newItineraryContext.setName(item.itinerary.name)
+        newItineraryContext.setDepartment(item.itinerary.department)
+        newItineraryContext.setGroup(item.itinerary.id_group)
+        newItineraryContext.setEndDate(item.itinerary.endDate)
+        newItineraryContext.setBooks(item.books)
+        newItineraryContext.setStudents(item.students)
+
+        setitem(item)
+        setisedit(true)
+      } else {
+        console.log('crear');
+        newItineraryContext.setName('')
+        newItineraryContext.setDepartment('')
+        newItineraryContext.setGroup('')
+        newItineraryContext.setEndDate('')
+        newItineraryContext.setBooks([])
+        newItineraryContext.setStudents([])
+      }
       const groups = await getUserGroups(authState.user.id_user);
       setgroupsList(groups);
       console.log('grupos', groups);
@@ -86,12 +122,16 @@ const NewItineraryScreen = ({navigation}) => {
     console.log('endate', endDate);
   };
 
-  const selectBooks = () => {
-      navigation.navigate('Seleccionar libros');
+  const selectBooks = (books) => {
+      const isbnList = []
+      if (books != undefined) {
+        books.map(book => isbnList.push(book.isbn))
+      }
+      navigation.navigate('Seleccionar libros', isbnList);
   }
 
-  const selectStudents = () => {
-    navigation.navigate('Seleccionar alumnos')
+  const selectStudents = (students) => {
+    navigation.navigate('Seleccionar alumnos', students)
   }
 
 
@@ -108,9 +148,13 @@ const NewItineraryScreen = ({navigation}) => {
 
     console.log('new', newItinerary);
 
-    
+    let response;
 
-    const response = await createItinerary(newItinerary);
+    if (isEdit) {
+      response = await updateItinerary(newItinerary, item.itinerary.id_itinerary)
+    } else {
+      response = await createItinerary(newItinerary);
+    }
     
     ToastAndroid.show(response.msg, ToastAndroid.LONG)
 
@@ -121,6 +165,8 @@ const NewItineraryScreen = ({navigation}) => {
     newItineraryContext.setBooks([])
     newItineraryContext.setStudents([])
 
+    setitem({})
+
     navigation.navigate('Itinerarios');
     
   }
@@ -129,12 +175,14 @@ const NewItineraryScreen = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <TextInput
+          mode='outlined'
           style={styles.input}
           label="Nombre"
           value={name}
           onChangeText={name => changeName(name)}
         />
         <TextInput
+          mode='outlined'
           style={styles.input}
           label="Departamento"
           value={department}
@@ -143,6 +191,7 @@ const NewItineraryScreen = ({navigation}) => {
 
         <View style={styles.selectInput}>
           <TextInput
+            mode='outlined'
             style={styles.input}
             label="Grupo"
             disabled
@@ -169,12 +218,18 @@ const NewItineraryScreen = ({navigation}) => {
 
         <View style={styles.selectInput}>
           <TextInput
+            mode='outlined'
             style={styles.input}
             label="Fecha final"
             disabled
             value={timeToString(endDate)[0]}
           />
-          <Ionicons style={styles.selectIcon} name="caret-down" size={50} onPress={() => setvisibledate(!visibleDate)}/>
+          {visibleDate ?
+            <Ionicons style={styles.selectIcon} name="caret-up-circle-outline" size={50} onPress={() => setvisibledate(!visibleDate)}/>
+            :
+            <Ionicons style={styles.selectIcon} name="caret-down-circle-outline" size={50} onPress={() => setvisibledate(!visibleDate)}/>
+          }
+          
         </View>
       
         
@@ -193,32 +248,37 @@ const NewItineraryScreen = ({navigation}) => {
         }
 
         <TextInput
+          mode='outlined'
           style={styles.input}
           label="Profesor"
           disabled
           value={authState.user.name}
         />
         <TextInput
+          mode='outlined'
           style={styles.input}
           label="Libros"
           disabled
-          value={books.length.toString()}
+          value={books ? books.length.toString() : 0}
         />
-        <Button style={styles.button} mode="contained" onPress={() => selectBooks()}>
+        <Button style={styles.button} mode="contained" onPress={() => selectBooks(item.books)}>
             Seleccionar libros
         </Button>
         
         <TextInput
+          mode='outlined'
           style={styles.input}
           label="Alumnos"
           disabled
-          value={students.length.toString()}
+          value={students ? students.length.toString() : 0}
         />
-        <Button style={styles.button} mode="contained" onPress={() => selectStudents()}>
+        <Button style={styles.button} mode="contained" onPress={() => selectStudents(item.students)}>
             Seleccionar alumnos
         </Button>
 
-        <Button mode="contained" onPress={() => handleAdd()}>
+        <Divider style={styles.divider}/>
+
+        <Button style={styles.button} mode="contained" onPress={() => handleAdd()}>
           Guardar
         </Button>
       </ScrollView>
@@ -236,20 +296,14 @@ const styles = StyleSheet.create({
       marginHorizontal: 10,
     },
     input: {
-      borderRadius: 10,
-      borderWidth: 1,
-      marginVertical: 10,
-      marginHorizontal: 10,
-    },
-    textArea: {
-      height: 60,
-    },
-    title: {
-      fontSize: 15,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      borderRadius: 20,
       marginVertical: 10,
       marginHorizontal: 10,
     },
     button: {
+      borderRadius: 20,
       marginTop: 10,
       marginBottom: 10,
       textAlignVertical: 'center'
@@ -261,5 +315,8 @@ const styles = StyleSheet.create({
     },
     selectIcon: {
       marginTop: 15
+    },
+    divider: {
+      
     }
   });

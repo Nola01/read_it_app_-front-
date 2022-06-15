@@ -17,7 +17,7 @@ const BooksScreen = ({ navigation }) => {
       try {
         const books = await getBooks();
         if (authState.user.role === 'alumno') {
-          console.log('prueba');
+          // console.log('prueba');
           const studentBooks = await getBooksByUser(authState.user.id_user);
           setbooks(studentBooks)
         } else {

@@ -99,7 +99,7 @@ const DrawerNavigator = ({ nav }) => {
     <Drawer.Navigator
       screenOptions={({ navigation }) => ({
         headerStyle: {
-          backgroundColor: '#551E18',
+          backgroundColor: '#3b5998',
           height: 50,
         },
         headerLeft: () => (
@@ -120,7 +120,7 @@ const DrawerNavigator = ({ nav }) => {
       <Drawer.Screen name={screens.ItineraryDetails} component={ItineraryDetailsScreen} />
       <Drawer.Screen name={screens.BookDetails} component={BookDetailsScreen} />
       <Drawer.Screen name={screens.NewBook} component={NewBookScreen} />
-      <Drawer.Screen name={screens.NewItinerary} component={NewItineraryStackNavigator} />
+      <Drawer.Screen name={screens.NewItinerary} component={NewItineraryScreen} />
       <Drawer.Screen name={screens.SelectBooks} component={SelectBooks} />
       <Drawer.Screen name={screens.SelectStudents} component={SelectStudents} />
     </Drawer.Navigator>

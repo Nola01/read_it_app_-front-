@@ -52,7 +52,7 @@ const ItineraryDetailsScreen = ({route, navigation}) => {
             <Card.Title title={item.itinerary.name} subtitle={`Departamento: ${item.itinerary.department}`} />
             <Card.Content style={styles.content}>
                 <Text style={styles.text}>Libros: {item.books.length}</Text>
-                <Text style={styles.text}>{item.teacher.name}</Text>
+                <Text style={styles.text}>Profesor/a: {item.teacher.name}</Text>
             </Card.Content>
             <Pressable onPress={() => goToDetails(item)}>
                 <Card.Title title='Ver detalles de los libros >' onPress={() => goToDetails(item)} />

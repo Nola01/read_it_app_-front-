@@ -29,7 +29,7 @@ const ItinerariesScreen = ({navigation}) => {
                     }
                 })
 
-                console.log('profesor', teacherItineraries);
+                // console.log('profesor', teacherItineraries);
                 setitineraries(teacherItineraries);
             } else {
                 const studentItineraries = []
@@ -60,7 +60,6 @@ const ItinerariesScreen = ({navigation}) => {
 
     const goToDetails = (item) => {
         //console.log(item.name);
-        console.log('screen item', item);
         navigation.jumpTo('Detalles itinerario', item);
     };
 
@@ -70,7 +69,7 @@ const ItinerariesScreen = ({navigation}) => {
 
     const goEdit = (item) => {
         console.log(item);
-        // navigation.jumpTo('Nuevo itinerario');
+        navigation.navigate('Nuevo itinerario', item);
     }
 
     const handleDelete = async (item) => {

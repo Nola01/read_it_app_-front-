@@ -8,7 +8,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ApiContext } from '../context/ApiProvider';
 import { NewItineraryContext } from "../context/NewItineraryProvider";
 
-const SelectBooks = ({navigation}) => {
+const SelectBooks = ({route, navigation}) => {
     const {getBooks} = useContext(ApiContext);
 
     const newItineraryContext = useContext(NewItineraryContext);
@@ -18,14 +18,29 @@ const SelectBooks = ({navigation}) => {
     const [selectedBooks, setselectedbooks] = useState([])
     const [refreshing, setrefreshing] = useState(false);
 
+    const [editBooks, seteditbooks] = useState({});
+    const [isEdit, setisedit] = useState(false); 
+    const [checked, setchecked] = useState(false); 
+
 
     const loadBooks = async () => {
         setrefreshing(true);
         try {
-          const booksList = await getBooks();
-          setbookslist(booksList);
+            const books = route.params;
+            // console.log('books', books);
+            if (books) {
+                seteditbooks(books)
+                setselectedbooks(books)
+                setisedit(true)
+            }
+
+
+            const booksList = await getBooks();
+            setbookslist(booksList);
+
+
         } catch (err) {
-          console.log(err.response);
+            console.log(err.response);  
         }
         setrefreshing(false);
     };
@@ -60,10 +75,8 @@ const SelectBooks = ({navigation}) => {
         navigation.navigate('Nuevo itinerario')
     }
 
-
     const renderItem = ({item}) => {
         return (
-
             <Card style={styles.item}>
                 <Card.Title title={item.title} subtitle={`Autor: ${item.author}`} />
                 {/* <Card.Cover style={styles.image} source={{ uri: item.image }} /> */}
@@ -74,6 +87,7 @@ const SelectBooks = ({navigation}) => {
                         fillColor="red"
                         unfillColor="#FFFFFF"
                         text="Seleccionar"
+                        isChecked={editBooks.find(book => book === item.isbn)}
                         iconStyle={{ borderColor: "red" }}
                         textStyle={{ fontFamily: "JosefinSans-Regular" }}
                         onPress={() => {
