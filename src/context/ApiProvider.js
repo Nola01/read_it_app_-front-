@@ -3,6 +3,7 @@ import axios from 'axios';
 import { AuthContext } from './AuthProvider';
 import {BASE_URL} from '../config/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ToastAndroid } from 'react-native';
 // import bcrypt from 'bcrypt';
 
 const ApiContext = createContext();
@@ -38,14 +39,18 @@ const ApiProvider = ({children}) => {
   };
 
   const createItinerary = async (itinerary) => {
-    let config = {
-      headers: {
-        'x-token': authState.accessToken,
+    try {
+      let config = {
+        headers: {
+          'x-token': authState.accessToken,
+        }
       }
+      console.log(itinerary);
+      const response = await authRequest.post(`/app/itineraries/new`, itinerary, config);
+      return response.data;
+    } catch (error) {
+      ToastAndroid.show('Error, compruebe los campos', ToastAndroid.LONG)
     }
-    console.log(itinerary);
-    const response = await authRequest.post(`/app/itineraries/new`, itinerary, config);
-    return response.data;
   }
 
   const deleteItinerary = async (id) => {
@@ -60,15 +65,19 @@ const ApiProvider = ({children}) => {
   }
 
   const updateItinerary = async (itinerary, id) => {
-    let config = {
-      headers: {
-        'x-token': authState.accessToken,
+    try {
+      let config = {
+        headers: {
+          'x-token': authState.accessToken,
+        }
       }
+      console.log(itinerary);
+      console.log(id);
+      const response = await authRequest.put(`/app/itineraries/${id}`, itinerary, config);
+      return response.data;
+    } catch (error) {
+      ToastAndroid.show('Error al actualizar itinerario', ToastAndroid.LONG)
     }
-    console.log(itinerary);
-    console.log(id);
-    const response = await authRequest.put(`/app/itineraries/${id}`, itinerary, config);
-    return response.data;
   }
 
 
@@ -146,7 +155,7 @@ const ApiProvider = ({children}) => {
       role
     });
     // login(email, password);
-    if (response.data.ok === 'false') {
+    if (response.data.ok === false) {
       throw new Error (response.data.msg)
     }
 

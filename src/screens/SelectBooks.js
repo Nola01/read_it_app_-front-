@@ -27,7 +27,7 @@ const SelectBooks = ({route, navigation}) => {
         setrefreshing(true);
         try {
             const books = route.params;
-            // console.log('books', books);
+            console.log('books', books);
             if (books) {
                 seteditbooks(books)
                 setselectedbooks(books)

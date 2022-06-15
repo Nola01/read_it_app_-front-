@@ -32,6 +32,8 @@ import SelectStudents from '../screens/SelectStudents';
 import { routes, screens } from './RouterItems';
 import LogoutStackNavigator from './stack-navigators/LogoutStackNavigator';
 import Icon from 'react-native-vector-icons/FontAwesome'
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -103,9 +105,11 @@ const DrawerNavigator = ({ nav }) => {
           height: 50,
         },
         headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.toggleDrawer()} style={styles.headerLeft}>
-            <Icon name="bars" size={20} color="#fff" />
+          <TouchableOpacity style={styles.headerLeft}>
+            <Icon onPress={() => navigation.toggleDrawer()} name="bars" size={20} color="#fff" />
+            <Ionicons style={styles.goBack} onPress={() => navigation.goBack()} name="arrow-back" size={20} color="#fff" />
           </TouchableOpacity>
+
         ),
       })}
       drawerContent={(props) => <CustomDrawerContent {...props} nav={nav} />}
@@ -154,8 +158,13 @@ export default DrawerNavigator;
 
 const styles = StyleSheet.create({
   headerLeft: {
-    marginLeft: 15,
+    flex: 1,
+    flexDirection: 'row',
+    margin: 15,
   },
+  goBack: {
+    marginLeft: 10
+  },  
   headerTitle: {
     color: 'white',
     fontSize: 18,

@@ -21,11 +21,11 @@ const HomeScreen = ({navigation}) => {
     return (
         <SafeAreaView style={styles.container}>
                 <Card style={styles.header}>
-                    <Text style={styles.headerText}>Bienvenido {user.name}</Text>
+                    <Text style={styles.headerText}>Bienvenido/a {user.name}</Text>
                     <Text>   </Text>
                 </Card>
 
-                <Text style={styles.itineraries} onPress={() => goToItineraries()}> Ver todos tus itinerarios </Text>
+                {/* <Text style={styles.itineraries} onPress={() => goToItineraries()}> Ver todos tus itinerarios </Text> */}
     
                 <View style={styles.calendar}>
                     <Calendar navigation={navigation} />        

@@ -48,22 +48,21 @@ const NewItineraryScreen = ({route, navigation}) => {
   const {books} = useContext(NewItineraryContext);
   const {students} = useContext(NewItineraryContext);
 
-  const [item, setitem] = useState({});
+  const [editItem, setEditItem] = useState({});
 
   const [groupsList, setgroupsList] = useState([]);
   const [visibleDate, setvisibledate] = useState(false);
   const [visibleGroup, setvisibleGroup] = useState(false);
-  const [isEdit, setisedit] = useState(false); 
+  const [isEdit, setisedit] = useState(false);
 
-  const BackButtonListener = () => {
-    // const [pressed, serpressed] = useState(false)
-    useEffect(() => {
-      window.onpopstate = () => {
-        console.log('atrás');
-        setitem({})
-      }
-    })
-  }
+  const [nameError, setNameError] = useState(false); 
+  const [departmentError, setDepartmentError] = useState(false); 
+  const [dateError, setDateError] = useState(false); 
+  const [booksError, setBooksError] = useState(false);
+  const [studentsError, setStudentsError] = useState(false); 
+
+  const [error, setError] = useState(true)
+
 
 
   const loadGroups = async () => {
@@ -71,18 +70,22 @@ const NewItineraryScreen = ({route, navigation}) => {
 
       const item = route.params;
       console.log('item', item);
-      if (item) {
+      setEditItem(item)
+      if (editItem) {
         console.log('editar');
-        newItineraryContext.setName(item.itinerary.name)
-        newItineraryContext.setDepartment(item.itinerary.department)
-        newItineraryContext.setGroup(item.itinerary.id_group)
-        newItineraryContext.setEndDate(item.itinerary.endDate)
-        newItineraryContext.setBooks(item.books)
-        newItineraryContext.setStudents(item.students)
+        newItineraryContext.setName(editItem.itinerary.name)
+        newItineraryContext.setDepartment(editItem.itinerary.department)
+        newItineraryContext.setGroup(editItem.itinerary.id_group)
+        newItineraryContext.setEndDate(editItem.itinerary.endDate)
+        newItineraryContext.setBooks(editItem.books)
+        newItineraryContext.setStudents(editItem.students)
 
-        setitem(item)
+        console.log(name, department);
+
+        setEditItem(editItem)
         setisedit(true)
       } else {
+        // setEditItem({})
         console.log('crear');
         newItineraryContext.setName('')
         newItineraryContext.setDepartment('')
@@ -106,68 +109,98 @@ const NewItineraryScreen = ({route, navigation}) => {
 
 
   const changeName = itineraryName => {
+    if (itineraryName === '') {
+      setNameError(true)
+      setError(true)
+    } else {
+      setNameError(false)
+      setError(false)
+    }
     newItineraryContext.setName(itineraryName)
     console.log(name);
   };
+
   const changeDepartment = department => {
+    if (department === '') {
+      setDepartmentError(true)
+      setError(true)
+    } else {
+      setDepartmentError(false)
+      setError(false)
+    }
     newItineraryContext.setDepartment(department)
     console.log(department);
   };
+
   const changeGroup = group => {
     newItineraryContext.setGroup(group)
     console.log(group);
   };
+
   const changeEndDate = (date) => {
+    if (date === 'NaN-NaN-NaN') {
+      setDateError(true)
+      setError(true)
+    } else {
+      setDateError(false)
+      setError(false)
+    }
     newItineraryContext.setEndDate(timeToString(date)[1])
     console.log('endate', endDate);
   };
 
-  const selectBooks = (books) => {
-      const isbnList = []
-      if (books != undefined) {
-        books.map(book => isbnList.push(book.isbn))
-      }
-      navigation.navigate('Seleccionar libros', isbnList);
+  const selectBooks = () => {   
+
+    const isbnList = []
+    if (editItem) {
+      editItem.books.map(book => isbnList.push(book.isbn))
+    }
+    navigation.navigate('Seleccionar libros', isbnList);
   }
 
-  const selectStudents = (students) => {
+  const selectStudents = () => {
     navigation.navigate('Seleccionar alumnos', students)
   }
 
 
   const handleAdd = async () => {
-    let newItinerary = {
-      name,
-      department,
-      id_teacher: authState.user.id_user,
-      id_group: 1,
-      endDate,
-      books,
-      students
-    };
+    try {
+      let newItinerary = {
+        name,
+        department,
+        id_teacher: authState.user.id_user,
+        id_group: 1,
+        endDate,
+        books,
+        students
+      };
 
-    console.log('new', newItinerary);
-
-    let response;
-
-    if (isEdit) {
-      response = await updateItinerary(newItinerary, item.itinerary.id_itinerary)
-    } else {
-      response = await createItinerary(newItinerary);
+  
+      console.log('new', newItinerary);
+  
+      let response;
+  
+      if (isEdit) {
+        response = await updateItinerary(newItinerary, editItem.itinerary.id_itinerary)
+      } else {
+        response = await createItinerary(newItinerary);
+      }
+      
+      ToastAndroid.show(response.msg, ToastAndroid.LONG)
+  
+      newItineraryContext.setName('')
+      newItineraryContext.setDepartment('')
+      newItineraryContext.setGroup('')
+      newItineraryContext.setEndDate('')
+      newItineraryContext.setBooks([])
+      newItineraryContext.setStudents([])
+  
+      
+  
+      navigation.navigate('Itinerarios');
+    } catch (error) {
+      console.log(error);
     }
-    
-    ToastAndroid.show(response.msg, ToastAndroid.LONG)
-
-    newItineraryContext.setName('')
-    newItineraryContext.setDepartment('')
-    newItineraryContext.setGroup('')
-    newItineraryContext.setEndDate('')
-    newItineraryContext.setBooks([])
-    newItineraryContext.setStudents([])
-
-    setitem({})
-
-    navigation.navigate('Itinerarios');
     
   }
 
@@ -181,26 +214,19 @@ const NewItineraryScreen = ({route, navigation}) => {
           value={name}
           onChangeText={name => changeName(name)}
         />
+        {nameError ? <Text style={styles.error}>El nombre es obligatorio</Text> : <></>}
+
         <TextInput
           mode='outlined'
           style={styles.input}
           label="Departamento"
           value={department}
           onChangeText={department => changeDepartment(department)}
-        />
 
-        <View style={styles.selectInput}>
-          <TextInput
-            mode='outlined'
-            style={styles.input}
-            label="Grupo"
-            disabled
-            value={group}
-          />
-          <Ionicons style={styles.selectIcon} name="caret-down" size={50} onPress={() => setvisibleGroup(!visibleGroup)}/>
-        </View>
-        
-        {visibleGroup ?
+        />
+        {departmentError ? <Text style={styles.error}>El departamento es obligatorio</Text> : <></>}
+
+        {/* <View style={styles.selectInput}>
           <Picker
             selectedValue={group}
             onValueChange={itemValue => newItineraryContext.setGroup(itemValue)}>
@@ -214,8 +240,8 @@ const NewItineraryScreen = ({route, navigation}) => {
           </Picker>
           :
           <></>
-        }
-
+        </View> */}
+        
         <View style={styles.selectInput}>
           <TextInput
             mode='outlined'
@@ -247,6 +273,8 @@ const NewItineraryScreen = ({route, navigation}) => {
           <></>
         }
 
+        {dateError ? <Text style={styles.error}>La fecha de finalización es obligatoria</Text> : <></>}
+
         <TextInput
           mode='outlined'
           style={styles.input}
@@ -254,6 +282,7 @@ const NewItineraryScreen = ({route, navigation}) => {
           disabled
           value={authState.user.name}
         />
+        
         <TextInput
           mode='outlined'
           style={styles.input}
@@ -261,7 +290,9 @@ const NewItineraryScreen = ({route, navigation}) => {
           disabled
           value={books ? books.length.toString() : 0}
         />
-        <Button style={styles.button} mode="contained" onPress={() => selectBooks(item.books)}>
+        {booksError ? <Text style={styles.error}>Debe seleccionar al menos un libro</Text> : <></>}
+
+        <Button style={styles.button} mode="contained" onPress={() => selectBooks()}>
             Seleccionar libros
         </Button>
         
@@ -272,13 +303,15 @@ const NewItineraryScreen = ({route, navigation}) => {
           disabled
           value={students ? students.length.toString() : 0}
         />
-        <Button style={styles.button} mode="contained" onPress={() => selectStudents(item.students)}>
+        {studentsError ? <Text style={styles.error}>Debe seleccionar al menos un alumno</Text> : <></>}
+
+        <Button style={styles.button} mode="contained" onPress={() => selectStudents()}>
             Seleccionar alumnos
         </Button>
 
         <Divider style={styles.divider}/>
 
-        <Button style={styles.button} mode="contained" onPress={() => handleAdd()}>
+        <Button style={styles.button} disabled={error} mode="contained" onPress={() => handleAdd()}>
           Guardar
         </Button>
       </ScrollView>
@@ -316,6 +349,9 @@ const styles = StyleSheet.create({
     selectIcon: {
       marginTop: 15
     },
+    error: {
+      color: '#E63117'
+    },  
     divider: {
       
     }
