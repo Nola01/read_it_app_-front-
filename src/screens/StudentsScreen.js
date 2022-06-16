@@ -32,7 +32,7 @@ const StudentsScreen = ({ navigation }) => {
 
   const renderItem = ({item}) => {
     return (
-      <Pressable onPress={() => goToDetails(item)}>
+      <Pressable>
           <Card style={styles.item}>
               <Card.Title title={item.name} />
               {/* <Card.Cover style={styles.image} source={{ uri: item.image }} /> */}
@@ -40,8 +40,7 @@ const StudentsScreen = ({ navigation }) => {
                 <Text>{item.email}</Text>
               </Card.Content>
               <Card.Actions style={styles.actions}>
-                  <Ionicons style={styles.icon} name="pencil" size={30} color={'#551E18'} onPress={() => goEdit(item)}/>
-                  <Ionicons style={styles.icon} name="trash" size={30} color={'#551E18'} onPress={() => handleDelete(item)}/>
+                  
               </Card.Actions>
           </Card>
       </Pressable>

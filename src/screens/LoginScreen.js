@@ -1,5 +1,6 @@
 import React, {useState, useContext} from 'react';
 import {
+  ActivityIndicator,
   Keyboard,
   Pressable,
   SafeAreaView,
@@ -17,17 +18,43 @@ import Container from '../components/Container';
 const LoginScreen = ({navigation}) => {
   const {login} = useContext(ApiContext);
 
+  const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [authError, setAuthError] = useState('');
 
+  const [loading, setLoading] = useState(false);
+
+  const validateFields = () => {
+    if (email === '') {
+      setAuthError('El email está vacío')
+    } else if (!emailRegex.test(email)) {
+      setAuthError('El email no es correcto')
+    } else if (password === '') {
+      setAuthError('La contraseña está vacía')
+    } else if (password.length < 8) {
+      setAuthError('La contraseña debe tener como mínimo 8 caracteres')
+    } else if (password.length > 16) {
+      setAuthError('La contraseña no puede tener más de 16 caracteres')
+    } else {
+      setAuthError('Contraseña incorrecta')
+    }
+  }
+
   const onLogin = async () => {
+    setLoading(true)
+    validateFields()
+    let response;
     try {
-      await login(email.trim(), password);
+      response = await login(email.trim(), password);
     } catch (err) {
       console.log(err);
       setAuthError(err);
+      console.log(response);
+      ToastAndroid.show(response.msg, ToastAndroid.LONG)
     }
+    setLoading(false)
   };
 
   return (
@@ -56,21 +83,32 @@ const LoginScreen = ({navigation}) => {
                 value={password}
               />
             </View>
+
             <HelperText
               style={styles.error}
               type="error"
               visible={authError !== '' && authError !== null}>
-              Usuario o contraseña incorrecta
+              {authError}
             </HelperText>
+
             <Pressable style={styles.button} onPress={onLogin}>
-              <Text style={styles.buttonText}>Iniciar sesión</Text>
+              {!loading ?
+                <Text style={styles.buttonText}>Iniciar sesión</Text>
+                :
+                <ActivityIndicator size="small" color="#0000ff" />
+              }
+              
+              
             </Pressable>
+
             <Pressable style={styles.button} onPress={() => navigation.navigate('Registro')}>
               <Text style={styles.buttonText}>¿No tienes una cuenta? Registrate</Text>
             </Pressable>
+
             <View style={styles.copyright}>
               <Text style={styles.subtitle}>App para el control de lectura de libros</Text>
             </View>
+
           </View>
         </TouchableWithoutFeedback>
       </SafeAreaView>

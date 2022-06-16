@@ -204,7 +204,7 @@ const ApiProvider = ({children}) => {
         authenticated: true,
       });
     } catch (error) {
-      ToastAndroid.show('Error al iniciar sesión', ToastAndroid.LONG)
+      ToastAndroid.show('Error al iniciar sesión', ToastAndroid.SHORT)
     }
   };
 
