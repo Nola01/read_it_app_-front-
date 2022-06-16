@@ -88,7 +88,7 @@ const DrawerNavigator = ({ nav }) => {
   if (!authState.authenticated) {
     return (
       
-      <Stack.Navigator initialRouteName="Init">
+      <Stack.Navigator initialRouteName="Start">
         <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
         <Stack.Screen name="Registro" component={RegisterScreen} options={{headerShown: false}}/>
       </Stack.Navigator>
@@ -114,7 +114,7 @@ const DrawerNavigator = ({ nav }) => {
       })}
       drawerContent={(props) => <CustomDrawerContent {...props} nav={nav} />}
     >
-      <Drawer.Screen name={screens.Home} component={HomeStackNavigator} />
+      <Drawer.Screen name={'Home'} component={HomeStackNavigator} />
       {/* <Drawer.Screen name={screens.Itineraries} component={ItinerariesStackNavigator} />
       <Drawer.Screen name={screens.Books} component={BookStackNavigator} />
       <Drawer.Screen name={screens.MyProfile} component={ProfileStackNavigator} />

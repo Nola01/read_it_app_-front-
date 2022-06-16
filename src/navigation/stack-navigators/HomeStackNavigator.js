@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { View, Text } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 
@@ -16,9 +16,15 @@ import SelectBooks from '../../screens/SelectBooks'
 import SelectStudents from '../../screens/SelectStudents'
 import LogoutStackNavigator from './LogoutStackNavigator'
 
+import { AuthContext } from '../../context/AuthProvider'
+
 const Stack = createStackNavigator()
 
 const HomeStackNavigator = () => {
+  const {authState} = useContext(AuthContext);
+
+  const isTeacher = authState.role === 'profesor' ? true : false
+  
   return (
     <Stack.Navigator screenOptions={{
       headerShown: false,

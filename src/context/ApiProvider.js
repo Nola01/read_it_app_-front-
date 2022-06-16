@@ -176,6 +176,15 @@ const ApiProvider = ({children}) => {
     }
   };
 
+  const getStudents = async () => {
+    try {
+      const response = await authRequest.get('/app/users/students');
+      return response.data;
+    } catch (error) {
+      ToastAndroid.show('Error al obtener alumnos', ToastAndroid.LONG)
+    }
+  };
+
 
   
 
@@ -268,6 +277,7 @@ const ApiProvider = ({children}) => {
         deleteBook,
         updateBook,
         getUsers,
+        getStudents,
         login,
         register
       }}>

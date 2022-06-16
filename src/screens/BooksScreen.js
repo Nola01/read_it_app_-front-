@@ -81,9 +81,6 @@ const BooksScreen = ({ navigation }) => {
   };
   return (
       <SafeAreaView style={styles.container}>
-          <View>
-              <Text>Lista de libros</Text>
-          </View>
           <FlatList
               data={books}
               renderItem={renderItem}

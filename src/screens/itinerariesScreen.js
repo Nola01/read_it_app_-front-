@@ -129,9 +129,6 @@ const ItinerariesScreen = ({navigation}) => {
     };
     return (
         <SafeAreaView style={styles.container}>
-            <View>
-                <Text>Lista de itinerarios</Text>
-            </View>
             <FlatList
                 data={itineraries}
                 renderItem={renderItem}
