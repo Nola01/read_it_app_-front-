@@ -10,7 +10,8 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import { HelperText } from 'react-native-paper';
+import { ActivityIndicator, HelperText } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { ApiContext } from '../context/ApiProvider';
 import Container from '../components/Container';
@@ -18,21 +19,48 @@ import Container from '../components/Container';
 const RegisterScreen = ({navigation}) => {
   const {register} = useContext(ApiContext);
 
+  const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+
   const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const [pin, setPin] = useState(undefined);
   const [role, setRole] = useState(undefined);
   const [password, setPassword] = useState('');
   const [authError, setAuthError] = useState('');
 
+  const [loading, setLoading] = useState(false);
+
+  const validateFields = () => {
+    if (name === '') {
+      setAuthError('El nombre está vacío')
+    } else if (email === '') {
+      setAuthError('El email está vacío')
+    } else if (!emailRegex.test(email)) {
+      setAuthError('El email no es correcto')
+    } else if (password === '') {
+      setAuthError('La contraseña está vacía')
+    } else if (password.length < 8) {
+      setAuthError('La contraseña debe tener como mínimo 8 caracteres')
+    } else if (password.length > 16) {
+      setAuthError('La contraseña no puede tener más de 16 caracteres')
+    } else {
+      setAuthError('Contraseña incorrecta')
+    }
+  }
+
   const onRegister = async () => {
+    setLoading(true)
+    validateFields()
+    let response;
     try {
-      await register(name, email.trim(), password, pin, role);
+      response = await register(name, email.trim(), password, pin, role);
     } catch (err) {
       console.log(err);
       setAuthError(err);
+      console.log(response);
+      ToastAndroid.show(response.msg, ToastAndroid.LONG)
     }
+    setLoading(false)
   };
 
   return (
@@ -43,12 +71,12 @@ const RegisterScreen = ({navigation}) => {
               <Text style={styles.title}>Read it!</Text>
               <ScrollView style={styles.form}>
                   <TextInput
-                  style={styles.input}
-                  placeholder="Nombre"
-                  placeholderTextColor="#ccc"
-                  autoCapitalize="none"
-                  onChangeText={text => setName(text)}
-                  value={name}
+                    style={styles.input}
+                    placeholder="Nombre completo"
+                    placeholderTextColor="#ccc"
+                    autoCapitalize="none"
+                    onChangeText={text => setName(text)}
+                    value={name}
                   />
                   {/* <TextInput
                   style={styles.input}
@@ -60,37 +88,47 @@ const RegisterScreen = ({navigation}) => {
                   value={surname}
                   /> */}
                   <TextInput
-                  style={styles.input}
-                  placeholder="Email"
-                  placeholderTextColor="#ccc"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  onChangeText={text => setEmail(text)}
-                  value={email}
+                    style={styles.input}
+                    placeholder="Email"
+                    placeholderTextColor="#ccc"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    onChangeText={text => setEmail(text)}
+                    value={email}
                   />
                   <TextInput
-                  style={styles.input}
-                  placeholder="Contraseña"
-                  placeholderTextColor="#ccc"
-                  secureTextEntry
-                  autoCapitalize="none"
-                  onChangeText={text => setPassword(text)}
-                  value={password}
+                    style={styles.input}
+                    placeholder="Contraseña"
+                    placeholderTextColor="#ccc"
+                    secureTextEntry
+                    autoCapitalize="none"
+                    onChangeText={text => setPassword(text)}
+                    value={password}
                   />
+
                   <HelperText
-                  style={styles.error}
-                  type="error"
-                  visible={authError !== '' && authError !== null}>
-                  authError
+                    style={styles.error}
+                    type="error"
+                    visible={authError !== '' && authError !== null}>
+                    {authError}
                   </HelperText>
+
                   <Pressable style={styles.button} onPress={onRegister}>
-                      <Text style={styles.buttonText}>Registrarse</Text>
+                  {!loading ?
+                    <Text style={styles.buttonText}>Registrarse</Text>
+                    :
+                    <ActivityIndicator size="small" color="#0000ff" />
+                  }
                   </Pressable>
+
                   <Pressable style={styles.button} onPress={() => navigation.navigate('Login')}>
                       <Text style={styles.buttonText}>¿Tienes una cuenta? Inicia sesión</Text>
                   </Pressable>
+
                   <View style={styles.copyright}>
-                      <Text style={styles.subtitle}>App para el control de lectura de libros</Text>
+                    <Text style={styles.subtitle}>
+                      <Icon name="copyright" size={15} color="#fff" /> Copyright 2022 - Juan María Nolasco
+                    </Text>
                   </View>
               </ScrollView>
           </View>
@@ -138,6 +176,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   error: {
+    flex: 1,
+    textAlign: 'center',
     marginTop: 10,
     color: 'white',
     fontSize: 16,

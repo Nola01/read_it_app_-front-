@@ -1,6 +1,7 @@
 import React, {useState, useContext} from 'react';
 import {
   ActivityIndicator,
+  Image,
   Keyboard,
   Pressable,
   SafeAreaView,
@@ -11,9 +12,11 @@ import {
   View,
 } from 'react-native';
 import { HelperText } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { ApiContext } from '../context/ApiProvider';
 import Container from '../components/Container';
+
 
 const LoginScreen = ({navigation}) => {
   const {login} = useContext(ApiContext);
@@ -106,7 +109,9 @@ const LoginScreen = ({navigation}) => {
             </Pressable>
 
             <View style={styles.copyright}>
-              <Text style={styles.subtitle}>App para el control de lectura de libros</Text>
+              <Text style={styles.subtitle}>
+                <Icon name="copyright" size={15} color="#fff" /> Copyright 2022 - Juan María Nolasco
+              </Text>
             </View>
 
           </View>
