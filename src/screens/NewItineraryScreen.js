@@ -199,7 +199,7 @@ const NewItineraryScreen = ({route, navigation}) => {
   
       navigation.navigate('Itinerarios');
     } catch (error) {
-      console.log(error);
+      ToastAndroid.show('Error al crear itinerario', ToastAndroid.LONG)
     }
     
   }

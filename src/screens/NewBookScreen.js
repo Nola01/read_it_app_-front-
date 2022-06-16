@@ -1,5 +1,5 @@
-import React, {useContext, useState} from 'react';
-import {Image, Pressable, StyleSheet, ScrollView, Text} from 'react-native';
+import React, {useContext, useState, useEffect} from 'react';
+import {Image, Pressable, StyleSheet, ScrollView, Text, ToastAndroid} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Card, TextInput, Button, Alert, Snackbar} from 'react-native-paper';
@@ -20,19 +20,51 @@ const NewBookScreen = ({navigation}) => {
     const [author, setauthor] = useState('');
     const [image, setimage] = useState('https://via.placeholder.com/400');
 
-    const [response, setresponse] = useState({});
+    const [isbnError, setIsbnError] = useState(false); 
+    const [titleError, setTitleError] = useState(false); 
+    const [authorError, setAuthorError] = useState(false); 
+    const [imageError, setImageError] = useState(false);
+    const [studentsError, setStudentsError] = useState(false); 
 
+    const [error, setError] = useState(true)
 
+    const setForm = () => {
+        setisbn('');
+        settitle('');
+        setauthor('');
+        setimage('https://via.placeholder.com/400');
+    }
 
     const changeIsbn = isbn => {
+        if (isbn === '') {
+            setIsbnError(true)
+            setError(true)
+        } else {
+            setIsbnError(false)
+            setError(false)
+        }
         setisbn(isbn);
-        };
+    };
 
     const changeTitle = bookTitle => {
+        if (bookTitle === '') {
+            setTitleError(true)
+            setError(true)
+        } else {
+            setTitleError(false)
+            setError(false)
+        }
         settitle(bookTitle);
     };
 
     const changeAuthor = author => {
+        if (author === '') {
+            setAuthorError(true)
+            setError(true)
+        } else {
+            setAuthorError(false)
+            setError(false)
+        }
         setauthor(author);
     };
 
@@ -116,65 +148,61 @@ const NewBookScreen = ({navigation}) => {
     }
 
     const handleAdd = async () => {
-        if (title == '') {
-            alert('El nombre no puede estar vacío');
-        } else {
+        try {
             let newBook = {
                 isbn,
                 title,
                 author,
                 image
             };
-
+    
             const response = await createBook(newBook);
             console.log('respuesta', response);
-            // if (response.ok === 'false') {
-            //     setresponse(response.msg)
-            //     setvisible(true)
-            // }
-
-            if (response.ok === 'false') {
-                setresponse(response.msg)
-                //setvisible(true)
-            }
-            
+           
+            ToastAndroid.show(response.msg, ToastAndroid.LONG)
+    
+            setForm()
             navigation.navigate('Libros');
+        } catch (error) {
+            ToastAndroid.show('Error al crear libros', ToastAndroid.LONG)
         }
     };
-
-    const undoCreate = async () => {
-        const response = await deleteBook(isbn)
-        setresponse(response.msg)
-        setvisible(true)
-    }
 
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
                 <TextInput
-                style={styles.input}
-                label="Isbn"
-                value={isbn}
-                onChangeText={bookIsbn => changeIsbn(bookIsbn)}
+                    mode='outlined'
+                    style={styles.input}
+                    label="Isbn"
+                    value={isbn}
+                    onChangeText={isbn => changeIsbn(isbn)}
                 />
-                <TextInput
-                style={styles.input}
-                label="Título"
-                value={title}
-                onChangeText={bookTitle => changeTitle(bookTitle)}
-                />
-                <TextInput
-                style={styles.input}
-                label="Autor"
-                value={author}
-                onChangeText={author => changeAuthor(author)}
-                />
+                {isbnError ? <Text style={styles.error}>El isbn es obligatorio</Text> : <></>}
 
-                <Button onPress={() => selectImage()}>
+                <TextInput
+                    mode='outlined'
+                    style={styles.input}
+                    label="Título"
+                    value={title}
+                    onChangeText={bookTitle => changeTitle(bookTitle)}
+                />
+                {titleError ? <Text style={styles.error}>El título es obligatorio</Text> : <></>}
+
+                <TextInput
+                    mode='outlined'
+                    style={styles.input}
+                    label="Autor"
+                    value={author}
+                    onChangeText={author => changeAuthor(author)}
+                />
+                {authorError ? <Text style={styles.error}>El autor es obligatorio</Text> : <></>}
+
+                <Button onPress={() => selectImage()} mode="contained" style={styles.button}>
                     Seleccionar imagen
                 </Button>
 
-                <Button onPress={() => takePicture()}>
+                <Button onPress={() => takePicture()} mode="contained" style={styles.button}>
                     Hacer una foto
                 </Button>
             
@@ -183,19 +211,9 @@ const NewBookScreen = ({navigation}) => {
                     source={{uri: image}}>
                 </Image>
 
-                <Button onPress={() => handleAdd()} style={styles.save}>
+                <Button onPress={() => handleAdd()} disabled={error} mode="contained" style={styles.button}>
                     Guardar
                 </Button>
-                {/* <Snackbar
-                    duration={5000}
-                    visible={visible}
-                    onDismiss={onDismissSnackBar}
-                    action={{
-                        label: 'Undo',
-                        onPress: () => undoCreate(),
-                    }}>
-                    {response}
-                </Snackbar> */}
             </ScrollView>
         </SafeAreaView>
     );  
@@ -205,27 +223,35 @@ export default NewBookScreen;
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      justifyContent: 'center',
-      marginVertical: 10,
-      marginHorizontal: 10,
+        flex: 1,
+        justifyContent: 'center',
+        marginVertical: 10,
+        marginHorizontal: 10,
     },
     input: {
-      borderWidth: 1,
-      marginVertical: 10,
-      marginHorizontal: 10,
-    },
-    textArea: {
-      height: 60,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        borderRadius: 20,
+        marginVertical: 10,
+        marginHorizontal: 10,
     },
     title: {
-      fontSize: 15,
-      marginVertical: 10,
-      marginHorizontal: 10,
+        fontSize: 15,
+        marginVertical: 10,
+        marginHorizontal: 10,
+    },
+    button: {
+        borderRadius: 20,
+        marginTop: 10,
+        marginBottom: 10,
+        textAlignVertical: 'center'
     },
     image: {
         alignSelf: 'center',
         height: 400,
         width: 300
-    }
+    },
+    error: {
+        color: '#E63117'
+    },    
   });

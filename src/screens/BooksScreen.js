@@ -73,8 +73,6 @@ const BooksScreen = ({ navigation }) => {
                 <Card.Title title={item.title} subtitle={`Autor: ${item.author}`} />
                 {/* <Card.Cover style={styles.image} source={{ uri: item.image }} /> */}
                 <Card.Content>
-                    <Title></Title>
-                    {/* <Paragraph>Itinerarios: {item.itinerary.length}</Paragraph> */}
                 </Card.Content>
                 <Card.Actions style={styles.actions}>
                     <Ionicons style={styles.icon} name="pencil" size={30} color={'#551E18'} onPress={() => goEdit(item)}/>

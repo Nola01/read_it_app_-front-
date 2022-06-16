@@ -7,6 +7,25 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ApiContext } from '../context/ApiProvider';
 import { AuthContext } from '../context/AuthProvider';
 
+const timeToString = (dateWithTime) => {
+    // date = response.data.itinerary.endDate;
+    let date = new Date(dateWithTime)
+    let year = date.getFullYear();
+    let month = date.getMonth()+1;
+    let dt = date.getDate();
+  
+    if (dt < 10) {
+        dt = '0' + dt;
+    }
+    if (month < 10) {
+        month = '0' + month;
+    }
+  
+    const newDate1 = dt +'-' + month + '-' + year;
+    const newDate2 = year +'-' + month + '-' + dt;
+    return [newDate1, newDate2];
+  }
+
 
 const ItinerariesScreen = ({navigation}) => {
     const {getItineraries, deleteItinerary} = useContext(ApiContext);
@@ -60,11 +79,11 @@ const ItinerariesScreen = ({navigation}) => {
 
     const goToDetails = (item) => {
         //console.log(item.name);
-        navigation.jumpTo('Detalles itinerario', item);
+        navigation.navigate('Detalles itinerario', item);
     };
 
     const goToAdd = () => {
-        navigation.jumpTo('Nuevo itinerario');
+        navigation.navigate('Nuevo itinerario');
     }
 
     const goEdit = (item) => {
@@ -97,7 +116,7 @@ const ItinerariesScreen = ({navigation}) => {
                 <Card style={styles.item}>
                     <Card.Title title={item.itinerary.name} subtitle={`Departamento: ${item.itinerary.department}`} />
                     <Card.Content>
-                        <Title></Title>
+                        <Text>Fin: {timeToString(item.itinerary.endDate)[0]}</Text>
                         {item.books ? 
                             <Paragraph>Libros: {item.books.length}</Paragraph>
                             :
