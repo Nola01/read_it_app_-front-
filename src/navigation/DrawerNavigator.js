@@ -102,20 +102,20 @@ const DrawerNavigator = ({ nav }) => {
       screenOptions={({ navigation }) => ({
         headerStyle: {
           backgroundColor: '#3b5998',
-          height: 50,
+          height: 60,
         },
         headerLeft: () => (
           <TouchableOpacity style={styles.headerLeft}>
-            <Icon onPress={() => navigation.toggleDrawer()} name="bars" size={20} color="#fff" />
-            <Ionicons style={styles.goBack} onPress={() => navigation.goBack()} name="arrow-back" size={20} color="#fff" />
+            <Ionicons onPress={() => navigation.toggleDrawer()} name="menu" size={30} color="#fff" />
+            <Ionicons style={styles.goBack} onPress={() => navigation.goBack()} name="ios-arrow-back-outline" size={30} color="#fff" />
           </TouchableOpacity>
 
         ),
       })}
       drawerContent={(props) => <CustomDrawerContent {...props} nav={nav} />}
     >
-      <Drawer.Screen name={screens.Home} component={HomeStackNavigator} options={{headerShown: false}}/>
-      <Drawer.Screen name={screens.Itineraries} component={ItinerariesStackNavigator} />
+      <Drawer.Screen name={screens.Home} component={HomeStackNavigator} />
+      {/* <Drawer.Screen name={screens.Itineraries} component={ItinerariesStackNavigator} />
       <Drawer.Screen name={screens.Books} component={BookStackNavigator} />
       <Drawer.Screen name={screens.MyProfile} component={ProfileStackNavigator} />
       <Drawer.Screen name={screens.Students} component={StudentsStackNavigator} />
@@ -126,7 +126,7 @@ const DrawerNavigator = ({ nav }) => {
       <Drawer.Screen name={screens.NewBook} component={NewBookScreen} />
       <Drawer.Screen name={screens.NewItinerary} component={NewItineraryScreen} />
       <Drawer.Screen name={screens.SelectBooks} component={SelectBooks} />
-      <Drawer.Screen name={screens.SelectStudents} component={SelectStudents} />
+      <Drawer.Screen name={screens.SelectStudents} component={SelectStudents} /> */}
     </Drawer.Navigator>
     
   );

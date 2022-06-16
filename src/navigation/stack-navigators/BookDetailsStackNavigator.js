@@ -7,12 +7,12 @@ import { screens } from '../RouterItems'
 
 const Stack = createStackNavigator()
 
-const BookDetailsStackNavigator = ({route, navigation}) => {
+const BookDetailsStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{
       headerShown: false,
     }}>
-      <Stack.Screen name={screens.BookDetails} component={BookDetailsScreen} screenProps={ { route, navigation} } />
+      <Stack.Screen name={screens.BookDetails} component={BookDetailsScreen} />
     </Stack.Navigator>
   )
 }

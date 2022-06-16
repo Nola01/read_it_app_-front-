@@ -162,6 +162,7 @@ const NewBookScreen = ({navigation}) => {
             ToastAndroid.show(response.msg, ToastAndroid.LONG)
     
             setForm()
+
             navigation.navigate('Libros');
         } catch (error) {
             ToastAndroid.show('Error al crear libros', ToastAndroid.LONG)

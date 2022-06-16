@@ -33,16 +33,17 @@ const BooksScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-      loadBooks();
+    console.log('render');
+    loadBooks();
   }, []);
 
   const goToDetails = (item) => {
       //console.log(item.name);
-      navigation.jumpTo('Detalles libro', item);
+      navigation.navigate('Detalles libro', item);
   };
 
   const goToAdd = () => {
-      navigation.jumpTo('Nuevo libro');
+      navigation.navigate('Nuevo libro');
   }
 
   const goEdit = (item) => {
@@ -54,9 +55,9 @@ const BooksScreen = ({ navigation }) => {
     try {
       const response = await deleteBook(item.isbn);
       console.log(response);
+      loadBooks()
       if (response.ok === true) {
           ToastAndroid.show(response.msg, ToastAndroid.LONG)
-          loadBooks();
       } else {
           ToastAndroid.show(response.msg, ToastAndroid.LONG)
       }
