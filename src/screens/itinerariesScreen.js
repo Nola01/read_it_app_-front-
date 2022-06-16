@@ -96,12 +96,8 @@ const ItinerariesScreen = ({navigation}) => {
             console.log(item);
             const response = await deleteItinerary(item.itinerary.id_itinerary);
             console.log(response);
-            if (response.ok === true) {
-                ToastAndroid.show(response.msg, ToastAndroid.LONG)
-                loadItineraries();
-            } else {
-                ToastAndroid.show(response.msg, ToastAndroid.LONG)
-            }
+            loadItineraries();
+            ToastAndroid.show(response.msg, ToastAndroid.LONG)
         } catch (error) {
             ToastAndroid.show('Error al eliminar itinerario', ToastAndroid.LONG)
         }

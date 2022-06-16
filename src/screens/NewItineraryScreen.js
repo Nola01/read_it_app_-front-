@@ -63,27 +63,28 @@ const NewItineraryScreen = ({route, navigation}) => {
 
   const [error, setError] = useState(true)
 
-
-
   const loadGroups = async () => {
     try {
 
       const item = route.params;
       console.log('item', item);
-      setEditItem(item)
-      if (editItem) {
+      if (item) {
         console.log('editar');
-        newItineraryContext.setName(editItem.itinerary.name)
-        newItineraryContext.setDepartment(editItem.itinerary.department)
-        newItineraryContext.setGroup(editItem.itinerary.id_group)
-        newItineraryContext.setEndDate(editItem.itinerary.endDate)
-        newItineraryContext.setBooks(editItem.books)
-        newItineraryContext.setStudents(editItem.students)
+        newItineraryContext.setName(item.itinerary.name)
+        newItineraryContext.setDepartment(item.itinerary.department)
+        newItineraryContext.setGroup(item.itinerary.id_group)
+        newItineraryContext.setEndDate(item.itinerary.endDate)
+        newItineraryContext.setBooks(item.books)
+        newItineraryContext.setStudents(item.students)
 
         console.log(name, department);
 
-        setEditItem(editItem)
+        setEditItem(item)
         setisedit(true)
+        setError(false)
+        setNameError(false)
+        setDepartmentError(false)
+        setDateError(false)
       } else {
         // setEditItem({})
         console.log('crear');
@@ -153,6 +154,7 @@ const NewItineraryScreen = ({route, navigation}) => {
 
     const isbnList = []
     if (editItem) {
+      console.log(editItem);
       editItem.books.map(book => isbnList.push(book.isbn))
     }
     navigation.navigate('Seleccionar libros', isbnList);
@@ -171,16 +173,17 @@ const NewItineraryScreen = ({route, navigation}) => {
         id_teacher: authState.user.id_user,
         id_group: 1,
         endDate,
-        books,
-        students
+        books: books || editItem.books || [],
+        students: students || editItem.students || []
       };
 
   
       console.log('new', newItinerary);
   
       let response;
-  
+
       if (isEdit) {
+        console.log('id', editItem.itinerary.id_itinerary);
         response = await updateItinerary(newItinerary, editItem.itinerary.id_itinerary)
       } else {
         response = await createItinerary(newItinerary);
@@ -245,7 +248,7 @@ const NewItineraryScreen = ({route, navigation}) => {
         <View style={styles.selectInput}>
           <TextInput
             mode='outlined'
-            style={styles.input}
+            style={styles.dateInput}
             label="Fecha final"
             disabled
             value={timeToString(endDate)[0]}
@@ -334,6 +337,9 @@ const styles = StyleSheet.create({
       borderRadius: 20,
       marginVertical: 10,
       marginHorizontal: 10,
+    },
+    dateInput: {
+      width: 310
     },
     button: {
       borderRadius: 20,

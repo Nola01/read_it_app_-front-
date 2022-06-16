@@ -11,9 +11,11 @@ import { ApiContext } from '../context/ApiProvider';
 import { AuthContext } from '../context/AuthProvider';
 
 
-const NewBookScreen = ({navigation}) => {
+const NewBookScreen = ({route, navigation}) => {
     const authContext = useContext(AuthContext);
-    const {getBooks, createBook, deleteBook} = useContext(ApiContext);
+    const {getBooks, createBook, deleteBook, updateBook} = useContext(ApiContext);
+
+    const [editItem, setEditItem] = useState({});
 
     const [isbn, setisbn] = useState('');
     const [title, settitle] = useState('');
@@ -27,6 +29,38 @@ const NewBookScreen = ({navigation}) => {
     const [studentsError, setStudentsError] = useState(false); 
 
     const [error, setError] = useState(true)
+    const [isEdit, setisedit] = useState(false);
+
+    const loadItem = async () => {
+        try {
+            const item = route.params;
+            console.log('item', item);
+            if (item) {
+                console.log('editar');
+                setisbn(item.isbn)
+                settitle(item.title)
+                setauthor(item.author)
+                setimage(item.image)
+
+                setEditItem(item)
+                setisedit(true)
+                setError(false)
+            } else {
+            // setEditItem({})
+                console.log('crear');
+                setisbn('')
+                settitle('')
+                setauthor('')
+                setimage('')
+            }
+        } catch (err) {
+            console.log(err.response);
+        }
+    };
+
+    useEffect(() => {
+        loadItem();
+    }, []);
 
     const setForm = () => {
         setisbn('');
@@ -150,14 +184,20 @@ const NewBookScreen = ({navigation}) => {
     const handleAdd = async () => {
         try {
             let newBook = {
-                isbn,
-                title,
-                author,
-                image
+                isbn: isbn || editItem.isbn,
+                title: title || editItem.title,
+                author: author || editItem.author,
+                image: image || editItem.image
             };
-    
-            const response = await createBook(newBook);
-            console.log('respuesta', response);
+
+            let response;
+
+            if (isEdit) {
+                console.log('id', editItem);
+                response = await updateBook(newBook, editItem.isbn)
+            } else {
+                response = await createBook(newBook);
+            }
            
             ToastAndroid.show(response.msg, ToastAndroid.LONG)
     
@@ -175,6 +215,7 @@ const NewBookScreen = ({navigation}) => {
                 <TextInput
                     mode='outlined'
                     style={styles.input}
+                    disabled={isEdit}
                     label="Isbn"
                     value={isbn}
                     onChangeText={isbn => changeIsbn(isbn)}

@@ -48,7 +48,7 @@ const BooksScreen = ({ navigation }) => {
 
   const goEdit = (item) => {
     console.log(item);
-    navigation.navigate('Nuevo itinerario', item);
+    navigation.navigate('Nuevo libro', item);
   }
 
   const handleDelete = async (item) => {
@@ -56,11 +56,7 @@ const BooksScreen = ({ navigation }) => {
       const response = await deleteBook(item.isbn);
       console.log(response);
       loadBooks()
-      if (response.ok === true) {
-          ToastAndroid.show(response.msg, ToastAndroid.LONG)
-      } else {
-          ToastAndroid.show(response.msg, ToastAndroid.LONG)
-      }
+      ToastAndroid.show(response.msg, ToastAndroid.LONG)
     } catch (error) {
       ToastAndroid.show('Error al eliminar libro', ToastAndroid.LONG)
     }

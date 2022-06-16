@@ -149,6 +149,22 @@ const ApiProvider = ({children}) => {
     }
   }
 
+  const updateBook = async (book, id) => {
+    try {
+      let config = {
+        headers: {
+          'x-token': authState.accessToken,
+        }
+      }
+      console.log(book);
+      console.log(id);
+      const response = await authRequest.put(`/app/books/${id}`, book, config);
+      return response.data;
+    } catch (error) {
+      ToastAndroid.show('Error al actualizar itinerario', ToastAndroid.LONG)
+    }
+  }
+
 
 
   const getUsers = async () => {
@@ -250,6 +266,7 @@ const ApiProvider = ({children}) => {
         getBooksByUser,
         createBook,
         deleteBook,
+        updateBook,
         getUsers,
         login,
         register
