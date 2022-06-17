@@ -200,34 +200,22 @@ const NewItineraryScreen = ({route, navigation}) => {
 
   const handleAdd = async () => {
     try {
-      let newItinerary;
-      if (Object.keys(editItem).length !== 0) {
-        newItinerary = {
-          name,
-          department,
-          id_teacher: authState.user.id_user,
-          id_group: 1,
-          endDate,
-          books: editItem.books ,
-          students: editItem.students 
-        };
-      } else {
-        newItinerary = {
-          name,
-          department,
-          id_teacher: authState.user.id_user,
-          id_group: 1,
-          endDate,
-          books: books ,
-          students: students 
-        };
-      }
+      let newItinerary = {
+        name,
+        department,
+        id_teacher: authState.user.id_user,
+        id_group: 1,
+        endDate,
+        books ,
+        students
+      };
 
   
       console.log('new', newItinerary);
   
       let response;
 
+      console.log(isEdit);
       if (isEdit) {
         console.log('id', editItem.itinerary.id_itinerary);
         response = await updateItinerary(newItinerary, editItem.itinerary.id_itinerary)
