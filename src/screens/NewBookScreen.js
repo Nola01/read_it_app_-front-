@@ -20,7 +20,7 @@ const NewBookScreen = ({route, navigation}) => {
     const [isbn, setisbn] = useState('');
     const [title, settitle] = useState('');
     const [author, setauthor] = useState('');
-    const [image, setimage] = useState('https://via.placeholder.com/400');
+    const [image, setimage] = useState('');
 
     const [isbnError, setIsbnError] = useState(false); 
     const [titleError, setTitleError] = useState(false); 
@@ -28,7 +28,7 @@ const NewBookScreen = ({route, navigation}) => {
     const [imageError, setImageError] = useState(false);
     const [studentsError, setStudentsError] = useState(false); 
 
-    const [error, setError] = useState(true)
+    const [error, setError] = useState(true);
     const [isEdit, setisedit] = useState(false);
 
     const loadItem = async () => {
@@ -44,7 +44,6 @@ const NewBookScreen = ({route, navigation}) => {
 
                 setEditItem(item)
                 setisedit(true)
-                setError(false)
             } else {
             // setEditItem({})
                 console.log('crear');
@@ -100,6 +99,10 @@ const NewBookScreen = ({route, navigation}) => {
             setError(false)
         }
         setauthor(author);
+    };
+
+    const changeImage = image => {
+        setimage(image)
     };
 
     const selectImage = () => {
@@ -239,6 +242,14 @@ const NewBookScreen = ({route, navigation}) => {
                     onChangeText={author => changeAuthor(author)}
                 />
                 {authorError ? <Text style={styles.error}>El autor es obligatorio</Text> : <></>}
+
+                <TextInput
+                    mode='outlined'
+                    style={styles.input}
+                    label="Imagen (url)"
+                    value={image}
+                    onChangeText={image => changeImage(image)}
+                />
 
                 <Button onPress={() => selectImage()} mode="contained" style={styles.button}>
                     Seleccionar imagen

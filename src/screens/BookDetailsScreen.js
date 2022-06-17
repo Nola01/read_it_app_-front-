@@ -31,7 +31,7 @@ const BookDetailsScreen = ({route, navigation}) => {
         return (
             <ScrollView style={styles.viewBody}>
                 <Card style={styles.item}>
-                    {/* <Card.Cover style={styles.image} source={{ uri: item.image }} /> */}
+                    <Card.Cover style={styles.image} source={{ uri: item.image }} />
                     <Card.Title title={item.title} subtitle={`Autor: ${item.author}`} />
                     <Card.Content>
                         {/* <Text style={styles.text}>Itinerarios: {item.itinerary.length}</Text> */}
@@ -59,6 +59,6 @@ const styles = StyleSheet.create({
     image: {
         flex: 1,
         flexDirection: 'row',
-        width: '30%',
+        width: '100%'
     }
 });

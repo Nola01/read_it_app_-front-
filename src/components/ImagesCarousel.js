@@ -16,9 +16,7 @@ const ImagesCarousel = ({images, height, width, navigation}) => {
                 style={{width, height}}
                 PlaceholderContent={<ActivityIndicator color="#fff"/>}
                 source={{
-                    uri: Platform.OS === 'ios' ?
-                        imagePath
-                        : `file://${imagePath}`,
+                    uri: item.image
                 }}
             />
         )

@@ -43,9 +43,10 @@ const RegisterScreen = ({navigation}) => {
       setAuthError('La contraseña debe tener como mínimo 8 caracteres')
     } else if (password.length > 16) {
       setAuthError('La contraseña no puede tener más de 16 caracteres')
-    } else {
-      setAuthError('Contraseña incorrecta')
-    }
+    } 
+    // else {
+    //   setAuthError('Contraseña incorrecta')
+    // }
   }
 
   const onRegister = async () => {
