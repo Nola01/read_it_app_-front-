@@ -20,18 +20,20 @@ const SelectBooks = ({route, navigation}) => {
 
     const [editBooks, seteditbooks] = useState({});
     const [isEdit, setisedit] = useState(false); 
-    const [checked, setchecked] = useState(false); 
 
 
     const loadBooks = async () => {
         setrefreshing(true);
         try {
-            const books = route.params;
-            console.log('books', books);
-            if (books) {
-                seteditbooks(books)
-                setselectedbooks(books)
+            const onEditBooks = route.params;
+            console.log('books', onEditBooks);
+            if (onEditBooks) {
+                seteditbooks(onEditBooks)
+                setselectedbooks(onEditBooks)
                 setisedit(true)
+            } else {
+                setselectedbooks(books)
+                setisedit(false)
             }
 
 
@@ -54,16 +56,17 @@ const SelectBooks = ({route, navigation}) => {
             selectedBooks.push(item.isbn)
             console.log('push', selectedBooks);
         } else {
-            let promises = []
-            promises = selectedBooks.filter((isbn) => isbn !== item.isbn);
-            const newBooks = await Promise.all(promises)
+            // let promises = []
+            // promises = selectedBooks.filter((isbn) => isbn !== item.isbn);
+            // const newBooks = await Promise.all(promises)
+            const newBooks = selectedBooks.filter((isbn) => isbn !== item.isbn);
+            // const index = selectedBooks.indexOf(item.id_user)
+            // if (index > -1) {
+            //     selectedBooks.splice(index, 1)
+            //     console.log('new list', selectedBooks);
+            // }
             console.log('new list', newBooks);
             setselectedbooks(newBooks)
-            // selectedBooks.filter(book => {
-            //     if (book.title === item.title) {
-                    
-            //     }
-            // })
         }
 
         console.log(selectedBooks);
@@ -87,7 +90,7 @@ const SelectBooks = ({route, navigation}) => {
                         fillColor="red"
                         unfillColor="#FFFFFF"
                         text="Seleccionar"
-                        isChecked={editBooks.find(book => book === item.isbn)}
+                        isChecked={isEdit ? editBooks.includes(item.isbn) : selectedBooks.includes(item.isbn)}
                         iconStyle={{ borderColor: "red" }}
                         textStyle={{ fontFamily: "JosefinSans-Regular" }}
                         onPress={() => {

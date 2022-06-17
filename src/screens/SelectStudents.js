@@ -9,7 +9,7 @@ import { ApiContext } from '../context/ApiProvider';
 import { NewItineraryContext } from "../context/NewItineraryProvider";
 
 const SelectStudents = ({navigation}) => {
-    const {getUsers} = useContext(ApiContext);
+    const {getStudents} = useContext(ApiContext);
 
     const newItineraryContext = useContext(NewItineraryContext);
     const {students} = useContext(NewItineraryContext);
@@ -18,13 +18,27 @@ const SelectStudents = ({navigation}) => {
     const [selectedStudents, setSelectedStudents] = useState([])
     const [refreshing, setrefreshing] = useState(false);
 
+    const [editStudents, seteditstudents] = useState({});
+    const [isEdit, setisedit] = useState(false); 
+
 
     const loadStudents = async () => {
         setrefreshing(true);
         try {
-            const users = await getUsers();
-            const studentsList = users.filter(user => user.role === 'alumno')
-            setStudentsList(studentsList);
+            const onEditStudents = route.params;
+            console.log('students', onEditStudents);
+            if (onEditStudents.length !== 0) {
+                seteditstudents(onEditStudents)
+                setSelectedStudents(onEditStudents)
+                setisedit(true)
+            } else {
+                setselectedbooks(students)
+                setisedit(false)
+            }
+
+            const users = await getStudents();
+            console.log(users);
+            setStudentsList(users);
         } catch (err) {
             console.log(err.response);
         }
@@ -69,6 +83,7 @@ const SelectStudents = ({navigation}) => {
                         fillColor="red"
                         unfillColor="#FFFFFF"
                         text="Seleccionar"
+                        isChecked={isEdit ? editStudents.includes(item.id_user) : selectedStudents.includes(item.id_user)}
                         iconStyle={{ borderColor: "red" }}
                         textStyle={{ fontFamily: "JosefinSans-Regular" }}
                         onPress={() => {
@@ -83,10 +98,7 @@ const SelectStudents = ({navigation}) => {
     return (
         <SafeAreaView style={styles.container}>
             <Ionicons onPress={() => confirmStudents()} name="checkmark-circle-outline" size={30} />
-            
-            <View>
-              <Text>Lista de libros</Text>
-            </View>
+
             <FlatList
                 data={studentsList}
                 renderItem={renderItem}

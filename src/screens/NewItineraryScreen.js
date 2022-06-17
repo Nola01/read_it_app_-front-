@@ -62,6 +62,7 @@ const NewItineraryScreen = ({route, navigation}) => {
   const [studentsError, setStudentsError] = useState(false); 
 
   const [error, setError] = useState(true)
+  const [isFirstTouch, setFirstTouch] = useState(true)
 
   const loadGroups = async () => {
     try {
@@ -94,6 +95,8 @@ const NewItineraryScreen = ({route, navigation}) => {
         newItineraryContext.setEndDate('')
         newItineraryContext.setBooks([])
         newItineraryContext.setStudents([])
+        setisedit(false)
+        
       }
       const groups = await getUserGroups(authState.user.id_user);
       setgroupsList(groups);
@@ -151,16 +154,32 @@ const NewItineraryScreen = ({route, navigation}) => {
   };
 
   const selectBooks = () => {   
-
-    const isbnList = []
-    if (editItem) {
-      console.log(editItem);
-      editItem.books.map(book => isbnList.push(book.isbn))
+    console.log(isFirstTouch);
+    if (isFirstTouch) {
+      const isbnList = []
+      if (Object.keys(editItem).length !== 0) {
+        console.log(editItem);
+        editItem.books.map(book => isbnList.push(book.isbn))
+        setFirstTouch(false)
+        navigation.navigate('Seleccionar libros', isbnList);
+      } else {
+        setFirstTouch(false)
+        navigation.navigate('Seleccionar libros');
+      }
+      
+    } else {
+      setFirstTouch(false)
+      navigation.navigate('Seleccionar libros');
     }
-    navigation.navigate('Seleccionar libros', isbnList);
+    
   }
 
   const selectStudents = () => {
+    const studentsList = []
+    if (Object.keys(editItem).length !== 0) {
+      console.log(editItem);
+      editItem.students.map(student => studentsList.push(student.id_user))
+    }
     navigation.navigate('Seleccionar alumnos', students)
   }
 
@@ -291,7 +310,7 @@ const NewItineraryScreen = ({route, navigation}) => {
           style={styles.input}
           label="Libros"
           disabled
-          value={books ? books.length.toString() : '0'}
+          value={books.length.toString()}
         />
         {booksError ? <Text style={styles.error}>Debe seleccionar al menos un libro</Text> : <></>}
 
@@ -304,7 +323,7 @@ const NewItineraryScreen = ({route, navigation}) => {
           style={styles.input}
           label="Alumnos"
           disabled
-          value={students ? students.length.toString() : '0'}
+          value={students.length.toString()}
         />
         {studentsError ? <Text style={styles.error}>Debe seleccionar al menos un alumno</Text> : <></>}
 
