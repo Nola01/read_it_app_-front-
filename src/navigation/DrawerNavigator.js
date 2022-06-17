@@ -1,86 +1,136 @@
-import React, { useRef, useState } from "react";
-import { Button, DrawerLayoutAndroid, Text, StyleSheet, View, Image } from "react-native";
-import { Drawer } from 'react-native-paper';
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
 
-const LeftDrawerNavigator = () => {
-  const drawer = useRef(null);
-  const [active, setActive] = React.useState('');
-  const [drawerPosition, setDrawerPosition] = useState("left");
-  const changeDrawerPosition = () => {
-    if (drawerPosition === "left") {
-      setDrawerPosition("right");
-    } else {
-      setDrawerPosition("left");
-    }
-  };
+import React, {useContext, useEffect, useState} from 'react';
+import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native'
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
+import {createStackNavigator} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-  const navigationView = () => (
-    <View>
-        <Drawer.Section title="¡Bienvenido!">
-        <Drawer.Item
-            label="Itinerarios"
-            icon="star"
-            active={active === 'first'}
-            onPress={() => setActive('first')}
-        />
-        <Drawer.Item
-            label="Mis libros"
-            icon="book"
-            active={active === 'second'}
-            onPress={() => setActive('second')}
-        />
-        <Drawer.Item
-            label="Mi perfil"
-            active={active === 'second'}
-            onPress={() => setActive('second')}
-        />
-        <Drawer.Item
-            label="Cerrar sesión"
-            icon="logout"
-            active={active === 'second'}
-            onPress={() => setActive('second')}
-        />
-        <Image
-            style={styles.logo}
-            resizeMethod="resize"
-            resizeMode="contain"
-            source={require('../assets/logo.png')}
-        />
-        </Drawer.Section>
-    </View>
-  );
+import { AuthContext } from '../context/AuthProvider';
+import { SettingsContext } from '../context/SettingsProvider';
+import { routes, screens } from './RouterItems';
 
+import Spinner from '../components/Spinner';
+
+import LoginScreen from '../screens/LoginScreen';
+import RegisterScreen from '../screens/RegisterScreen';
+
+import HomeStackNavigator from './HomeStackNavigator';
+
+
+const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
+
+const CustomDrawerContent = (props) => {
+  const currentRouteName = props.nav()?.getCurrentRoute()?.name
   return (
-    <DrawerLayoutAndroid
-      ref={drawer}
-      drawerWidth={300}
-      drawerPosition={drawerPosition}
-      renderNavigationView={navigationView}
+    <DrawerContentScrollView {...props}>
+      {
+        routes.filter(route => route.showInDrawer).map((route) => {
+          const focusedRoute = routes.find(r => r.name === currentRouteName)
+          const focused = focusedRoute ?
+            route.name === focusedRoute?.focusedRoute :
+            route.name === screens.HomeStack
+          return (
+            <DrawerItem
+              key={route.name}
+              label={() => (
+                <Text style={focused ? styles.drawerLabelFocused : styles.drawerLabel}>
+                  {route.title}
+                </Text>
+              )}
+              onPress={() => props.navigation.navigate(route.name)}
+              style={[styles.drawerItem, focused ? styles.drawerItemFocused : null]}
+            />
+          )
+        })
+      }
+    </DrawerContentScrollView>
+  )
+}
+
+const DrawerNavigator = ({ nav }) => {
+  // const {color} = useContext(SettingsContext);
+  const {authState, loadToken, logout} = useContext(AuthContext);
+  const [loading, setloading] = useState(true);
+
+  useEffect(() => {
+    const loadjwt = async () => {
+      setloading(true);
+      try {
+        await loadToken();
+      } catch (err) {
+        await logout();
+      }
+      setloading(false);
+    };
+    loadjwt();
+  }, []);
+
+  if (loading) return <Spinner />;
+
+  if (!authState.authenticated) {
+    return (
+      
+      <Stack.Navigator initialRouteName="Start">
+        <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="Registro" component={RegisterScreen} options={{headerShown: false}}/>
+      </Stack.Navigator>
+      
+    );
+  } 
+  else
+  return (
+    
+    <Drawer.Navigator
+      screenOptions={({ navigation }) => ({
+        headerStyle: {
+          backgroundColor: '#6299E0',
+          height: 60,
+        },
+        headerLeft: () => (
+          <TouchableOpacity style={styles.headerLeft}>
+            <Ionicons onPress={() => navigation.toggleDrawer()} name="menu" size={30} color="#fff" />
+            <Ionicons style={styles.goBack} onPress={() => navigation.goBack()} name="ios-arrow-back-outline" size={30} color="#fff" />
+          </TouchableOpacity>
+
+        ),
+      })}
+      drawerContent={(props) => <CustomDrawerContent {...props} nav={nav} />}
     >
-      <View style={styles.container}>
-        <Text style={styles.paragraph}>
-          ¿Qué vas a leer hoy?
-        </Text>
-      </View>
-    </DrawerLayoutAndroid>
+      <Drawer.Screen name={' '} component={HomeStackNavigator} />
+    </Drawer.Navigator>
+    
   );
-};
+}
+
+export default DrawerNavigator;
 
 const styles = StyleSheet.create({
-  container: {
+  headerLeft: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 16
+    flexDirection: 'row',
+    margin: 15,
   },
-  navigationContainer: {
-    backgroundColor: "#ecf0f1"
+  goBack: {
+    marginLeft: 10
+  },  
+  drawerLabel: {
+    fontSize: 14,
   },
-  paragraph: {
-    padding: 16,
-    fontSize: 15,
-    textAlign: "center"
-  }
-});
+  drawerLabelFocused: {
+    fontSize: 14,
+    color: '#FFFFFF',
+    fontWeight: '500',
+  },
+  drawerItem: {
+    height: 50,
+    justifyContent: 'center'
+  },
+  drawerItemFocused: {
+    backgroundColor: '#6299E0',
+  },
+})
 
-export default LeftDrawerNavigator;

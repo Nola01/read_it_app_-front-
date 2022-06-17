@@ -5,8 +5,8 @@
  * @format
  * @flow strict-local
  */
-
-import React from 'react';
+import 'react-native-gesture-handler'
+import React, { createRef } from 'react'
 import {
   SafeAreaView,
   ScrollView,
@@ -25,11 +25,30 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import LeftDrawerNavigator from './src/navigation/DrawerNavigator';
+import { Provider as PaperProvider } from 'react-native-paper';
+import DrawerNavigator from './src/navigation/DrawerNavigator';
+import { NavigationContainer } from '@react-navigation/native'  
+import { AuthProvider } from './src/context/AuthProvider';
+import { ApiProvider } from './src/context/ApiProvider';
+import { NewItineraryProvider } from './src/context/NewItineraryProvider';
+
+const navigationRef = createRef()
+const nav = () => navigationRef.current
+
 
 const App = () => {
   return (
-    <LeftDrawerNavigator/>
+    <PaperProvider>
+      <AuthProvider>
+        <ApiProvider>
+          <NewItineraryProvider>
+            <NavigationContainer ref={navigationRef}>
+              <DrawerNavigator nav={nav}/>
+            </NavigationContainer>
+          </NewItineraryProvider>
+        </ApiProvider>
+      </AuthProvider>
+    </PaperProvider>
   );
 };
 
