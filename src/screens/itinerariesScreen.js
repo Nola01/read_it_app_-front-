@@ -30,7 +30,7 @@ const timeToString = (dateWithTime) => {
 const ItinerariesScreen = ({navigation}) => {
     const {getItineraries, deleteItinerary} = useContext(ApiContext);
     const {authState} = useContext(AuthContext);
-    const {reload} = useContext(NewItineraryContext)
+    const {books} = useContext(NewItineraryContext)
 
     const [itineraries, setitineraries] = useState([]);
     const [refreshing, setrefreshing] = useState(false);
@@ -71,7 +71,7 @@ const ItinerariesScreen = ({navigation}) => {
 
     useEffect(() => {
         loadItineraries();
-    }, [navigation, reload]);
+    }, [navigation]);
 
     const onChangeSearch = query => {
         const filterItineraries = [];

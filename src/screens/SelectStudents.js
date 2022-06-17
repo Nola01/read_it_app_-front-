@@ -1,7 +1,7 @@
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import React, {useContext, useState, useEffect} from 'react';
-import { Button, View, FlatList, Pressable, StyleSheet } from 'react-native';
-import { Card, Text, Title } from 'react-native-paper';
+import { View, FlatList, Pressable, StyleSheet } from 'react-native';
+import { Button, Card, Text, Title } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -12,7 +12,7 @@ const SelectStudents = ({route, navigation}) => {
     const {getStudents} = useContext(ApiContext);
 
     const newItineraryContext = useContext(NewItineraryContext);
-    const {students} = useContext(NewItineraryContext);
+    const {students, reload} = useContext(NewItineraryContext);
 
     const [studentsList, setStudentsList] = useState([]);
     const [selectedStudents, setSelectedStudents] = useState([])
@@ -40,7 +40,7 @@ const SelectStudents = ({route, navigation}) => {
                 setSelectedStudents(students)
                 setisedit(false)
             }
-
+            newItineraryContext.setReload(false)
             const users = await getStudents();
             console.log(users);
             setStudentsList(users);
@@ -73,6 +73,7 @@ const SelectStudents = ({route, navigation}) => {
     const confirmStudents = () => {
         newItineraryContext.setStudents(selectedStudents)
         console.log('context students', students);
+        newItineraryContext.setReload(true)
         navigation.navigate('Nuevo itinerario')
     }
 
@@ -103,8 +104,9 @@ const SelectStudents = ({route, navigation}) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Ionicons onPress={() => confirmStudents()} name="checkmark-circle-outline" size={30} />
-
+            <Button style={styles.button} mode="contained" onPress={() => confirmStudents()}>
+                <Ionicons name="checkmark-circle-outline" size={20} /> Confirmar
+            </Button>
             <FlatList
                 data={studentsList}
                 renderItem={renderItem}
@@ -128,5 +130,11 @@ const styles = StyleSheet.create({
     item: {
       marginTop: 10,
       borderRadius: 5
-    }
+    },
+    button: {
+        borderRadius: 20,
+        marginTop: 10,
+        marginBottom: 10,
+        textAlignVertical: 'center'
+    },
 });

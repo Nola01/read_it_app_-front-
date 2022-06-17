@@ -107,7 +107,6 @@ const SelectBooks = ({route, navigation}) => {
         <SafeAreaView style={styles.container}>
             <Button style={styles.button} mode="contained" onPress={() => confirmBooks()}>
                 <Ionicons name="checkmark-circle-outline" size={20} /> Confirmar
-
             </Button>
 
 

@@ -38,12 +38,8 @@ const NewItineraryScreen = ({route, navigation}) => {
   const {createItinerary, getUserGroups, updateItinerary} = useContext(ApiContext);
 
 
-  const {name} = useContext(NewItineraryContext);
-  const {department} = useContext(NewItineraryContext);
-  const {group} = useContext(NewItineraryContext);
-  const {endDate} = useContext(NewItineraryContext);
-  const {books} = useContext(NewItineraryContext);
-  const {students} = useContext(NewItineraryContext);
+  const {name, department, group, endDate, books, students, reload} = useContext(NewItineraryContext);
+ 
 
   const [editItem, setEditItem] = useState({});
 
@@ -72,8 +68,8 @@ const NewItineraryScreen = ({route, navigation}) => {
         newItineraryContext.setDepartment(item.itinerary.department)
         newItineraryContext.setGroup(item.itinerary.id_group)
         newItineraryContext.setEndDate(item.itinerary.endDate)
-        newItineraryContext.setBooks(item.books)
-        newItineraryContext.setStudents(item.students)
+        newItineraryContext.setBooks(item.books || [])
+        newItineraryContext.setStudents(item.students || [])
 
         console.log(name, department);
 
@@ -198,8 +194,8 @@ const NewItineraryScreen = ({route, navigation}) => {
         id_teacher: authState.user.id_user,
         id_group: 1,
         endDate,
-        books ,
-        students
+        books: books || [],
+        students: students || []
       };
 
       
