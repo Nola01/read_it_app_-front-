@@ -1,3 +1,6 @@
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
+
 import React, {useContext, useEffect, useState} from 'react';
 import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native'
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
