@@ -25,20 +25,30 @@ const SelectStudents = ({navigation}) => {
     const loadStudents = async () => {
         setrefreshing(true);
         try {
-            const onEditStudents = route.params;
-            console.log('students', onEditStudents);
-            if (onEditStudents.length !== 0) {
-                seteditstudents(onEditStudents)
-                setSelectedStudents(onEditStudents)
-                setisedit(true)
+            
+            const users = await getStudents();
+            console.log(users);
+            setStudentsList(users);
+
+            
+
+            if (route.params) {
+                const onEditStudents = route.params;
+                console.log('students', onEditStudents);
+                if (onEditStudents) {
+                    seteditstudents(onEditStudents)
+                    setSelectedStudents(onEditStudents)
+                    setisedit(true)
+                }
+                
             } else {
+                console.log('students', students);
                 setselectedbooks(students)
                 setisedit(false)
             }
 
-            const users = await getStudents();
-            console.log(users);
-            setStudentsList(users);
+            
+            
         } catch (err) {
             console.log(err.response);
         }
@@ -102,7 +112,7 @@ const SelectStudents = ({navigation}) => {
             <FlatList
                 data={studentsList}
                 renderItem={renderItem}
-                keyExtractor={item => item.isbn}
+                keyExtractor={item => item.id_user}
                 onRefresh={loadStudents}
                 refreshing={refreshing}
             />

@@ -62,7 +62,8 @@ const NewItineraryScreen = ({route, navigation}) => {
   const [studentsError, setStudentsError] = useState(false); 
 
   const [error, setError] = useState(true)
-  const [isFirstTouch, setFirstTouch] = useState(true)
+  const [isFirstTouchBooks, setFirstTouchBooks] = useState(true)
+  const [isFirstTouchStudents, setFirstTouchStudents] = useState(true)
 
   const loadGroups = async () => {
     try {
@@ -154,47 +155,73 @@ const NewItineraryScreen = ({route, navigation}) => {
   };
 
   const selectBooks = () => {   
-    console.log(isFirstTouch);
-    if (isFirstTouch) {
+    console.log(isFirstTouchBooks);
+    if (isFirstTouchBooks) {
       const isbnList = []
       if (Object.keys(editItem).length !== 0) {
         console.log(editItem);
         editItem.books.map(book => isbnList.push(book.isbn))
-        setFirstTouch(false)
+        setFirstTouchBooks(false)
         navigation.navigate('Seleccionar libros', isbnList);
       } else {
-        setFirstTouch(false)
+        setFirstTouchBooks(false)
         navigation.navigate('Seleccionar libros');
       }
       
     } else {
-      setFirstTouch(false)
+      setFirstTouchBooks(false)
       navigation.navigate('Seleccionar libros');
     }
     
   }
 
   const selectStudents = () => {
-    const studentsList = []
-    if (Object.keys(editItem).length !== 0) {
-      console.log(editItem);
-      editItem.students.map(student => studentsList.push(student.id_user))
+    console.log(isFirstTouchStudents);
+    if (isFirstTouchStudents) {
+      const studentsList = []
+      if (Object.keys(editItem).length !== 0) {
+        console.log('edit',editItem);
+        editItem.students.map(student => studentsList.push(student.id_user))
+        setFirstTouchStudents(false)
+        console.log(studentsList);
+        navigation.navigate('Seleccionar alumnos', studentsList)
+      } else {
+        setFirstTouchStudents(false)
+        navigation.navigate('Seleccionar alumnos');
+      }
+      
+    } else {
+      setFirstTouchStudents(false)
+      navigation.navigate('Seleccionar alumnos');
     }
-    navigation.navigate('Seleccionar alumnos', students)
+    
   }
 
 
   const handleAdd = async () => {
     try {
-      let newItinerary = {
-        name,
-        department,
-        id_teacher: authState.user.id_user,
-        id_group: 1,
-        endDate,
-        books: books || editItem.books || [],
-        students: students || editItem.students || []
-      };
+      let newItinerary;
+      if (Object.keys(editItem).length !== 0) {
+        newItinerary = {
+          name,
+          department,
+          id_teacher: authState.user.id_user,
+          id_group: 1,
+          endDate,
+          books: editItem.books ,
+          students: editItem.students 
+        };
+      } else {
+        newItinerary = {
+          name,
+          department,
+          id_teacher: authState.user.id_user,
+          id_group: 1,
+          endDate,
+          books: books ,
+          students: students 
+        };
+      }
 
   
       console.log('new', newItinerary);

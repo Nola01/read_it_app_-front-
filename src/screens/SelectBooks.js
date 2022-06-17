@@ -1,7 +1,7 @@
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import React, {useContext, useState, useEffect} from 'react';
-import { Button, View, FlatList, Pressable, StyleSheet } from 'react-native';
-import { Card, Text, Title } from 'react-native-paper';
+import { View, FlatList, Pressable, StyleSheet } from 'react-native';
+import { Button, Card, Text, Title } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -32,6 +32,7 @@ const SelectBooks = ({route, navigation}) => {
                 setselectedbooks(onEditBooks)
                 setisedit(true)
             } else {
+                console.log('books', books);
                 setselectedbooks(books)
                 setisedit(false)
             }
@@ -104,11 +105,12 @@ const SelectBooks = ({route, navigation}) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Ionicons onPress={() => confirmBooks()} name="checkmark-circle-outline" size={30} />
-            
-            <View>
-              <Text>Lista de libros</Text>
-            </View>
+            <Button style={styles.button} mode="contained" onPress={() => confirmBooks()}>
+                <Ionicons name="checkmark-circle-outline" size={20} /> Confirmar
+
+            </Button>
+
+
             <FlatList
                 data={booksList}
                 renderItem={renderItem}
@@ -132,5 +134,11 @@ const styles = StyleSheet.create({
     item: {
       marginTop: 10,
       borderRadius: 5
-    }
+    },
+    button: {
+        borderRadius: 20,
+        marginTop: 10,
+        marginBottom: 10,
+        textAlignVertical: 'center'
+    },
 });
