@@ -318,7 +318,7 @@ const NewItineraryScreen = ({route, navigation}) => {
         />
         {booksError ? <Text style={styles.error}>Debe seleccionar al menos un libro</Text> : <></>}
 
-        <Button style={styles.button} mode="contained" onPress={() => selectBooks()}>
+        <Button style={styles.button} mode="contained" color={'#6299E0'} onPress={() => selectBooks()}>
           <Ionicons name="list" size={18} /> Seleccionar libros
         </Button>
         
@@ -331,13 +331,13 @@ const NewItineraryScreen = ({route, navigation}) => {
         />
         {studentsError ? <Text style={styles.error}>Debe seleccionar al menos un alumno</Text> : <></>}
 
-        <Button style={styles.button} mode="contained" onPress={() => selectStudents()}>
+        <Button style={styles.button} mode="contained" color={'#6299E0'} onPress={() => selectStudents()}>
           <Ionicons name="list" size={18} /> Seleccionar alumnos
         </Button>
 
         <Divider style={styles.divider}/>
 
-        <Button style={styles.button} disabled={error} mode="contained" onPress={() => handleAdd()}>
+        <Button style={styles.button} disabled={error} mode="contained" color={'#6299E0'} onPress={() => handleAdd()}>
           <Ionicons name="save-outline" size={18} /> Guardar
         </Button>
       </ScrollView>

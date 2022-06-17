@@ -215,11 +215,11 @@ const NewBookScreen = ({route, navigation}) => {
                     onChangeText={image => changeImage(image)}
                 />
 
-                <Button onPress={() => selectImage()} mode="contained" style={styles.button}>
+                <Button onPress={() => selectImage()} mode="contained" color={'#6299E0'} style={styles.button}>
                     <Icons name="picture" size={18} /> Seleccionar imagen
                 </Button>
 
-                <Button onPress={() => takePicture()} mode="contained" style={styles.button}>
+                <Button onPress={() => takePicture()} mode="contained" color={'#6299E0'} style={styles.button}>
                     <Ionicons name="camera-outline" size={18} />  Hacer una foto
                 </Button>
             
@@ -228,8 +228,8 @@ const NewBookScreen = ({route, navigation}) => {
                     source={{uri: image}}>
                 </Image>
 
-                <Button onPress={() => handleAdd()} disabled={error} mode="contained" style={styles.button}>
-                    <Ionicons name="save-outline" size={18} /> Guardar
+                <Button onPress={() => handleAdd()} disabled={error} mode="contained" color={'#6299E0'} style={styles.button}>
+                    <Ionicons name="save-outline"size={18} /> Guardar
                 </Button>
             </ScrollView>
         </SafeAreaView>

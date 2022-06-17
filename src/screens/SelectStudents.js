@@ -87,11 +87,11 @@ const SelectStudents = ({route, navigation}) => {
                     <Title></Title>
                     <BouncyCheckbox
                         size={25}
-                        fillColor="red"
+                        fillColor="#6299E0"
                         unfillColor="#FFFFFF"
                         text="Seleccionar"
                         isChecked={isEdit ? editStudents.includes(item.id_user) : selectedStudents.includes(item.id_user)}
-                        iconStyle={{ borderColor: "red" }}
+                        iconStyle={{ borderColor: "#6299E0" }}
                         textStyle={{ fontFamily: "JosefinSans-Regular" }}
                         onPress={() => {
                             checkedStudent(item)
@@ -104,7 +104,7 @@ const SelectStudents = ({route, navigation}) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Button style={styles.button} mode="contained" onPress={() => confirmStudents()}>
+            <Button style={styles.button} mode="contained" color={'#6299E0'} onPress={() => confirmStudents()}>
                 <Ionicons name="checkmark-circle-outline" size={20} /> Confirmar
             </Button>
             <FlatList

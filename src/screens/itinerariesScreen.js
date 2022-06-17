@@ -127,8 +127,8 @@ const ItinerariesScreen = ({navigation}) => {
                         }
                     </Card.Content>
                     <Card.Actions style={styles.actions}>
-                        <Ionicons style={styles.icon} name="pencil" size={30} color={'#551E18'} onPress={() => goEdit(item)}/>
-                        <Ionicons style={styles.icon} name="trash" size={30} color={'#551E18'} onPress={() => handleDelete(item)}/>
+                        <Ionicons style={styles.icon} name="pencil" size={30} color={'#6299E0'} onPress={() => goEdit(item)}/>
+                        <Ionicons style={styles.icon} name="trash" size={30} color={'#6299E0'} onPress={() => handleDelete(item)}/>
                     </Card.Actions>
                 </Card>
             </Pressable>
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   fab: {
-    backgroundColor: 'blue',
+    backgroundColor: '#4C59FA',
     position: 'absolute',
     margin: 16,
     right: 0,

@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   },
   drawerLabelFocused: {
     fontSize: 14,
-    color: '#551E18',
+    color: '#FFFFFF',
     fontWeight: '500',
   },
   drawerItem: {
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   drawerItemFocused: {
-    backgroundColor: '#ba9490',
+    backgroundColor: '#6299E0',
   },
 })
 
