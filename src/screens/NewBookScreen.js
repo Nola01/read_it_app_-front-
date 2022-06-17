@@ -4,6 +4,8 @@ import {Picker} from '@react-native-picker/picker';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {TextInput, Button} from 'react-native-paper';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icons from 'react-native-vector-icons/AntDesign';
 
 import { ApiContext } from '../context/ApiProvider';
 import { AuthContext } from '../context/AuthProvider';
@@ -214,11 +216,11 @@ const NewBookScreen = ({route, navigation}) => {
                 />
 
                 <Button onPress={() => selectImage()} mode="contained" style={styles.button}>
-                    Seleccionar imagen
+                    <Icons name="picture" size={18} /> Seleccionar imagen
                 </Button>
 
                 <Button onPress={() => takePicture()} mode="contained" style={styles.button}>
-                    Hacer una foto
+                    <Ionicons name="camera-outline" size={18} />  Hacer una foto
                 </Button>
             
                 <Image 
@@ -227,7 +229,7 @@ const NewBookScreen = ({route, navigation}) => {
                 </Image>
 
                 <Button onPress={() => handleAdd()} disabled={error} mode="contained" style={styles.button}>
-                    Guardar
+                    <Ionicons name="save-outline" size={18} /> Guardar
                 </Button>
             </ScrollView>
         </SafeAreaView>
