@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { AuthContext } from '../context/AuthProvider';
+import { SettingsContext } from '../context/SettingsProvider';
 import { routes, screens } from './RouterItems';
 
 import Spinner from '../components/Spinner';
@@ -48,6 +49,7 @@ const CustomDrawerContent = (props) => {
 }
 
 const DrawerNavigator = ({ nav }) => {
+  // const {color} = useContext(SettingsContext);
   const {authState, loadToken, logout} = useContext(AuthContext);
   const [loading, setloading] = useState(true);
 
@@ -82,7 +84,7 @@ const DrawerNavigator = ({ nav }) => {
     <Drawer.Navigator
       screenOptions={({ navigation }) => ({
         headerStyle: {
-          backgroundColor: '#3b5998',
+          backgroundColor: '#6299E0',
           height: 60,
         },
         headerLeft: () => (
