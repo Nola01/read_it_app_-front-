@@ -10,6 +10,8 @@ const NewItineraryProvider = ({children}) => {
   const [endDate, setEndDate] = useState('');
   const [books, setBooks] = useState([]);
   const [students, setStudents] = useState([]);
+  const [reload, setReload] = useState(false);
+
 
   return (
     <NewItineraryContext.Provider
@@ -25,7 +27,9 @@ const NewItineraryProvider = ({children}) => {
         books,
         setBooks,
         students,
-        setStudents
+        setStudents,
+        reload,
+        setReload
       }}>
       {children}
     </NewItineraryContext.Provider>

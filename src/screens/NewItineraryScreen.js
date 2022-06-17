@@ -202,6 +202,7 @@ const NewItineraryScreen = ({route, navigation}) => {
         students
       };
 
+      
   
       console.log('new', newItinerary);
   
@@ -212,6 +213,7 @@ const NewItineraryScreen = ({route, navigation}) => {
         response = await updateItinerary(newItinerary, editItem.itinerary.id_itinerary)
       } else {
         response = await createItinerary(newItinerary);
+        
       }
       
       ToastAndroid.show(response.msg, ToastAndroid.LONG)
@@ -223,9 +225,9 @@ const NewItineraryScreen = ({route, navigation}) => {
       newItineraryContext.setBooks([])
       newItineraryContext.setStudents([])
   
-      
+      newItineraryContext.setReload(true)
   
-      navigation.navigate('Itinerarios');
+      navigation.goBack();
     } catch (error) {
       ToastAndroid.show('Error al crear itinerario', ToastAndroid.LONG)
     }
@@ -259,8 +261,8 @@ const NewItineraryScreen = ({route, navigation}) => {
             selectedValue={group}
             onValueChange={itemValue => newItineraryContext.setGroup(itemValue)}>
             {groupsList !== undefined ?
-              groupsList.map(group => {
-                <Picker.Item label={group.name} value={group.id_group} />
+              ['1','2','3'].map(group => {
+                <Picker.Item label={group} value={group} />
               })
               :
               null

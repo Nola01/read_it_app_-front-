@@ -27,7 +27,7 @@ const SelectBooks = ({route, navigation}) => {
         try {
             const onEditBooks = route.params;
             console.log('books', onEditBooks);
-            if (onEditBooks) {
+            if (onEditBooks && onEditBooks.length !== 0) {
                 seteditbooks(onEditBooks)
                 setselectedbooks(onEditBooks)
                 setisedit(true)

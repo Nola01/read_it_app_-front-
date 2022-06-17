@@ -3,6 +3,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import { View, StyleSheet, FlatList, Pressable, ToastAndroid } from 'react-native';
 import { Text, Card, FAB, Title, Paragraph, Searchbar } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { NewItineraryContext } from '../context/NewItineraryProvider';
 
 import { ApiContext } from '../context/ApiProvider';
 import { AuthContext } from '../context/AuthProvider';
@@ -29,6 +30,7 @@ const timeToString = (dateWithTime) => {
 const ItinerariesScreen = ({navigation}) => {
     const {getItineraries, deleteItinerary} = useContext(ApiContext);
     const {authState} = useContext(AuthContext);
+    const {reload} = useContext(NewItineraryContext)
 
     const [itineraries, setitineraries] = useState([]);
     const [refreshing, setrefreshing] = useState(false);
@@ -69,7 +71,7 @@ const ItinerariesScreen = ({navigation}) => {
 
     useEffect(() => {
         loadItineraries();
-    }, []);
+    }, [navigation, reload]);
 
     const onChangeSearch = query => {
         const filterItineraries = [];

@@ -8,7 +8,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ApiContext } from '../context/ApiProvider';
 import { NewItineraryContext } from "../context/NewItineraryProvider";
 
-const SelectStudents = ({navigation}) => {
+const SelectStudents = ({route, navigation}) => {
     const {getStudents} = useContext(ApiContext);
 
     const newItineraryContext = useContext(NewItineraryContext);
@@ -25,32 +25,28 @@ const SelectStudents = ({navigation}) => {
     const loadStudents = async () => {
         setrefreshing(true);
         try {
-            
-            const users = await getStudents();
-            console.log(users);
-            setStudentsList(users);
 
-            
-
-            if (route.params) {
-                const onEditStudents = route.params;
-                console.log('students', onEditStudents);
-                if (onEditStudents) {
-                    seteditstudents(onEditStudents)
-                    setSelectedStudents(onEditStudents)
-                    setisedit(true)
-                }
+            const onEditStudents = route.params;
+            console.log('students', onEditStudents);
+            if (onEditStudents && onEditStudents.length !== 0) {
+                
+                
+                seteditstudents(onEditStudents)
+                setSelectedStudents(onEditStudents)
+                setisedit(true)
                 
             } else {
                 console.log('students', students);
-                setselectedbooks(students)
+                setSelectedStudents(students)
                 setisedit(false)
             }
 
-            
-            
+            const users = await getStudents();
+            console.log(users);
+            setStudentsList(users);
+ 
         } catch (err) {
-            console.log(err.response);
+            console.log(err);
         }
         setrefreshing(false);
     };

@@ -14,7 +14,7 @@ import Spinner from '../components/Spinner';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 
-import HomeStackNavigator from './stack-navigators/HomeStackNavigator';
+import HomeStackNavigator from './HomeStackNavigator';
 
 
 const Drawer = createDrawerNavigator();
@@ -97,7 +97,7 @@ const DrawerNavigator = ({ nav }) => {
       })}
       drawerContent={(props) => <CustomDrawerContent {...props} nav={nav} />}
     >
-      <Drawer.Screen name={'Home'} component={HomeStackNavigator} />
+      <Drawer.Screen name={' '} component={HomeStackNavigator} />
     </Drawer.Navigator>
     
   );
