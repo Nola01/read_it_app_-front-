@@ -101,7 +101,7 @@ const NewItineraryScreen = ({route, navigation}) => {
   
   useEffect(() => {
     loadGroups();
-  }, []);
+  }, [group]);
 
 
   const changeName = itineraryName => {
@@ -192,7 +192,7 @@ const NewItineraryScreen = ({route, navigation}) => {
         name,
         department,
         id_teacher: authState.user.id_user,
-        id_group: 1,
+        id_group: group,
         endDate,
         books: books || [],
         students: students || []
@@ -252,20 +252,27 @@ const NewItineraryScreen = ({route, navigation}) => {
         />
         {departmentError ? <Text style={styles.error}>El departamento es obligatorio</Text> : <></>}
 
+        <TextInput
+          mode='outlined'
+          style={styles.input}
+          label="Grupo"
+          value={group}
+          onChangeText={group => changeGroup(group)}
+
+        />
+
         {/* <View style={styles.selectInput}>
           <Picker
             selectedValue={group}
             onValueChange={itemValue => newItineraryContext.setGroup(itemValue)}>
             {groupsList !== undefined ?
-              ['1','2','3'].map(group => {
-                <Picker.Item label={group} value={group} />
+              groupsList.map(group => {
+                <Picker.Item label={group.name} value={group.id_group} />
               })
               :
-              null
+              <></>
             }
           </Picker>
-          :
-          <></>
         </View> */}
         
         <View style={styles.selectInput}>
