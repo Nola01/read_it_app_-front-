@@ -11,15 +11,22 @@ const ImagesCarousel = ({images, height, width, navigation}) => {
     const imagePath = `${RNFS.DocumentDirectoryPath}/${new Date().toISOString()}.jpg`.replace(/:/g, '-');
 
     const renderItem = ({item}) => {
-        return (
-            <Image 
-                style={{width, height}}
-                PlaceholderContent={<ActivityIndicator color="#fff"/>}
-                source={{
-                    uri: item.image
-                }}
-            />
-        )
+        console.log(item);
+        if (item.image) {
+            return (
+                <Image 
+                    style={{width, height}}
+                    PlaceholderContent={<ActivityIndicator color="#fff"/>}
+                    source={{
+                        uri: item.image
+                    }}
+                />
+            )
+        } else {
+            return (
+                <></>
+            )
+        }
     }
 
     return(

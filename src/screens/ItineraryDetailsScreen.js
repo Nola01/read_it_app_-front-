@@ -36,15 +36,12 @@ const ItineraryDetailsScreen = ({route, navigation}) => {
         // <img src="data:image/__FORMATO__;base64,__BYTES_EN_BASE64__"></img>
         images.push(book.image);
     });
+    console.log(images);
     
 
     const goToDetails = (item) => {
-        navigation.jumpTo('Detalles libro', item);
+        navigation.navigate('Detalles libro', item);
     };
-
-    
-
-  
 
     return (
     <ScrollView style={styles.viewBody}>

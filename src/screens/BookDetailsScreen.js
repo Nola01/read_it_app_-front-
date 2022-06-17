@@ -3,11 +3,7 @@ import React from 'react';
 import {Dimensions, Text, StyleSheet, ScrollView, Pressable} from 'react-native';
 import {Card} from 'react-native-paper';
 
-
-
 const BookDetailsScreen = ({route, navigation}) => {
-
-    
 
     const item = route.params;
     console.log(item);
@@ -15,14 +11,13 @@ const BookDetailsScreen = ({route, navigation}) => {
         const books = item.books;
         return (
             <ScrollView style={styles.viewBody}>
-                <Text>Libros del itinerario: {item.name}</Text>
                 {books.map((book) => (
                     <Card style={styles.item}>
-                        {/* <Card.Cover style={styles.image} source={{ uri: book.image }} /> */}
+                        <Card.Cover style={styles.image} source={{ uri: book.image }} />
                         <Card.Title title={book.title} subtitle={`Autor: ${book.author}`} />
                         <Card.Content>
-                            {/* <Text style={styles.text}>Itinerarios: {book.itinerary.length}</Text> */}
-                        </Card.Content>
+                        <Text>Isbn: {item.isbn}</Text>
+                    </Card.Content>
                     </Card>
                 ))}
             </ScrollView>
@@ -34,7 +29,7 @@ const BookDetailsScreen = ({route, navigation}) => {
                     <Card.Cover style={styles.image} source={{ uri: item.image }} />
                     <Card.Title title={item.title} subtitle={`Autor: ${item.author}`} />
                     <Card.Content>
-                        {/* <Text style={styles.text}>Itinerarios: {item.itinerary.length}</Text> */}
+                        <Text>Isbn: {item.isbn}</Text>
                     </Card.Content>
                 </Card>      
             </ScrollView>
@@ -52,6 +47,7 @@ const styles = StyleSheet.create({
         margin: 10,
         borderRadius: 5,
         color: 'black',
+        height: 500
     },
     viewBody: {
         flex: 1

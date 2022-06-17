@@ -1,10 +1,11 @@
 import React, {createContext, useContext} from 'react';
+import { ToastAndroid } from 'react-native';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { AuthContext } from './AuthProvider';
 import {BASE_URL} from '../config/config';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ToastAndroid } from 'react-native';
-// import bcrypt from 'bcrypt';
+
 
 const ApiContext = createContext();
 
@@ -42,7 +43,6 @@ const ApiProvider = ({children}) => {
 
   const getItineraryById = async (id) => {
     try {
-      console.log(id);
       const response = await authRequest.get(`/app/itineraries/${id}`);
       return response.data;
     } catch (error) {
@@ -57,7 +57,6 @@ const ApiProvider = ({children}) => {
           'x-token': authState.accessToken,
         }
       }
-      console.log(itinerary);
       const response = await authRequest.post(`/app/itineraries/new`, itinerary, config);
       return response.data;
     } catch (error) {
@@ -72,7 +71,6 @@ const ApiProvider = ({children}) => {
           'x-token': authState.accessToken,
         }
       }
-      console.log(id);
       const response = await authRequest.delete(`/app/itineraries/${id}`, config);
       return response.data;
     } catch (error) {
@@ -87,8 +85,6 @@ const ApiProvider = ({children}) => {
           'x-token': authState.accessToken,
         }
       }
-      console.log(itinerary);
-      console.log(id);
       const response = await authRequest.put(`/app/itineraries/${id}`, itinerary, config);
       return response.data;
     } catch (error) {
@@ -124,7 +120,6 @@ const ApiProvider = ({children}) => {
           'x-token': authState.accessToken,
         }
       }
-      console.log(book);
   
       const response = await authRequest.post('/app/books/new', book, config);
       return response.data;
@@ -140,8 +135,6 @@ const ApiProvider = ({children}) => {
           'x-token': authState.accessToken,
         }
       }
-      console.log(authState.accessToken);
-      console.log(id);
   
       const response = await authRequest.delete(`/app/books/${id}`, config);
       return response.data;
@@ -157,8 +150,6 @@ const ApiProvider = ({children}) => {
           'x-token': authState.accessToken,
         }
       }
-      console.log(book);
-      console.log(id);
       const response = await authRequest.put(`/app/books/${id}`, book, config);
       return response.data;
     } catch (error) {
