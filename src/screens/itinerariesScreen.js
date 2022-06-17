@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import { View, StyleSheet, FlatList, Pressable, ToastAndroid } from 'react-native';
-import { Text, Card, FAB, Title, Paragraph } from 'react-native-paper';
+import { Text, Card, FAB, Title, Paragraph, Searchbar } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { ApiContext } from '../context/ApiProvider';
@@ -33,6 +33,7 @@ const ItinerariesScreen = ({navigation}) => {
 
     const [itineraries, setitineraries] = useState([]);
     const [refreshing, setrefreshing] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
 
     const loadItineraries = async () => {
         setrefreshing(true);
@@ -76,6 +77,24 @@ const ItinerariesScreen = ({navigation}) => {
     useEffect(() => {
         loadItineraries();
     }, []);
+
+    const onChangeSearch = query => {
+        const filterItineraries = [];
+        itineraries.forEach(itinerary => {
+          if (itinerary.itinerary.name.includes(query) || itinerary.itinerary.department.includes(query)) {
+            filterItineraries.push(itinerary);
+          }
+        });
+        console.log(filterItineraries);
+        console.log(query);
+        if ((query == '')) {
+          loadItineraries();
+        }
+        if (filterItineraries) {
+          setitineraries(filterItineraries);
+        } 
+        setSearchQuery(query);
+      };
 
     const goToDetails = (item) => {
         //console.log(item.name);
@@ -129,6 +148,11 @@ const ItinerariesScreen = ({navigation}) => {
     };
     return (
         <SafeAreaView style={styles.container}>
+            <Searchbar
+                placeholder="Buscar..."
+                onChangeText={query => onChangeSearch(query)}
+                value={searchQuery}
+            />
             <FlatList
                 data={itineraries}
                 renderItem={renderItem}
