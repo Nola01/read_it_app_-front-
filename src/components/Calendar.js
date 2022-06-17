@@ -1,14 +1,13 @@
 import React, {useContext, useState} from 'react';
 import { ActivityIndicator, View, StyleSheet, ToastAndroid } from 'react-native';
 import { Avatar, Text, Card } from 'react-native-paper';
-
-import { ApiContext } from '../context/ApiProvider';
 import { Agenda } from 'react-native-calendars';
+import {LocaleConfig} from 'react-native-calendars';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+import { ApiContext } from '../context/ApiProvider';
 import { AuthContext } from '../context/AuthProvider';
 
-import {LocaleConfig} from 'react-native-calendars';
 
 LocaleConfig.locales['es'] = {
   monthNames: [
@@ -46,18 +45,7 @@ const Calendar = ({navigation}) => {
     const {getItineraries} = useContext(ApiContext);
     const {getItineraryById} = useContext(ApiContext);
 
-    const goToDetails = async (item) => {
-        try {
-            const itinerary = await getItineraryById(item.id);
-            console.log(itinerary);
-            navigation.jumpTo('Detalles Itinerarios', itinerary);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     const getDate = (dateWithTime) => {
-        // date = response.data.itinerary.endDate;
         let date = new Date(dateWithTime)
         let year = date.getFullYear();
         let month = date.getMonth()+1;
@@ -85,14 +73,11 @@ const Calendar = ({navigation}) => {
 
             // filter to only show active user itineraries
             if (authState.user.role === 'profesor') {
-                // console.log(authState.user.id_user);
                 let teacherItineraries = []
                 allItineraries.map(itinerary => {
-                    // console.log(itinerary.teacher.id_user === authState.user.id_user);
                     if (itinerary.teacher.id_user === authState.user.id_user) {
                         teacherItineraries.push(itinerary)
                     }
-                    
                 })
                 
                 console.log('profesor', teacherItineraries);
@@ -102,14 +87,13 @@ const Calendar = ({navigation}) => {
                 const studentItineraries = []
                 allItineraries.map(itinerary => {
                     if (itinerary.students) {
+
                         itinerary.students.map(student => {
-                            // console.log(student.id_user === authState.user.id_user);
                             if (student.id_user === authState.user.id_user) {
                                 studentItineraries.push(itinerary)
                             }
-                            // console.log('a', studentItineraries);
+
                             setitineraries(studentItineraries)
-                            // console.log('itineraries', itineraries);
                         })
                     }
                 })
@@ -119,7 +103,6 @@ const Calendar = ({navigation}) => {
             for (let i = -15; i < 85; i++) {
                 const time = day.timestamp + i * 24 * 60 * 60 * 1000;
                 const strTime = timeToString(time);
-                // console.log(strTime);
 
                 // if the date is not inside 'items0'
                 if (!items[strTime]) {
@@ -128,14 +111,14 @@ const Calendar = ({navigation}) => {
                     items[strTime] = [];
 
                     /*
-                    for each itinerary, if it's date is equal to the current date, 
-                    we add it to the events array (value) of this date (key)
+                        for each itinerary, if it's date is equal to the current date, 
+                        we add it to the events array (value) of this date (key)
                     */
-                    // console.log(itineraries);
+
                     itineraries.map((data) => {
                         if (getDate(data.itinerary.endDate) === strTime) {
                             items[strTime].push({
-                                id: data.itinerary.id,
+                                id: data.itinerary.id_itinerary,
                                 name: data.itinerary.name,
                                 day: strTime
                             });
@@ -143,7 +126,6 @@ const Calendar = ({navigation}) => {
                             return;
                         }
                     })
-                    // console.log(items);
                 }
             }
             setloading(false)
@@ -153,6 +135,17 @@ const Calendar = ({navigation}) => {
         }
         
     }
+
+    const goToDetails = async (item) => {
+        try {
+            console.log('item', item);
+            const itinerary = await getItineraryById(item.id);
+            console.log('itinerario', itinerary);
+            // navigation.navigate('Detalles itinerario', itinerary);
+        } catch (error) {
+            ToastAndroid.show('Error al encontrar itinerario', ToastAndroid.SHORT)
+        }
+    };
 
     const renderItem = (item) => {
         return(

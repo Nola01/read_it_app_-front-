@@ -42,7 +42,8 @@ const ApiProvider = ({children}) => {
 
   const getItineraryById = async (id) => {
     try {
-      const response = await authRequest.get(`/itineraries/${id}`);
+      console.log(id);
+      const response = await authRequest.get(`/app/itineraries/${id}`);
       return response.data;
     } catch (error) {
       ToastAndroid.show('Error al obtener itinerario', ToastAndroid.LONG)
