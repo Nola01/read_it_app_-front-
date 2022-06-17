@@ -1,10 +1,9 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import { View, StyleSheet, FlatList, Pressable, ScrollView, Typography } from 'react-native';
-import { Avatar, Text, Card, Title, Paragraph } from 'react-native-paper';
+import { View, StyleSheet } from 'react-native';
+import { Text, Card} from 'react-native-paper';
 
 import { AuthContext } from '../context/AuthProvider';
-
 
 import Calendar from '../components/Calendar';
 
@@ -13,10 +12,6 @@ const HomeScreen = ({navigation}) => {
     const {authState} = useContext(AuthContext);
 
     const user = authState.user;
-
-    const goToItineraries = () => {
-        navigation.jumpTo('Itinerarios');
-    };
     
     return (
         <SafeAreaView style={styles.container}>
@@ -24,8 +19,6 @@ const HomeScreen = ({navigation}) => {
                     <Text style={styles.headerText}>Bienvenido/a {user.name}</Text>
                     <Text>   </Text>
                 </Card>
-
-                {/* <Text style={styles.itineraries} onPress={() => goToItineraries()}> Ver todos tus itinerarios </Text> */}
     
                 <View style={styles.calendar}>
                     <Calendar navigation={navigation} />        
@@ -58,9 +51,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         margin: 10,
         paddingTop: 10
-    },
-    itineraries: {
-        marginTop: 90,
     },
     calendar: {
         flex: 1,

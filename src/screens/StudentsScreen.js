@@ -1,16 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import { View, StyleSheet, FlatList, Pressable } from 'react-native';
-import { Text, Card, FAB, Title, Paragraph } from 'react-native-paper';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { StyleSheet, FlatList, Pressable } from 'react-native';
+import { Text, Card } from 'react-native-paper';
 
 import { ApiContext } from '../context/ApiProvider';
-import { AuthContext } from '../context/AuthProvider';
 import { ToastAndroid } from 'react-native';
 
 const StudentsScreen = ({ navigation }) => {
   const {getStudents} = useContext(ApiContext);
-  const {authState} = useContext(AuthContext);
 
   const [students, setStudents] = useState([]);
   const [refreshing, setrefreshing] = useState(false);
@@ -21,7 +18,7 @@ const StudentsScreen = ({ navigation }) => {
         const students = await getStudents();
         setStudents(students)
       } catch (err) {
-        console.log(err.response);
+        ToastAndroid.show('Error al obtener lista de alumnos', ToastAndroid.LONG)
       }
       setrefreshing(false);
   };
@@ -35,7 +32,6 @@ const StudentsScreen = ({ navigation }) => {
       <Pressable>
           <Card style={styles.item}>
               <Card.Title title={item.name} />
-              {/* <Card.Cover style={styles.image} source={{ uri: item.image }} /> */}
               <Card.Content>
                 <Text>{item.email}</Text>
               </Card.Content>

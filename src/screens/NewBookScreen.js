@@ -1,19 +1,16 @@
 import React, {useContext, useState, useEffect} from 'react';
-import {Image, Pressable, StyleSheet, ScrollView, Text, ToastAndroid} from 'react-native';
+import {Image, StyleSheet, ScrollView, Text, ToastAndroid} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Card, TextInput, Button, Alert, Snackbar} from 'react-native-paper';
+import {TextInput, Button} from 'react-native-paper';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-
-import * as RNFS from 'react-native-fs';
 
 import { ApiContext } from '../context/ApiProvider';
 import { AuthContext } from '../context/AuthProvider';
 
 
 const NewBookScreen = ({route, navigation}) => {
-    const authContext = useContext(AuthContext);
-    const {getBooks, createBook, deleteBook, updateBook} = useContext(ApiContext);
+    const {createBook, updateBook} = useContext(ApiContext);
 
     const [editItem, setEditItem] = useState({});
 
@@ -34,7 +31,6 @@ const NewBookScreen = ({route, navigation}) => {
     const loadItem = async () => {
         try {
             const item = route.params;
-            console.log('item', item);
             if (item) {
                 console.log('editar');
                 setisbn(item.isbn)
@@ -121,7 +117,6 @@ const NewBookScreen = ({route, navigation}) => {
                 console.log('El usuario canceló la selección');
             } else {
                 const uri = response.assets[0].uri
-                console.log(uri);
                 setimage(uri)
             }
         })
@@ -144,41 +139,9 @@ const NewBookScreen = ({route, navigation}) => {
             } else if (response.didCancel) {
                 console.log('El usuario canceló la selección');
             } else {
-                // var Base64Code = base64Image.split("data:image/png;base64,"); //base64Image is my image base64 string
-
                 const uri = response.assets[0].uri
-
-                // var path = RNFS.DocumentDirectoryPath + `/${new Date().toISOString()}/${isbn}.jpg`.replace(/:/g, '-');
-
-                const imagePath = `${RNFS.DocumentDirectoryPath}/${new Date().toISOString()}/${isbn}.jpg`.replace(/:/g, '-');
-
-                // write the file
-                // RNFS.writeFile(imagePath, uri)
-                // .then((success) => {
-                // console.log('FILE WRITTEN!');
-                // })
-                // .catch((err) => {
-                // console.log(err.message);
-                // });
-                
-                // const imagePath = `${RNFS.DocumentDirectoryPath}/${new Date().toISOString()}.jpg`.replace(/:/g, '-');
-
-                // RNFS.copyFile(uri, imagePath)
-                // .then(res => {console.log('ok', res);})
-                // .catch(err => {
-                //     console.log('ERROR: image file write failed!!!');
-                //     console.log(err.message, err.code);
-                // });
-
                 console.log(uri);
                 setimage(uri)
-                // const strings = uri.split('.jpg')
-                // const addIsbn = strings[0].concat('/isbn/', isbn)
-                // const newUri = addIsbn.concat('.jpg')
-                // console.log('nueva uri', newUri);
-                // setimage(newUri)
-
-                
             }
         })
         
@@ -196,7 +159,6 @@ const NewBookScreen = ({route, navigation}) => {
             let response;
 
             if (isEdit) {
-                console.log('id', editItem);
                 response = await updateBook(newBook, editItem.isbn)
             } else {
                 response = await createBook(newBook);
@@ -285,11 +247,6 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         borderRadius: 20,
-        marginVertical: 10,
-        marginHorizontal: 10,
-    },
-    title: {
-        fontSize: 15,
         marginVertical: 10,
         marginHorizontal: 10,
     },

@@ -8,7 +8,6 @@ import { ApiContext } from '../context/ApiProvider';
 import { AuthContext } from '../context/AuthProvider';
 
 const timeToString = (dateWithTime) => {
-    // date = response.data.itinerary.endDate;
     let date = new Date(dateWithTime)
     let year = date.getFullYear();
     let month = date.getMonth()+1;
@@ -40,29 +39,23 @@ const ItinerariesScreen = ({navigation}) => {
         try {
             const itineraries = await getItineraries();
             if (authState.user.role === 'profesor') {
-                // console.log(authState.user.id_user);
                 let teacherItineraries = []
                 itineraries.map(itinerary => {
-                    // console.log(itinerary.teacher.id_user === authState.user.id_user);
                     if (itinerary.teacher.id_user === authState.user.id_user) {
                         teacherItineraries.push(itinerary)
                     }
                 })
 
-                // console.log('profesor', teacherItineraries);
                 setitineraries(teacherItineraries);
             } else {
                 const studentItineraries = []
                 itineraries.map(itinerary => {
                     if (itinerary.students) {
                         itinerary.students.map(student => {
-                            // console.log(student.id_user === authState.user.id_user);
                             if (student.id_user === authState.user.id_user) {
                                 studentItineraries.push(itinerary)
                             }
-                            // console.log('a', studentItineraries);
                             setitineraries(studentItineraries)
-                            // console.log('itineraries', itineraries);
                         })
                     }
                 })
@@ -97,7 +90,6 @@ const ItinerariesScreen = ({navigation}) => {
     };
 
     const goToDetails = (item) => {
-        //console.log(item.name);
         navigation.navigate('Detalles itinerario', item);
     };
 
@@ -106,24 +98,18 @@ const ItinerariesScreen = ({navigation}) => {
     }
 
     const goEdit = (item) => {
-        console.log(item);
         navigation.navigate('Nuevo itinerario', item);
     }
 
     const handleDelete = async (item) => {
         try {
-            console.log(item);
             const response = await deleteItinerary(item.itinerary.id_itinerary);
-            console.log(response);
             loadItineraries();
             ToastAndroid.show(response.msg, ToastAndroid.LONG)
         } catch (error) {
             ToastAndroid.show('Error al eliminar itinerario', ToastAndroid.LONG)
         }
-        
     }
-
-    
 
     const renderItem = ({item}) => {
         return (

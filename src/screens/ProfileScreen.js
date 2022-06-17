@@ -1,11 +1,10 @@
 import React, {useContext} from 'react';
-import { Button, Dimensions, View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import { Text } from 'react-native-paper';
 import { Avatar } from 'react-native-paper';
 
 import { AuthContext } from '../context/AuthProvider';
-import { white } from 'react-native-paper/lib/typescript/styles/colors';
 
 const ProfileScreen = ({ navigation }) => {
 
@@ -14,6 +13,7 @@ const ProfileScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <Avatar.Image style={styles.avatar} size={50} source={require('../assets/default-user-icon.jpg')} />
+            <Text style={styles.text}>Nombre: {authState.user.name}</Text>
             <Text style={styles.text}>Correo: {authState.user.email}</Text>
             
         </SafeAreaView>

@@ -140,9 +140,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Macondo-Regular',
     color: 'white',
   },
-  logo: {
-    marginTop: 60,
-  },
   form: {
     marginTop: 20,
     padding: 0,

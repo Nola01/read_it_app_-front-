@@ -1,11 +1,10 @@
 import React, {useContext, useState, useEffect} from 'react';
-import {Alert, Image, Pressable, StyleSheet, ScrollView, Text, View, ToastAndroid} from 'react-native';
+import { StyleSheet, ScrollView, Text, View, ToastAndroid} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Card, Dialog, Divider, TextInput, Button, Snackbar} from 'react-native-paper';
+import {Divider, TextInput, Button} from 'react-native-paper';
 import CalendarPicker from 'react-native-calendar-picker';
 import {Picker} from '@react-native-picker/picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
 
 
 import { AuthContext } from '../context/AuthProvider';
@@ -13,7 +12,6 @@ import { ApiContext } from '../context/ApiProvider';
 import { NewItineraryContext } from '../context/NewItineraryProvider';
 
 const timeToString = (dateWithTime) => {
-  // date = response.data.itinerary.endDate;
   let date = new Date(dateWithTime)
   let year = date.getFullYear();
   let month = date.getMonth()+1;
@@ -34,7 +32,6 @@ const timeToString = (dateWithTime) => {
 
 const NewItineraryScreen = ({route, navigation}) => {
 
-  const authContext = useContext(AuthContext);
   const {authState} = useContext(AuthContext);
   const newItineraryContext = useContext(NewItineraryContext);
 
@@ -51,8 +48,8 @@ const NewItineraryScreen = ({route, navigation}) => {
   const [editItem, setEditItem] = useState({});
 
   const [groupsList, setgroupsList] = useState([]);
+
   const [visibleDate, setvisibledate] = useState(false);
-  const [visibleGroup, setvisibleGroup] = useState(false);
   const [isEdit, setisedit] = useState(false);
 
   const [nameError, setNameError] = useState(false); 
@@ -69,7 +66,6 @@ const NewItineraryScreen = ({route, navigation}) => {
     try {
 
       const item = route.params;
-      console.log('item', item);
       if (item) {
         console.log('editar');
         newItineraryContext.setName(item.itinerary.name)
@@ -102,9 +98,8 @@ const NewItineraryScreen = ({route, navigation}) => {
       const groups = await getUserGroups(authState.user.id_user);
       setgroupsList(groups);
       console.log('grupos', groups);
-      //setvisible(true)
     } catch (err) {
-      console.log(err.response);
+      ToastAndroid.show('Error al setear formulario', ToastAndroid.LONG)
     }
   };
   
@@ -122,7 +117,6 @@ const NewItineraryScreen = ({route, navigation}) => {
       setError(false)
     }
     newItineraryContext.setName(itineraryName)
-    console.log(name);
   };
 
   const changeDepartment = department => {
@@ -134,12 +128,11 @@ const NewItineraryScreen = ({route, navigation}) => {
       setError(false)
     }
     newItineraryContext.setDepartment(department)
-    console.log(department);
   };
 
   const changeGroup = group => {
     newItineraryContext.setGroup(group)
-    console.log(group);
+    console.log('group', group);
   };
 
   const changeEndDate = (date) => {
@@ -151,7 +144,6 @@ const NewItineraryScreen = ({route, navigation}) => {
       setError(false)
     }
     newItineraryContext.setEndDate(timeToString(date)[1])
-    console.log('endate', endDate);
   };
 
   const selectBooks = () => {   
@@ -215,7 +207,6 @@ const NewItineraryScreen = ({route, navigation}) => {
   
       let response;
 
-      console.log(isEdit);
       if (isEdit) {
         console.log('id', editItem.itinerary.id_itinerary);
         response = await updateItinerary(newItinerary, editItem.itinerary.id_itinerary)

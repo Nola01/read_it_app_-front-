@@ -79,15 +79,7 @@ const RegisterScreen = ({navigation}) => {
                     onChangeText={text => setName(text)}
                     value={name}
                   />
-                  {/* <TextInput
-                  style={styles.input}
-                  placeholder="Apellido"
-                  placeholderTextColor="#ccc"
-                  keyboardType="surname"
-                  autoCapitalize="none"
-                  onChangeText={text => setSurname(text)}
-                  value={surname}
-                  /> */}
+
                   <TextInput
                     style={styles.input}
                     placeholder="Email"
@@ -97,6 +89,7 @@ const RegisterScreen = ({navigation}) => {
                     onChangeText={text => setEmail(text)}
                     value={email}
                   />
+
                   <TextInput
                     style={styles.input}
                     placeholder="Contraseña"
@@ -156,9 +149,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontFamily: 'Macondo-Regular',
     color: 'white',
-  },
-  logo: {
-    marginTop: 60,
   },
   form: {
     marginTop: 20,
