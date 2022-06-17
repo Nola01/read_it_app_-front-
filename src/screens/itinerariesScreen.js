@@ -94,7 +94,7 @@ const ItinerariesScreen = ({navigation}) => {
           setitineraries(filterItineraries);
         } 
         setSearchQuery(query);
-      };
+    };
 
     const goToDetails = (item) => {
         //console.log(item.name);

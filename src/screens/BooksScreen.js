@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import { View, StyleSheet, FlatList, Pressable } from 'react-native';
-import { Text, Card, FAB, Title, Paragraph } from 'react-native-paper';
+import { Text, Card, FAB, Title, Paragraph, Searchbar } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { ApiContext } from '../context/ApiProvider';
@@ -14,6 +14,7 @@ const BooksScreen = ({ navigation }) => {
 
   const [books, setbooks] = useState([]);
   const [refreshing, setrefreshing] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const loadBooks = async () => {
       setrefreshing(true);
@@ -36,6 +37,24 @@ const BooksScreen = ({ navigation }) => {
     console.log('render');
     loadBooks();
   }, []);
+
+  const onChangeSearch = query => {
+      const filterBooks = [];
+      books.forEach(book => {
+        if (book.title.includes(query) || book.author.includes(query) || book.isbn.includes(query)) {
+          filterBooks.push(book);
+        }
+      });
+      console.log(filterBooks);
+      console.log(query);
+      if ((query == '')) {
+        loadBooks();
+      }
+      if (filterBooks) {
+        setbooks(filterBooks);
+      } 
+      setSearchQuery(query);
+  };
 
   const goToDetails = (item) => {
       //console.log(item.name);
@@ -70,6 +89,7 @@ const BooksScreen = ({ navigation }) => {
                 <Card.Title title={item.title} subtitle={`Autor: ${item.author}`} />
                 {/* <Card.Cover style={styles.image} source={{ uri: item.image }} /> */}
                 <Card.Content>
+                  <Text>Isbn: {item.isbn}</Text>
                 </Card.Content>
                 <Card.Actions style={styles.actions}>
                     <Ionicons style={styles.icon} name="pencil" size={30} color={'#551E18'} onPress={() => goEdit(item)}/>
@@ -81,6 +101,11 @@ const BooksScreen = ({ navigation }) => {
   };
   return (
       <SafeAreaView style={styles.container}>
+          <Searchbar
+              placeholder="Buscar..."
+              onChangeText={query => onChangeSearch(query)}
+              value={searchQuery}
+          />
           <FlatList
               data={books}
               renderItem={renderItem}
