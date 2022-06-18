@@ -126,10 +126,15 @@ const ItinerariesScreen = ({navigation}) => {
                             <Paragraph>Libros: 0</Paragraph>
                         }
                     </Card.Content>
-                    <Card.Actions style={styles.actions}>
-                        <Ionicons style={styles.icon} name="pencil" size={30} color={'#6299E0'} onPress={() => goEdit(item)}/>
-                        <Ionicons style={styles.icon} name="trash" size={30} color={'#6299E0'} onPress={() => handleDelete(item)}/>
-                    </Card.Actions>
+                    {authState.user.role === 'profesor' ?
+                        <Card.Actions style={styles.actions}>
+                            <Ionicons style={styles.icon} name="pencil" size={30} color={'#6299E0'} onPress={() => goEdit(item)}/>
+                            <Ionicons style={styles.icon} name="trash" size={30} color={'#6299E0'} onPress={() => handleDelete(item)}/>
+                        </Card.Actions>
+                        :
+                        <></>
+                    }
+                    
                 </Card>
             </Pressable>
         );

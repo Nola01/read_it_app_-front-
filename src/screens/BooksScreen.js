@@ -86,10 +86,14 @@ const BooksScreen = ({ navigation }) => {
               <Card.Content>
                 <Text>Isbn: {item.isbn}</Text>
               </Card.Content>
-              <Card.Actions style={styles.actions}>
+              {authState.user.role === 'profesor' ?
+                <Card.Actions style={styles.actions}>
                   <Ionicons style={styles.icon} name="pencil" size={30} color={'#6299E0'} onPress={() => goEdit(item)}/>
                   <Ionicons style={styles.icon} name="trash" size={30} color={'#6299E0'} onPress={() => handleDelete(item)}/>
-              </Card.Actions>
+                </Card.Actions>
+                :
+                <></>
+              }
           </Card>
       </Pressable>
     );
