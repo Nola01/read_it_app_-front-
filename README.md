@@ -4,11 +4,11 @@
 
 </center>
 
-<center> 
+<p align="center"> 
 
   <img src="/README/LOGO%20DEPARTAMENTO.png"/>
 
-</center>
+</p>
 
 
 <center>
