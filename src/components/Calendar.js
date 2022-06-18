@@ -80,7 +80,7 @@ const Calendar = ({navigation}) => {
                     }
                 })
                 
-                console.log('profesor', teacherItineraries);
+                // console.log('profesor', teacherItineraries);
                 setitineraries(teacherItineraries);
                 
             } else {

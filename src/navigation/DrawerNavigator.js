@@ -87,20 +87,20 @@ const DrawerNavigator = ({ nav }) => {
     <Drawer.Navigator
       screenOptions={({ navigation }) => ({
         headerStyle: {
-          backgroundColor: '#6299E0',
+          backgroundColor: '#FFFFFF',
           height: 60,
         },
         headerLeft: () => (
           <TouchableOpacity style={styles.headerLeft}>
-            <Ionicons onPress={() => navigation.toggleDrawer()} name="menu" size={30} color="#fff" />
-            <Ionicons style={styles.goBack} onPress={() => navigation.goBack()} name="ios-arrow-back-outline" size={30} color="#fff" />
+            <Ionicons onPress={() => navigation.toggleDrawer()} name="menu" size={30} color="#000000" />
+            <Ionicons style={styles.goBack} onPress={() => navigation.goBack()} name="ios-arrow-back-outline" size={30} color="#000000" />
           </TouchableOpacity>
 
         ),
       })}
       drawerContent={(props) => <CustomDrawerContent {...props} nav={nav} />}
     >
-      <Drawer.Screen name={' '} component={HomeStackNavigator} />
+      <Drawer.Screen name={' '} component={HomeStackNavigator} options/>
     </Drawer.Navigator>
     
   );

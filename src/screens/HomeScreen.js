@@ -39,11 +39,12 @@ const styles = StyleSheet.create({
     header: {
         flex: 1,
         position: 'absolute',
-        top: -15,
+        top: -20,
         left: -10,
         right: -10,
         backgroundColor: '#fff',
-        borderRadius: 20
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20
     },
     headerText: {
         flex: 1,
