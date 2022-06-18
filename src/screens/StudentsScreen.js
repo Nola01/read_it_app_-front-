@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import { StyleSheet, FlatList, Pressable } from 'react-native';
-import { Text, Card } from 'react-native-paper';
+import { Text, Card, Searchbar } from 'react-native-paper';
 
 import { ApiContext } from '../context/ApiProvider';
 import { ToastAndroid } from 'react-native';
@@ -11,6 +11,7 @@ const StudentsScreen = ({ navigation }) => {
 
   const [students, setStudents] = useState([]);
   const [refreshing, setrefreshing] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const loadStudents = async () => {
       setrefreshing(true);
@@ -26,6 +27,24 @@ const StudentsScreen = ({ navigation }) => {
   useEffect(() => {
     loadStudents();
   }, []);
+
+  const onChangeSearch = query => {
+    const filterStudents = [];
+    students.forEach(student => {
+      if (student.name.includes(query)) {
+        filterStudents.push(student);
+      }
+    });
+    console.log(filterStudents);
+    console.log(query);
+    if ((query == '')) {
+      loadStudents();
+    }
+    if (filterStudents) {
+      setStudents(filterStudents);
+    } 
+    setSearchQuery(query);
+  };
 
   const renderItem = ({item}) => {
     return (
@@ -44,6 +63,11 @@ const StudentsScreen = ({ navigation }) => {
 };
 return (
     <SafeAreaView style={styles.container}>
+        <Searchbar
+            placeholder="Buscar..."
+            onChangeText={query => onChangeSearch(query)}
+            value={searchQuery}
+        />
         <FlatList
             data={students}
             renderItem={renderItem}

@@ -55,21 +55,19 @@ const NewItineraryScreen = ({route, navigation}) => {
   const [studentsError, setStudentsError] = useState(false); 
 
   const [error, setError] = useState(true)
-  const [isFirstTouchBooks, setFirstTouchBooks] = useState(true)
-  const [isFirstTouchStudents, setFirstTouchStudents] = useState(true)
 
   const loadGroups = async () => {
     try {
 
       const item = route.params;
       if (item) {
-        console.log('editar');
-        await newItineraryContext.setName(item.itinerary.name)
-        await newItineraryContext.setDepartment(item.itinerary.department)
-        await newItineraryContext.setGroup(item.itinerary.id_group)
-        await newItineraryContext.setEndDate(item.itinerary.endDate)
-        await newItineraryContext.setBooks(item.books || [])
-        await newItineraryContext.setStudents(item.students || [])
+        // console.log('editar');
+        newItineraryContext.setName(item.itinerary.name)
+        newItineraryContext.setDepartment(item.itinerary.department)
+        newItineraryContext.setGroup(item.itinerary.id_group)
+        newItineraryContext.setEndDate(item.itinerary.endDate)
+        newItineraryContext.setBooks(item.books || [])
+        newItineraryContext.setStudents(item.students || [])
 
         console.log(name, department);
 
@@ -80,8 +78,7 @@ const NewItineraryScreen = ({route, navigation}) => {
         setDepartmentError(false)
         setDateError(false)
       } else {
-        // setEditItem({})
-        console.log('crear');
+        // console.log('crear');
         newItineraryContext.setName('')
         newItineraryContext.setDepartment('')
         newItineraryContext.setGroup('')
@@ -93,7 +90,7 @@ const NewItineraryScreen = ({route, navigation}) => {
       }
       const groups = await getUserGroups(authState.user.id_user);
       setgroupsList(groups.reverse());
-      console.log('grupos', groups);
+      // console.log('grupos', groups);
     } catch (err) {
       ToastAndroid.show('Error al setear formulario', ToastAndroid.LONG)
     }
@@ -126,11 +123,6 @@ const NewItineraryScreen = ({route, navigation}) => {
     newItineraryContext.setDepartment(department)
   };
 
-  const changeGroup = group => {
-    newItineraryContext.setGroup(group)
-    console.log('group', group);
-  };
-
   const changeEndDate = (date) => {
     if (date === 'NaN-NaN-NaN') {
       setDateError(true)
@@ -143,46 +135,26 @@ const NewItineraryScreen = ({route, navigation}) => {
   };
 
   const selectBooks = () => {   
-    console.log(isFirstTouchBooks);
-    if (isFirstTouchBooks) {
-      const isbnList = []
-      if (Object.keys(editItem).length !== 0) {
-        console.log(editItem);
-        editItem.books.map(book => isbnList.push(book.isbn))
-        setFirstTouchBooks(false)
-        navigation.navigate('Seleccionar libros', isbnList);
-      } else {
-        setFirstTouchBooks(false)
-        navigation.navigate('Seleccionar libros');
-      }
-      
+    const isbnList = []
+    if (Object.keys(editItem).length !== 0) {
+      // console.log(editItem);
+      editItem.books.map(book => isbnList.push(book.isbn))
+      navigation.navigate('Seleccionar libros', isbnList);
     } else {
-      setFirstTouchBooks(false)
       navigation.navigate('Seleccionar libros');
     }
     
   }
 
   const selectStudents = () => {
-    console.log(isFirstTouchStudents);
-    if (isFirstTouchStudents) {
-      const studentsList = []
-      if (Object.keys(editItem).length !== 0) {
-        console.log('edit',editItem);
-        editItem.students.map(student => studentsList.push(student.id_user))
-        setFirstTouchStudents(false)
-        console.log(studentsList);
-        navigation.navigate('Seleccionar alumnos', studentsList)
-      } else {
-        setFirstTouchStudents(false)
-        navigation.navigate('Seleccionar alumnos');
-      }
-      
+    const studentsList = []
+    if (Object.keys(editItem).length !== 0) {
+      // console.log('edit',editItem);
+      editItem.students.map(student => studentsList.push(student.id_user))
+      navigation.navigate('Seleccionar alumnos', studentsList)
     } else {
-      setFirstTouchStudents(false)
       navigation.navigate('Seleccionar alumnos');
     }
-    
   }
 
 
