@@ -210,14 +210,15 @@ const NewBookScreen = ({route, navigation}) => {
                 />
                 {authorError ? <Text style={styles.error}>El autor es obligatorio</Text> : <></>}
 
-                <TextInput
+                {/* <TextInput
                     mode='outlined'
                     activeOutlineColor='#6299E0'
                     style={styles.input}
-                    label="Imagen (url)"
+                    disabled={true}
+                    label="Imagen"
                     value={image}
                     onChangeText={image => changeImage(image)}
-                />
+                /> */}
 
                 <Button onPress={() => selectImage()} mode="contained" color={'#6299E0'} style={styles.button}>
                     <Icons name="picture" size={18} /> Seleccionar imagen
