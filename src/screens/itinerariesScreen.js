@@ -48,7 +48,7 @@ const ItinerariesScreen = ({navigation}) => {
                     }
                 })
 
-                setitineraries(teacherItineraries);
+                setitineraries(teacherItineraries.reverse());
             } else {
                 const studentItineraries = []
                 itineraries.map(itinerary => {
@@ -57,7 +57,7 @@ const ItinerariesScreen = ({navigation}) => {
                             if (student.id_user === authState.user.id_user) {
                                 studentItineraries.push(itinerary)
                             }
-                            setitineraries(studentItineraries)
+                            setitineraries(studentItineraries.reverse())
                         })
                     }
                 })

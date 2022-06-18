@@ -17,7 +17,7 @@ const BookDetailsScreen = ({route, navigation}) => {
                         <Card.Cover style={styles.image} source={{ uri: book.image }} />
                         <Card.Title title={book.title} subtitle={`Autor: ${book.author}`} />
                         <Card.Content>
-                        <Text>Isbn: {item.isbn}</Text>
+                        <Text>Isbn: {book.isbn}</Text>
                     </Card.Content>
                     </Card>
                 ))}

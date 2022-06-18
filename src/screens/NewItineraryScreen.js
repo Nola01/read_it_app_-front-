@@ -64,12 +64,12 @@ const NewItineraryScreen = ({route, navigation}) => {
       const item = route.params;
       if (item) {
         console.log('editar');
-        newItineraryContext.setName(item.itinerary.name)
-        newItineraryContext.setDepartment(item.itinerary.department)
-        newItineraryContext.setGroup(item.itinerary.id_group)
-        newItineraryContext.setEndDate(item.itinerary.endDate)
-        newItineraryContext.setBooks(item.books || [])
-        newItineraryContext.setStudents(item.students || [])
+        await newItineraryContext.setName(item.itinerary.name)
+        await newItineraryContext.setDepartment(item.itinerary.department)
+        await newItineraryContext.setGroup(item.itinerary.id_group)
+        await newItineraryContext.setEndDate(item.itinerary.endDate)
+        await newItineraryContext.setBooks(item.books || [])
+        await newItineraryContext.setStudents(item.students || [])
 
         console.log(name, department);
 
@@ -188,42 +188,49 @@ const NewItineraryScreen = ({route, navigation}) => {
 
   const handleAdd = async () => {
     try {
-      let newItinerary = {
-        name,
-        department,
-        id_teacher: authState.user.id_user,
-        id_group: group,
-        endDate,
-        books: books || [],
-        students: students || []
-      };
-
-      
-  
-      console.log('new', newItinerary);
-  
-      let response;
-
-      if (isEdit) {
-        console.log('id', editItem.itinerary.id_itinerary);
-        response = await updateItinerary(newItinerary, editItem.itinerary.id_itinerary)
+      if (books.length === 0) {
+        ToastAndroid.show("Debe seleccionar al menos un libro", ToastAndroid.LONG)
+      } else if (students.length === 0) {
+        ToastAndroid.show("Debe seleccionar al menos un alumno", ToastAndroid.LONG)
       } else {
-        response = await createItinerary(newItinerary);
+        let newItinerary = {
+          name,
+          department,
+          id_teacher: authState.user.id_user,
+          id_group: group,
+          endDate,
+          books: books || [],
+          students: students || []
+        };
+  
         
+    
+        console.log('new', newItinerary);
+    
+        let response;
+  
+        if (isEdit) {
+          console.log('id', editItem.itinerary.id_itinerary);
+          response = await updateItinerary(newItinerary, editItem.itinerary.id_itinerary)
+        } else {
+          response = await createItinerary(newItinerary);
+          
+        }
+        
+        ToastAndroid.show(response.msg, ToastAndroid.LONG)
+    
+        newItineraryContext.setName('')
+        newItineraryContext.setDepartment('')
+        newItineraryContext.setGroup('')
+        newItineraryContext.setEndDate('')
+        newItineraryContext.setBooks([])
+        newItineraryContext.setStudents([])
+    
+        newItineraryContext.setReload(true)
+    
+        navigation.goBack();
       }
       
-      ToastAndroid.show(response.msg, ToastAndroid.LONG)
-  
-      newItineraryContext.setName('')
-      newItineraryContext.setDepartment('')
-      newItineraryContext.setGroup('')
-      newItineraryContext.setEndDate('')
-      newItineraryContext.setBooks([])
-      newItineraryContext.setStudents([])
-  
-      newItineraryContext.setReload(true)
-  
-      navigation.goBack();
     } catch (error) {
       ToastAndroid.show('Error al crear itinerario', ToastAndroid.LONG)
     }
@@ -253,6 +260,8 @@ const NewItineraryScreen = ({route, navigation}) => {
 
         />
         {departmentError ? <Text style={styles.error}>El departamento es obligatorio</Text> : <></>}
+
+        <Text style={styles.input}>Grupo</Text>
 
         <View style={styles.picker}>
           <Picker
@@ -286,7 +295,7 @@ const NewItineraryScreen = ({route, navigation}) => {
         
         {visibleDate ? 
           <CalendarPicker
-            selectedDayColor="#66ff33"
+            selectedDayColor="#6299E0"
             previousTitle="Anterior"
             nextTitle="Siguiente"
             minDate={new Date()}
