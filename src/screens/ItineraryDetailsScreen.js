@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {Dimensions, Text, StyleSheet, ScrollView, Pressable, View} from 'react-native';
+import {Dimensions, Text, StyleSheet, ScrollView, Pressable, View, ToastAndroid} from 'react-native';
 import {Card} from 'react-native-paper';
 
 import Carousel from '../components/ImagesCarousel';
@@ -26,7 +26,11 @@ const ItineraryDetailsScreen = ({route, navigation}) => {
     
 
     const goToDetails = (item) => {
-        navigation.navigate('Detalles libro', item);
+        if (item.books === "Este itinerario no tiene libros") {
+            ToastAndroid.show("Este itinerario no tiene libros", ToastAndroid.LONG)
+        } else {
+            navigation.navigate('Detalles libro', item);
+        }
     };
 
     return (

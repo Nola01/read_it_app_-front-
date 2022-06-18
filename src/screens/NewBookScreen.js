@@ -181,6 +181,7 @@ const NewBookScreen = ({route, navigation}) => {
             <ScrollView>
                 <TextInput
                     mode='outlined'
+                    activeOutlineColor='#6299E0'
                     style={styles.input}
                     disabled={isEdit}
                     label="Isbn"
@@ -191,6 +192,7 @@ const NewBookScreen = ({route, navigation}) => {
 
                 <TextInput
                     mode='outlined'
+                    activeOutlineColor='#6299E0'
                     style={styles.input}
                     label="Título"
                     value={title}
@@ -200,6 +202,7 @@ const NewBookScreen = ({route, navigation}) => {
 
                 <TextInput
                     mode='outlined'
+                    activeOutlineColor='#6299E0'
                     style={styles.input}
                     label="Autor"
                     value={author}
@@ -209,6 +212,7 @@ const NewBookScreen = ({route, navigation}) => {
 
                 <TextInput
                     mode='outlined'
+                    activeOutlineColor='#6299E0'
                     style={styles.input}
                     label="Imagen (url)"
                     value={image}

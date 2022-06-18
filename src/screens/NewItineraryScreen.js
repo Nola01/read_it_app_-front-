@@ -92,7 +92,7 @@ const NewItineraryScreen = ({route, navigation}) => {
         
       }
       const groups = await getUserGroups(authState.user.id_user);
-      setgroupsList(groups);
+      setgroupsList(groups.reverse());
       console.log('grupos', groups);
     } catch (err) {
       ToastAndroid.show('Error al setear formulario', ToastAndroid.LONG)
@@ -101,7 +101,7 @@ const NewItineraryScreen = ({route, navigation}) => {
   
   useEffect(() => {
     loadGroups();
-  }, [group]);
+  }, []);
 
 
   const changeName = itineraryName => {
@@ -235,6 +235,7 @@ const NewItineraryScreen = ({route, navigation}) => {
       <ScrollView>
         <TextInput
           mode='outlined'
+          activeOutlineColor='#6299E0'
           style={styles.input}
           label="Nombre"
           value={name}
@@ -244,6 +245,7 @@ const NewItineraryScreen = ({route, navigation}) => {
 
         <TextInput
           mode='outlined'
+          activeOutlineColor='#6299E0'
           style={styles.input}
           label="Departamento"
           value={department}
@@ -252,32 +254,22 @@ const NewItineraryScreen = ({route, navigation}) => {
         />
         {departmentError ? <Text style={styles.error}>El departamento es obligatorio</Text> : <></>}
 
-        <TextInput
-          mode='outlined'
-          style={styles.input}
-          label="Grupo"
-          value={group}
-          onChangeText={group => changeGroup(group)}
-
-        />
-
-        {/* <View style={styles.selectInput}>
+        <View style={styles.picker}>
           <Picker
             selectedValue={group}
             onValueChange={itemValue => newItineraryContext.setGroup(itemValue)}>
-            {groupsList !== undefined ?
-              groupsList.map(group => {
-                <Picker.Item label={group.name} value={group.id_group} />
-              })
-              :
-              <></>
-            }
+              {groupsList.map(group => {
+                return (
+                  <Picker.Item label={group.name} value={group.id_group} />
+                )
+              })}
           </Picker>
-        </View> */}
+        </View>
         
         <View style={styles.selectInput}>
           <TextInput
             mode='outlined'
+            activeOutlineColor='#6299E0'
             style={styles.dateInput}
             label="Fecha final"
             disabled
@@ -310,6 +302,7 @@ const NewItineraryScreen = ({route, navigation}) => {
 
         <TextInput
           mode='outlined'
+          activeOutlineColor='#6299E0'
           style={styles.input}
           label="Profesor"
           disabled
@@ -318,6 +311,7 @@ const NewItineraryScreen = ({route, navigation}) => {
         
         <TextInput
           mode='outlined'
+          activeOutlineColor='#6299E0'
           style={styles.input}
           label="Libros"
           disabled
@@ -331,6 +325,7 @@ const NewItineraryScreen = ({route, navigation}) => {
         
         <TextInput
           mode='outlined'
+          activeOutlineColor='#6299E0'
           style={styles.input}
           label="Alumnos"
           disabled
@@ -388,6 +383,14 @@ const styles = StyleSheet.create({
     error: {
       color: '#E63117'
     },  
+    picker: {
+      borderColor: '#4D4D4D',
+      borderRadius: 20,
+      borderWidth: 1,
+      marginLeft: 10,
+      marginRight: 10,
+      marginBottom: 10
+    },
     divider: {
       
     }

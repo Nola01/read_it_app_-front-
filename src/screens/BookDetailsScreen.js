@@ -9,6 +9,7 @@ const BookDetailsScreen = ({route, navigation}) => {
     console.log(item);
     if (item.books) {
         const books = item.books;
+        console.log('libros', books);
         return (
             <ScrollView style={styles.viewBody}>
                 {books.map((book) => (
